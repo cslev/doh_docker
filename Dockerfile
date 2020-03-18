@@ -23,6 +23,7 @@ ENV PYTHON_DEPS  python3 \
 COPY source /doh_project
 WORKDIR /doh_project
 
+SHELL ["/bin/bash", "-c"]
 RUN apt-get update && \
     apt-get install -y --no-install-recommends $DEPS && \
     apt-get install -y --no-install-recommends $PYTHON_DEPS && \
