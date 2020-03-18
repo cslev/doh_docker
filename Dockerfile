@@ -33,7 +33,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     chmod +x geckodriver && \
-    chomd +x doh_capture.py && \
+    chmod +x doh_capture.py && \
     cp bashrc_template /root/.bashrc && \
     source /root/.bashrc && \
     echo "DoH docker image is ready"
