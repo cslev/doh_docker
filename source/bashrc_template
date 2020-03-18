@@ -24,5 +24,5 @@ export PATH=$PATH:/doh_project/
 export PATH=$PATH:/doh_project/firefox
 
 #exporting SSL related ENV variables for firefox
-export SSLKEYLOGFILE=/doh_project/.ssl-key.log
-export SSLDEBUGFILE=/doh_project/.ssl-debug.log
+export SSLKEYLOG=/doh_project/.ssl-key.log
+export SSLDEBUG=/doh_project/.ssl-debug.log
