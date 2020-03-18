@@ -9,7 +9,8 @@ ENV DEPS apt-utils \
 	 net-tools \
          tar \
 	 bzip2 \
-	 xz-utils
+	 xz-utils \
+	 wget
 
 ENV PYTHON_DEPS  python3 \
 	         python3-pip \
@@ -26,6 +27,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends $DEPS && \
     apt-get install -y --no-install-recommends $PYTHON_DEPS && \
     apt-get autoremove --purge -y && \
+    wget -q https://ftp.mozilla.org/pub/firefox/releases/74.0/linux-x86_64/en-US/firefox-74.0.tar.bz2 && \
     tar -xjf firefox-74.0.tar.bz2 && \
     tar -xzf geckodriver-v0.26.0-linux64.tar.gz && \
     apt-get clean && \
