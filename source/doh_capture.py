@@ -88,9 +88,10 @@ profile.set_preference("network.trr.mode", 2)
 profile.set_preference("network.trr.uri", uri)
 #profile.set_preference("network.trr.bootstrapAddress", '1.1.1.1.')
 
-def open_website(url):
+def open_website(url,count):
     #driver = webdriver.Firefox(firefox_profile=profile)
-
+    logs = open('Progress.txt', 'a')
+    logs.write(str(count)+" "+url+"\n")
     ## in the executabel path you need to specify the location of geckodriver location.
     driver = webdriver.Firefox(options=options, firefox_profile=profile)
 <<<<<<< HEAD
@@ -106,19 +107,30 @@ def open_website(url):
         print("Exception has been thrown "+ str(ex1))
         driver.close()
         sleep(2)
+        logs.write(str(ex1)+"\n")
     except WebDriverException as ex2 :
         print("Exception has been thrown "+ str(ex2))
         driver.close()
         sleep(2)
+        logs.write(str(ex2)+"\n")
+    logs.flush()
+    logs.close()
+    sleep(1)
 
 def main_driver(s,e) :
     count = s
     df = data.iloc[s-1:e]
     for domain in df['website'] :
         url = 'https://www.' + domain
+<<<<<<< Updated upstream
         print(str(count) + " " + url )
         open_website(url)
         count = count + 1
+=======
+        print(str(count) + " " + url ) 
+        open_website(url,count)
+        count = count + 1 
+>>>>>>> Stashed changes
     print("batch completed")
 
 
@@ -130,6 +142,12 @@ e = s+batch_size-1
 
 def capture_packets(shell_command) :
     os.system(shell_command)
+
+print("Creating Log File!")
+logs = open('Progress.txt', 'w')
+logs.write("Progress Log for doh_capture.py\n\n")
+logs.flush()
+logs.close()
 
 while(e<=stop) :
     filename = 'pcap/capture-'+str(s)+'-'+str(e)
