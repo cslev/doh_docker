@@ -2,7 +2,7 @@
 # coding: utf-8
 
 
-import os 
+import os
 import pandas as pd
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException , WebDriverException
@@ -44,12 +44,12 @@ else :
 print("DoH_Resolver = "+uri)
 
 
-start = results.start 
+start = results.start
 stop = results.end
 batch_size = results.batch
 time_out = batch_size * 15
 
-data = pd.read_csv('top-1m.csv' , names = ['rank','website']) 
+data = pd.read_csv('top-1m.csv' , names = ['rank','website'])
 
 print(time.ctime())
 
@@ -76,11 +76,11 @@ def open_website(url):
 
     ## in the executabel path you need to specify the location of geckodriver location.
     driver = webdriver.Firefox(options=options, firefox_profile=profile)
-    driver.set_page_load_timeout(25) 
+    driver.set_page_load_timeout(25)
     try :
         driver.get(url)
         sleep(2)
-        driver.close() 
+        driver.close()
     except TimeoutException as ex1 :
         print("Exception has been thrown "+ str(ex1))
         driver.close()
@@ -91,13 +91,13 @@ def open_website(url):
         sleep(2)
 
 def main_driver(s,e) :
-    count = s 
+    count = s
     df = data.iloc[s-1:e]
     for domain in df['website'] :
         url = 'https://www.' + domain
-        print(str(count) + " " + url ) 
+        print(str(count) + " " + url )
         open_website(url)
-        count = count + 1 
+        count = count + 1
     print("batch completed")
 
 
@@ -124,15 +124,15 @@ while(e<=stop) :
     t1.start()
 
     t1.join()
-    sleep(5) 
-    t2.terminate() 
+    sleep(5)
+    t2.terminate()
 
-    print("Done") 
+    print("Done")
     sleep(2)
     print(time.ctime())
     s = s+batch_size
     e = e+batch_size
-    
+
     csv_command = "python3 csv_generator.py"
     os.system(csv_command)
     sleep(1)
