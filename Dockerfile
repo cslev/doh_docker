@@ -1,14 +1,12 @@
 FROM debian:bullseye
-LABEL maintainer="cslev <cslev@gmx.com>"
+LABEL maintainer="cslev <cslev@gmx.com>, HimanshuSinghGH <heman.sam@gmail.com>"
 
 #packages needed for compilation
 ENV DEPS tshark \
 	 tcpdump \
 	 nano \
-#	 net-tools \
          tar \
 	 bzip2 \
-#	 xz-utils \
 	 wget \
 	 gconf-service \
 	 libasound2 \
@@ -49,11 +47,9 @@ ENV DEPS tshark \
 	 libxt6 
 
 ENV PYTHON_DEPS  python3 \
-#	         python3-pip \
 		 python3-six \
 		 python3-pandas \
 		 libpython3-dev 
-#		 python3-numpy
 #		 python3-selenium
 # we downgrade selenium to 3.14.1 as bullseye debian has the alpha 4.0, which does not work properly now.
 
@@ -85,6 +81,7 @@ RUN apt-get update && \
     source /root/.bashrc && \
     mkdir -p pcap 
 
+# We start the script automatically
 CMD ["bash", "start_doh_capture.sh"]
 
 
