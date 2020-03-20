@@ -2,7 +2,11 @@
 # coding: utf-8
 
 
+<<<<<<< HEAD
 import os 
+=======
+import os
+>>>>>>> 5d7ed0a5b764af4aa437261355c5997ee46677f4
 import pandas as pd
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException , WebDriverException
@@ -18,7 +22,11 @@ import argparse
 parser = argparse.ArgumentParser(description="DoH packet capture and .csv conversion script!")
 
 parser.add_argument('-s', action="store", default=1, type=int, dest="start" , help="Specify rank of the starting website")
+<<<<<<< HEAD
 parser.add_argument('-e', action="store", default=200, type=int, dest="end" , help="Specify rank of the ending website")
+=======
+parser.add_argument('-e', action="store", default=5000, type=int, dest="end" , help="Specify rank of the ending website")
+>>>>>>> 5d7ed0a5b764af4aa437261355c5997ee46677f4
 parser.add_argument('-b', action="store", default=200, type=int, dest="batch" , help="Batch Size (range must be a multiple of batch size!)")
 parser.add_argument('-r', action="store", default=1, type=int, dest="doh_resolver" , help="DoH resolver :\n1=Cloudflare; \n2=Google;\n3=CleanBrowsing;\n4=Quad9;")
 
@@ -44,12 +52,16 @@ else :
 print("DoH_Resolver = "+uri)
 
 
+<<<<<<< HEAD
 start = results.start 
+=======
+start = results.start
+>>>>>>> 5d7ed0a5b764af4aa437261355c5997ee46677f4
 stop = results.end
 batch_size = results.batch
 time_out = batch_size * 15
 
-data = pd.read_csv('top-1m.csv' , names = ['rank','website']) 
+data = pd.read_csv('top-1m.csv' , names = ['rank','website'])
 
 print(time.ctime())
 
@@ -61,8 +73,13 @@ options.headless = True
 binary = FirefoxBinary('./firefox/firefox')
 
 ## DesiredCapabilities
+<<<<<<< HEAD
 ##cap = DesiredCapabilities().FIREFOX
 ##cap['marionette'] = False
+=======
+#cap = DesiredCapabilities().FIREFOX
+#cap['marionette'] = False
+>>>>>>> 5d7ed0a5b764af4aa437261355c5997ee46677f4
 
 #profile = webdriver.FirefoxProfile('/home/user/.mozilla/firefox/0b5055qu.Doh_profile')
 ## setting the firefox profile to use DoH
@@ -76,11 +93,15 @@ def open_website(url):
 
     ## in the executabel path you need to specify the location of geckodriver location.
     driver = webdriver.Firefox(options=options, firefox_profile=profile)
+<<<<<<< HEAD
     driver.set_page_load_timeout(25) 
+=======
+    driver.set_page_load_timeout(25)
+>>>>>>> 5d7ed0a5b764af4aa437261355c5997ee46677f4
     try :
         driver.get(url)
         sleep(2)
-        driver.close() 
+        driver.close()
     except TimeoutException as ex1 :
         print("Exception has been thrown "+ str(ex1))
         driver.close()
@@ -91,13 +112,13 @@ def open_website(url):
         sleep(2)
 
 def main_driver(s,e) :
-    count = s 
+    count = s
     df = data.iloc[s-1:e]
     for domain in df['website'] :
         url = 'https://www.' + domain
-        print(str(count) + " " + url ) 
+        print(str(count) + " " + url )
         open_website(url)
-        count = count + 1 
+        count = count + 1
     print("batch completed")
 
 
@@ -124,15 +145,19 @@ while(e<=stop) :
     t1.start()
 
     t1.join()
-    sleep(5) 
-    t2.terminate() 
+    sleep(5)
+    t2.terminate()
 
-    print("Done") 
+    print("Done")
     sleep(2)
     print(time.ctime())
     s = s+batch_size
     e = e+batch_size
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 5d7ed0a5b764af4aa437261355c5997ee46677f4
     csv_command = "python3 csv_generator.py"
     os.system(csv_command)
     sleep(1)

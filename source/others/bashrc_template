@@ -1,0 +1,28 @@
+alias agi='apt-get install'
+alias agu='apt-get update'
+alias agdu='apt-get dist-upgrade'
+alias aguu='apt-get upgrade'
+alias agr='apt-get remove'
+alias agar='apt-get autoremove'
+alias acs='apt-cache search'
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
+case $TERM in
+        xterm*|rxvt|Eterm|eterm|cygwin)
+PS1='\[\033[1m\]\[\033[38;5;208m\][NUS-\[\033[3m\]\[\033[38;5;196m\]Singtel]\[\033[0;1m\]\[\033[38;5;78m\][DoH_Docker]${debian_chroot:+($debian_chroot)} \[\033[01;31m\]\u \[\033[38;5;78m\]\w\$\[\033[00m\] '
+
+        ;;
+esac
+
+export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
+
+#for the geckodriver
+export PATH=$PATH:/doh_project/
+#for firefox
+export PATH=$PATH:/doh_project/firefox
+
+#exporting SSL related ENV variables for firefox
+export SSLKEYLOGFILE=/doh_project/ssl-key.log
+export SSLDEBUGFILE=/doh_project/ssl-debug.log
