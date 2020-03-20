@@ -11,7 +11,7 @@ alias grep='grep --color=auto'
 
 case $TERM in
         xterm*|rxvt|Eterm|eterm|cygwin)
-PS1='\[\033[01;33m\][DoH_Capture] ${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u \[\033[00m\]\[\033[01;31m\]\w\$\[\033[00m\] '
+PS1='\[\033[1m\]\[\033[38;5;208m\][NUS-\[\033[3m\]\[\033[38;5;196m\]Singtel]\[\033[0;1m\]\[\033[38;5;78m\][DoH_Docker]${debian_chroot:+($debian_chroot)} \[\033[01;31m\]\u \[\033[38;5;78m\]\w\$\[\033[00m\] '
 
         ;;
 esac
@@ -24,5 +24,5 @@ export PATH=$PATH:/doh_project/
 export PATH=$PATH:/doh_project/firefox
 
 #exporting SSL related ENV variables for firefox
-export SSLKEYLOG=/doh_project/.ssl-key.log
-export SSLDEBUG=/doh_project/.ssl-debug.log
+export SSLKEYLOGFILE=/doh_project/ssl-key.log
+export SSLDEBUGFILE=/doh_project/ssl-debug.log

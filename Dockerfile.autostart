@@ -77,12 +77,15 @@ RUN apt-get update && \
     rm -rf geckodriver-v0.26.0-linux64.tar.gz && \
     chmod +x geckodriver && \
     chmod +x doh_capture.py && \
+    chmod +x start_doh_capture.sh && \
     cp geckodriver /usr/bin && \
     mkdir -p /usr/lib/firefox && \
     ln -s /doh_project/firefox/firefox /usr/lib/firefox/firefox && \
     mv others/bashrc_template /root/.bashrc && \
     source /root/.bashrc && \
     mkdir -p pcap 
+
+CMD ["bash", "start_doh_capture.sh"]
 
 
 
