@@ -5,15 +5,10 @@ LABEL maintainer="cslev <cslev@gmx.com>, HimanshuSinghGH <heman.sam@gmail.com>"
 ENV DEPS tshark \
 	 tcpdump \
 	 nano \
-<<<<<<< HEAD
-#	 net-tools \
          tar \
 	 bzip2 \
-#	 xz-utils \
-=======
          tar \
 	 bzip2 \
->>>>>>> 5d7ed0a5b764af4aa437261355c5997ee46677f4
 	 wget \
 	 gconf-service \
 	 libasound2 \
@@ -54,17 +49,9 @@ ENV DEPS tshark \
 	 libxt6 
 
 ENV PYTHON_DEPS  python3 \
-<<<<<<< HEAD
-#	         python3-pip \
 		 python3-six \
 		 python3-pandas \
 		 libpython3-dev 
-#		 python3-numpy
-=======
-		 python3-six \
-		 python3-pandas \
-		 libpython3-dev 
->>>>>>> 5d7ed0a5b764af4aa437261355c5997ee46677f4
 #		 python3-selenium
 # we downgrade selenium to 3.14.1 as bullseye debian has the alpha 4.0, which does not work properly now.
 
@@ -88,10 +75,7 @@ RUN apt-get update && \
     rm -rf geckodriver-v0.26.0-linux64.tar.gz && \
     chmod +x geckodriver && \
     chmod +x doh_capture.py && \
-<<<<<<< HEAD
-=======
     chmod +x start_doh_capture.sh && \
->>>>>>> 5d7ed0a5b764af4aa437261355c5997ee46677f4
     cp geckodriver /usr/bin && \
     mkdir -p /usr/lib/firefox && \
     ln -s /doh_project/firefox/firefox /usr/lib/firefox/firefox && \
@@ -99,12 +83,8 @@ RUN apt-get update && \
     source /root/.bashrc && \
     mkdir -p pcap 
 
-<<<<<<< HEAD
-=======
 # We start the script automatically
 CMD ["bash", "start_doh_capture.sh"]
-
->>>>>>> 5d7ed0a5b764af4aa437261355c5997ee46677f4
 
 
 
