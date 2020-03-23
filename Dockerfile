@@ -84,7 +84,8 @@ RUN apt-get update && \
     mkdir -p pcap 
 
 # We start the script automatically
-CMD ["bash", "start_doh_capture.sh"]
+ENTRYPOINT ["/doh_project/start_doh_capture.sh"]
+#CMD ["bash", "start_doh_capture.sh"]
 
 
 
