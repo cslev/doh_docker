@@ -114,3 +114,12 @@ echo -e "+================================================+"
 
 python3 doh_capture.py $R $S $E $B
 
+
+echo -e "${yellow}Compressing csv files${none}"
+tar -czvf doh_data.tar.gz csvfile*
+echo -e "${green}[DONE]${none}"
+
+echo -e "${yellow}Removing csv files${none}"
+rm -rf csvfile*
+echo -ne "$\t{green}[DONE]${none}"
+
