@@ -27,7 +27,7 @@ sudo docker pull cslev/doh_docker
 ```
 
 # Running the container
-The run command does not differ to the usual ones, however, our bundled script can be parameterized. Therefore, running our container can be done in multiple ways according to your needs.
+To run the container, we have to specify some extra parameters for a swift run.
 ```
 sudo docker run -d --name doh_docker --shm-size 4g cslev/doh_docker:latest
 ```
@@ -66,6 +66,8 @@ sudo docker cp doh_docker:/doh_project/doh_data.tar.gz ./
 
 
 ## Possible arguments (for first time runners, skip this!)
+The run command does not differ to the usual ones, however, our bundled script can be parameterized. Therefore, running our container can be done in multiple ways according to your needs.
+
 `RESOLVER` - The DoH resolver intended to be used! By default Cloudflare is set (value of `1`), but you can use Google (`2`), CleanBrowsing (`3`) and Quad9 (`4`). More built-in resolver are not supported *yet*.
 
 `START` - The rank of the **first** website to start the browsing from (according to Alexa's `top-1m.csv` file in the source). Default is set to `1`.
