@@ -72,7 +72,7 @@ echo -e "+-------------------------------------------------------------+"
 RESOLVER=$1
 START=$2
 END=$3
-BATCH=$3
+BATCH=$4
 
 if [ ! -z "$RESOLVER" ]
 then
