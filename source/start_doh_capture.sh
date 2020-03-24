@@ -121,5 +121,4 @@ echo -e "${green}[DONE]${none}"
 
 echo -e "${yellow}Removing csv files${none}"
 rm -rf csvfile*
-echo -ne "$\t{green}[DONE]${none}"
-
+echo -ne "\t${green}[DONE]${none}\n\n"
