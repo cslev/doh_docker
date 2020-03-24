@@ -176,7 +176,6 @@ while(e<=stop) :
 
     print("Running pcap file analyser to create csv files...")
     logs.write("Running pcap file analyser to create csv files...\n")
-    logs.close()
 
     csv_command = "python3 csv_generator.py"
     os.system(csv_command)
@@ -185,3 +184,6 @@ while(e<=stop) :
     """move_command = "mv "+filename+" /mnt/debianDoH_images/DoH_Pcaps/debianDoH2/"+filename
     os.system(move_command)
     print("File moved to /mnt") """
+
+
+logs.close()
