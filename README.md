@@ -2,11 +2,11 @@
 Docker container for DoH traffic analysis
 
 # What is this repository all about?
-This containerized bundle uses Selenium and Firefox to use DNS-over-HTTPS (provided by Firefox) for name resolution when visiting the websites of Alexa's list of the top 1M websites. For every website visit, the browser is closed to flush the DNS cache, and the corresponding traffic trace (i.e., a pcap file), as well as the SSL keys are logged. Then, using these two, in the image the pcap files are analyzed and the relevant information will be saved in CSV files (pcap files will be deleted afterwards as they consume a huge amount of space)
+This containerized bundle uses Selenium and Firefox to use DNS-over-HTTPS (provided by Firefox) for name resolution when visiting the websites of Alexa's list of the top 1M websites. For every website visit, the browser is closed to flush the DNS cache, and the corresponding traffic trace (i.e., a pcap file), as well as the SSL keys are logged. Then, using these two, in the image the pcap files are analyzed and the relevant information will be saved in CSV files (pcap files will be deleted afterwards as they consume a huge amount of space).
 
 
 # Obtaining the container
-Even though, we have released the Dockerfile and the related source code here on Github, if you are not familiar with building your own Docker image you can obtain and run it by our automatically built image at DockerHub.
+Even though, we have released the Dockerfile and the related source code here on Github, if you are not familiar with building your own Docker image you can obtain and run it by our automatically built image at [DockerHub](https://hub.docker.com/repository/docker/cslev/doh_docker).
 
 ## Requirements
 You have to have a running docker subsystem installed. If you have not done that before, go to here [https://docs.docker.com/install/linux/docker-ce/debian/](https://docs.docker.com/install/linux/docker-ce/debian/) and pick your distribution on the left hand side.
