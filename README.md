@@ -50,6 +50,33 @@ sudo docker cp doh_docker:/doh_project/doh_data.tar.gz ./
 **And, we would need this file! If you consider to contribute to our project, please share your data with us <cs.lev@gmx.com>**
 
 
+## Monitoring/Logging
+Easiest way to see whether the process is finished is to check the status of the container itself. If it is exited, then it's done.
+```
+sudo docker ps -a -f name=doh_docker
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+de77210d2748        cslev/doh_docker    "/doh_project/start_…"   3 minutes ago       Up 3 minutes                            selenium
+```
+The example above shows that the container is still running.
+
+If a little bit more granular status update is required, we can monitor at which (number of) website our container is visiting at the moment.
+```
+docker exec -it doh_docker tail -f Progress.txt
+
+11 https://www.taobao.com
+12 https://www.twitter.com
+13 https://www.tmall.com
+14 https://www.google.co.jp
+15 https://www.live.com
+16 https://www.vk.com
+17 https://www.instagram.com
+18 https://www.sohu.com
+Message: Timeout loading page after 25000ms
+
+19 https://www.sina.com.cn
+```
+As you can see, some websites are not loaded due to a timeout!
+
 
 ## Possible arguments (for first time runners, skip this!)
 The run command does not differ to the usual ones, however, our bundled script can be parameterized. Therefore, running our container can be done in multiple ways according to your needs.
