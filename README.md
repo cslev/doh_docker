@@ -49,6 +49,11 @@ sudo docker cp doh_docker:/doh_project/doh_data.tar.gz ./
 
 **And, we would need this file! If you consider to contribute to our project, please share your data with us <cs.lev@gmx.com>**
 
+Don't forget to stop and/or remove your container if not needed anymore (i.e., if you have `doh_data.tar.gz`):
+```
+sudo docker stop doh_docker
+sudo docker rm doh_docker
+```
 
 ## Monitoring/Logging
 Easiest way to see whether the process is finished is to check the status of the container itself. If it is exited, then it's done.

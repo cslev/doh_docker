@@ -30,14 +30,6 @@ logs.write("Progress Log for doh_capture.py\n\n")
 
 
 
-print("Printing script Parameters: ")
-logs.write("Printing script Parameters: \n")
-print("Start = "+str(results.start))
-logs.write("Start = "+str(results.start)+"\n")
-print("End = "+str(results.end))
-logs.write("End = "+str(results.end)+"\n")
-print("Batch_Size = "+str(results.batch))
-logs.write("Batch_Size = "+str(results.batch)+"\n")
 
 if(results.doh_resolver==1) :
     uri="https://cloudflare-dns.com/dns-query"
@@ -54,14 +46,29 @@ else :
     logs.close()
     exit(0)
 
-print("DoH_Resolver = "+uri)
-logs.write("DoH_Resolver = "+str(uri)+"\n")
 
 
 start = results.start
 stop = results.end
 batch_size = results.batch
 time_out = batch_size * 15
+
+# Fine-tune batch size if it is bigger than stop-start
+if (batch_size > (stop-start)):
+    batch_size = (stop-start)
+
+
+print("Printing script Parameters: ")
+logs.write("Printing script Parameters: \n")
+print("Start = "+str(start))
+logs.write("Start = "+str(start)+"\n")
+print("End = "+str(stop))
+logs.write("End = "+str(stop)+"\n")
+print("(Adjusted) Batch_Size = "+str(batch_size))
+logs.write("(Adjusted) Batch_Size = "+str(batch_size)+"\n")
+print("DoH_Resolver = "+uri)
+logs.write("DoH_Resolver = "+str(uri)+"\n")
+
 
 data = pd.read_csv('top-1m.csv' , names = ['rank','website'])
 
@@ -162,7 +169,6 @@ while(e<=stop) :
     print("Done")
     logs.write("Done"+"\n")
     logs.flush()
-    logs.close()
     sleep(2)
     print(time.ctime())
     s = s+batch_size
@@ -170,6 +176,8 @@ while(e<=stop) :
 
     print("Running pcap file analyser to create csv files...")
     logs.write("Running pcap file analyser to create csv files...\n")
+    logs.close()
+
     csv_command = "python3 csv_generator.py"
     os.system(csv_command)
     sleep(1)
