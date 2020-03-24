@@ -20,8 +20,8 @@ Clone the repository first, then build the image.
 ```
 In the last command `-t` specifies the tag (default `latest`) used for our image! Feel free to use another tag, but to be sync with a possible update at DockerHub, we do not recommend to change any part of this command.
 
-## Ain't nobody got time for that! Show me the installation from DockerHub
-You can simply get the very same image from DockerHub as it is connected to this repository and automatically rebuilt once a change has been made to this source.
+## Install from DockerHub
+Ain't nobody got time for that! You can simply get the very same image from DockerHub as it is connected to this repository and automatically rebuilt once a change has been made to this source.
 ```
 sudo docker pull cslev/doh_docker
 ```
