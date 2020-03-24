@@ -39,7 +39,7 @@ sudo docker run -d --name doh_docker --shm-size 4g cslev/doh_docker:latest
 
 # Getting the data
 The container will exit once the data gathering is complete! In order to get the relevant csv files, we need to get our hands a little bit dirty (better workarounds are on their way). 
-We have to restart the container, (get into it,) compress the csv files, and copy them to the host.
+We have to restart the container, get into it, compress the csv files, and copy them to the host.
 
 First, restart (recall the name we have set via `--name` above):
 ```
