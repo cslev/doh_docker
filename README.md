@@ -33,7 +33,7 @@ sudo docker run -d --name doh_docker --shm-size 4g cslev/doh_docker:latest
 
 `--shm-size 4g` is some extra memory assignment needed for selenium and firefox, otherwise the whole process becomes extremely slow (if starts at all).
 
-A complete run with 5,000 websites takes around 24-25 hours, so be patient :)
+*A complete run with 5,000 websites takes around 24-25 hours, so be patient :)*
 
 # Getting the data
 The container will exit once the data gathering is complete and all relevant data will be saved in a compressed archive, called `doh_data.tar.gz`! In order to get the data we need to restart the container (as it has exited) and copy the compressed archive to the host.
