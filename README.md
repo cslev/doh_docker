@@ -3,12 +3,12 @@ This containerized bundle uses Selenium and Firefox to use DNS-over-HTTPS (provi
 
 
 # Obtaining the container
-Even though, we have released the Dockerfile and the related source code here on Github, if you are not familiar with building your own Docker image you can obtain and run it by our automatically built image at [DockerHub](https://hub.docker.com/repository/docker/cslev/doh_docker).
+Even though, we have released the Dockerfile and the related source code here on Github, if you are not familiar with [building your](#build) own Docker image you can obtain and [obtain it](#download) by our automatically built image at [DockerHub](https://hub.docker.com/repository/docker/cslev/doh_docker).
 
 ## Requirements
 You have to have a running docker subsystem installed. If you have not done that before, go to here [https://docs.docker.com/install/linux/docker-ce/debian/](https://docs.docker.com/install/linux/docker-ce/debian/) and pick your distribution on the left hand side.
 
-## Building on your own
+## <a name="build"></a> Building on your own
 Clone the repository first, then build the image.
 ```
  git clone https://github.com/cslev/doh_docker
@@ -17,7 +17,7 @@ Clone the repository first, then build the image.
 ```
 In the last command `-t` specifies the tag (default `latest`) used for our image! Feel free to use another tag, but to be sync with a possible update at DockerHub, we do not recommend to change any part of this command.
 
-## Install from DockerHub
+##  <a name="download"></a> Install from DockerHub
 Ain't nobody got time for that! You can simply get the very same image from DockerHub as it is connected to this repository and automatically rebuilt once a change has been made to this source.
 ```
 sudo docker pull cslev/doh_docker
