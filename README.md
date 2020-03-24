@@ -35,30 +35,18 @@ sudo docker run -d --name doh_docker --shm-size 4g cslev/doh_docker:latest
 
 
 # Getting the data
-The container will exit once the data gathering is complete! In order to get the relevant csv files, we need to get our hands a little bit dirty (better workarounds are on their way). 
-We have to restart the container, get into it, compress the csv files, and copy them to the host.
+The container will exit once the data gathering is complete and all relevant data will be saved in a compressed archive, called `doh_data.tar.gz`! In order to get the data we need to restart the container (as it has exited) and copy the compressed archive to the host.
 
 First, restart (recall the name we have set via `--name` above):
 ```
 sudo docker start doh_docker
 ```
-Get into the container:
-```
-sudo docker exec -it doh_docker bash
-```
-
-Compress data (cannot be done via `docker exec` as it would require to manually type all csv files instead of using `*`):
-```
-[NUS-Singtel][DoH_Docker] root /doh_project#  tar -czvf doh_data.tar.gz csvfile* 
-```
-You can simply exit from the container by typing `exit` or pressing `Ctrl+D`, the container will not stop.
-
 Copy compressed file to the host:
 ```
 sudo docker cp doh_docker:/doh_project/doh_data.tar.gz ./
 ```
 
-**And we would need this file! If you consider to contribute to our project, please share your data with us <cs.lev@gmx.com>**
+**And, we would need this file! If you consider to contribute to our project, please share your data with us <cs.lev@gmx.com>**
 
 
 
