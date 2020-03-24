@@ -31,7 +31,7 @@ logs.write("Progress Log for doh_capture.py\n\n")
 
 
 print("Printing script Parameters: ")
-logs.write("Printing script Parameters: "\n)
+logs.write("Printing script Parameters: \n")
 print("Start = "+str(results.start))
 logs.write("Start = "+str(results.start)+"\n")
 print("End = "+str(results.end))
