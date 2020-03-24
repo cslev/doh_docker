@@ -11,9 +11,9 @@ You have to have a running docker subsystem installed. If you have not done that
 ## <a name="build"></a> Building on your own
 Clone the repository first, then build the image.
 ```
- git clone https://github.com/cslev/doh_docker
- cd doh_docker
- sudo docker build -t cslev/doh_docker:latest -f Dockerfile  .
+git clone https://github.com/cslev/doh_docker
+cd doh_docker
+sudo docker build -t cslev/doh_docker:latest -f Dockerfile  .
 ```
 In the last command `-t` specifies the tag (default `latest`) used for our image! Feel free to use another tag, but to be sync with a possible update at DockerHub, we do not recommend to change any part of this command.
 
@@ -55,7 +55,7 @@ Easiest way to see whether the process is finished is to check the status of the
 ```
 sudo docker ps -a -f name=doh_docker
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
-de77210d2748        cslev/doh_docker    "/doh_project/start_…"   3 minutes ago       Up 3 minutes                            selenium
+de77210d2748        cslev/doh_docker    "/doh_project/start_…"   3 minutes ago       Up 3 minutes                            doh_docker
 ```
 The example above shows that the container is still running.
 
