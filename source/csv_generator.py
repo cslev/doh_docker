@@ -1,12 +1,10 @@
 #!/usr/bin/python3
 # coding: utf-8
 
-# In[1]:
-
-
 import pandas as pd
 import numpy as np
 import os
+import argparse
 
 #getting the ENV files for the SSLKEYLOG
 SSLKEY   = os.getenv('SSLKEYLOGFILE')
@@ -14,9 +12,16 @@ SSLDEBUG = os.getenv('SSLDEBUGFILE')
 
 # ## tshark -r capture-1-200 -Y "http2" -o tls.keylog_file:sslkey1.log -T fields -e frame.number -e _ws.col.Time -e ip.src -e ip.dst -e _ws.col.Protocol -e frame.len -e _ws.col.Info -E header=y -E separator="," -E quote=d -E occurrence=f > test1.csv
 
+parser = argparse.ArgumentParser(description="csv_generator script")
+parser.add_argument('-l', '--logfile', nargs=1,
+                    help="Specify the log_file that has been used by doh_capture.py",
+                    required=True)
+args = parser.parse_args()
+log_file = args.logfile[0]
+
 
 # opening the same log file for further logging
-logs = open('Progress.txt', 'a')
+logs = open(log_file, 'a')
 
 ## here in the parameter of os.walk, specify the location of the folder containing the pcaps
 for _,_,files in os.walk("./pcap/") :
