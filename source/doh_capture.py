@@ -146,7 +146,7 @@ def open_website(url,count):
 
     ## in the executabel path you need to specify the location of geckodriver location.
     driver = webdriver.Firefox(options=options, firefox_profile=profile)
-    driver.set_page_load_timeout(25)
+    driver.set_page_load_timeout(16)
     try :
         driver.get(url)
         sleep(2)
