@@ -30,7 +30,6 @@ def getDateFormat(timestamp):
 ts = time.time()
 timestamp = getDateFormat(str(ts))
 
-log_file = "log_"+str(timestamp)
 
 # parser for the command line arguements
 parser = argparse.ArgumentParser(description="DoH packet capture and .csv conversion script!")
@@ -42,9 +41,27 @@ parser.add_argument('-r', action="store", default=1, type=int, dest="doh_resolve
 
 results = parser.parse_args()
 
+# setup logging features
+log_file = "log_"+str(timestamp)
 print("Creating log file "+log_file)
 logs = open(log_file, 'a')
 logs.write("Logging for doh_capture.py started on "+timestamp+"\n\n")
+
+# remove previous symlink if there was any
+if os.system("rm -rf progress.log") == 0:
+    print("symlink to previous log file has been deleted")
+    logs.write("symlink to previous log file has been deleted")
+else:
+    print("symlink to previous log file could NOT be deleted")
+    logs.write("symlink to previous log file could NOT be deleted")
+
+# create symlink to the new log file
+if os.system("ln -s progress.log "+str(log_file)) == 0:
+    print("creating symlink progress.log to "+str(log_file)+" is successfull")
+    logs.write("creating symlink progress.log to "+str(log_file)+" is successfull")
+else:
+    print("creating symlink progress.log to "+str(log_file)+" was NOT successfull")
+    logs.write("creating symlink progress.log to "+str(log_file)+" was NOT successfull")
 
 
 
@@ -122,10 +139,10 @@ def open_website(url,count):
     #driver = webdriver.Firefox(firefox_profile=profile)
     # logs = open('Progress.txt', 'a')
     tmp_ts = time.time()
-    tmp_timestamp = getDateFormat(str(ts))
+    tmp_timestamp = getDateFormat(str(tmp_ts))
 
-    print(str(count)+" "+url+" (visited: )"+str(tmp_timestamp)+"\n")
-    logs.write(str(count)+" "+url+" (visited: )"+str(tmp_timestamp)+"\n")
+    print(str(count)+" "+url+" (visited: "+str(tmp_timestamp)+")\n")
+    logs.write(str(count)+" "+url+" (visited: "+str(tmp_timestamp)+")\n")
 
     ## in the executabel path you need to specify the location of geckodriver location.
     driver = webdriver.Firefox(options=options, firefox_profile=profile)
