@@ -113,7 +113,8 @@ echo -e "BATCH = ${green}$B${none}"
 echo -e "+================================================+"
 
 python3 doh_capture.py $R $S $E $B
-
+PID=$(echo $!)
+echo "PID of python3 doh_capture: ${PID}" > doh_capture.pid
 
 echo -ne "${yellow}Compressing csv files${none}"
 cd /doh_project/
