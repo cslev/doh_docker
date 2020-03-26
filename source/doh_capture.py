@@ -50,18 +50,18 @@ logs.write("Logging for doh_capture.py started on "+timestamp+"\n\n")
 # remove previous symlink if there was any
 if os.system("rm -rf progress.log") == 0:
     print("symlink to previous log file has been deleted")
-    logs.write("symlink to previous log file has been deleted")
+    logs.write("symlink to previous log file has been deleted\n")
 else:
     print("symlink to previous log file could NOT be deleted")
-    logs.write("symlink to previous log file could NOT be deleted")
+    logs.write("symlink to previous log file could NOT be deleted\n")
 
 # create symlink to the new log file
-if os.system("ln -s progress.log "+str(log_file)) == 0:
+if os.system("ln -s "+str(log_file)+" progress.log") == 0:
     print("creating symlink progress.log to "+str(log_file)+" is successfull")
-    logs.write("creating symlink progress.log to "+str(log_file)+" is successfull")
+    logs.write("creating symlink progress.log to "+str(log_file)+" is successfull\n")
 else:
     print("creating symlink progress.log to "+str(log_file)+" was NOT successfull")
-    logs.write("creating symlink progress.log to "+str(log_file)+" was NOT successfull")
+    logs.write("creating symlink progress.log to "+str(log_file)+" was NOT successfull\n")
 
 
 
