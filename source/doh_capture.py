@@ -121,7 +121,12 @@ logs.flush()
 def open_website(url,count):
     #driver = webdriver.Firefox(firefox_profile=profile)
     # logs = open('Progress.txt', 'a')
-    logs.write(str(count)+" "+url+"\n")
+    tmp_ts = time.time()
+    tmp_timestamp = getDateFormat(str(ts))
+
+    print(str(count)+" "+url+" (visited: )"+str(tmp_timestamp)+"\n")
+    logs.write(str(count)+" "+url+" (visited: )"+str(tmp_timestamp)+"\n")
+
     ## in the executabel path you need to specify the location of geckodriver location.
     driver = webdriver.Firefox(options=options, firefox_profile=profile)
     driver.set_page_load_timeout(25)
@@ -133,14 +138,14 @@ def open_website(url,count):
         print("Exception has been thrown "+ str(ex1))
         driver.close()
         sleep(2)
-        logs.write(str(ex1)+"\n")
+        logs.write("Exception has been thrown \n"+str(ex1)+"\n")
     except WebDriverException as ex2 :
         print("Exception has been thrown "+ str(ex2))
         driver.close()
         sleep(2)
-        logs.write(str(ex2)+"\n")
+        logs.write("Exception has been thrown \n"+str(ex2)+"\n")
+
     logs.flush()
-    # logs.close()
     sleep(1)
 
 def main_driver(s,e) :
@@ -148,8 +153,6 @@ def main_driver(s,e) :
     df = data.iloc[s-1:e]
     for domain in df['website'] :
         url = 'https://www.' + domain
-
-        print(str(count) + " " + url )
         open_website(url,count)
         count = count + 1
 
@@ -163,7 +166,7 @@ e = s+batch_size-1
 
 
 
-def capture_packets(shell_command) :
+def capture_packets(shell_command):
     os.system(shell_command)
 
 
@@ -199,10 +202,5 @@ while(e<=stop) :
     csv_command = "python3 csv_generator.py -l "+log_file
     os.system(csv_command)
     sleep(1)
-    # this part is for moving the files to another location which is not needed in case of the docker container.
-    """move_command = "mv "+filename+" /mnt/debianDoH_images/DoH_Pcaps/debianDoH2/"+filename
-    os.system(move_command)
-    print("File moved to /mnt") """
-
 
 logs.close()
