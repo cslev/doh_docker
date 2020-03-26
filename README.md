@@ -66,7 +66,7 @@ The example above shows that the container is still running.
 
 If a little bit more granular status update is required, we can monitor at which (number of) website our container is visiting at the moment.
 ```
-docker exec -it doh_docker tail -f Progress.txt
+docker exec -it doh_docker tail -f progess.log
 
 11 https://www.taobao.com
 12 https://www.twitter.com
@@ -100,4 +100,3 @@ Example for running our container with Google's DoH resolver for the first 10,00
 ```
 sudo docker run -d --name doh_docker --shm-size 4g cslev/doh_docker:latest 2 1 10000
 ```
-
