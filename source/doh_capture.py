@@ -72,8 +72,9 @@ batch_size = results.batch
 time_out = batch_size * 15
 
 # Fine-tune batch size if it is bigger than stop-start
-if (batch_size > (stop-start)):
-    batch_size = (stop-start)
+max_possible_batch_size = stop-start+1
+if (batch_size > max_possible_batch_size):
+    batch_size = max_possible_batch_size
 
 
 print("Printing script Parameters: ")
