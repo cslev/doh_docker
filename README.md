@@ -33,7 +33,7 @@ sudo docker run -d --name doh_docker --shm-size 4g cslev/doh_docker:latest
 
 `--shm-size 4g` is some extra memory assignment needed for selenium and firefox, otherwise the whole process becomes extremely slow (if starts at all).
 
-*A complete run with 5,000 websites takes around 24-25 hours, so be patient :)*
+*A complete run with 5,000 websites takes around 24 hours, so be patient :)*
 
 # Getting the data
 The container will exit once the data gathering is complete and all relevant data will be saved in a compressed archive, called `doh_data.tar.gz`! In order to get the data we need to restart the container (as it has exited) and copy the compressed archive to the host.
@@ -44,7 +44,7 @@ sudo docker start doh_docker
 ```
 Copy compressed file to the host:
 ```
-sudo docker cp doh_docker:/doh_project/doh_data.tar.gz ./
+sudo docker cp doh_docker:/doh_project/doh_data_<USED_RESOLVER>_.tar.gz ./
 ```
 
 **And, we would need this file! If you consider to contribute to our project, please share your data with us <cs.lev@gmx.com>**
@@ -83,7 +83,7 @@ Message: Timeout loading page after 25000ms
 As you can see, some websites are not loaded due to a timeout!
 
 
-## Possible arguments (for first time runners, skip this!)
+## Further arguments (for first time runners, skip this!)
 The run command does not differ to the usual ones, however, our bundled script can be parameterized. Therefore, running our container can be done in multiple ways according to your needs.
 
 `RESOLVER` - The DoH resolver intended to be used! By default Cloudflare is set (value of `1`), but you can use Google (`2`), CleanBrowsing (`3`) and Quad9 (`4`). More built-in resolver are not supported *yet*.
@@ -94,9 +94,11 @@ The run command does not differ to the usual ones, however, our bundled script c
 
 `BATCH` - The desired batch size in one iteration. Default is set to `500`, which means that for every 500 website-visits, we will have a separate PCAP file (TBH, at the end they will be CSV files) for managability reasons (still not too big and can be analyzed in reasonable time). We do not recommend to change this value unless you know what you are doing.
 
-You don't have to change any of the values here, and we only recommend to *might* play with the first argument only! The rest can always remain the same.
+`META` - Any desired metadata for the measurements (as one *string* without whitespaces or within quotes) that will be used in the final archive's name for easier identification. For instance, using `usa_texas` as a META, the final archive will be `doh_data_<USED_RESOLVER>_usa_texas.tar.gz`
 
-Example for running our container with Google's DoH resolver for the first 10,000 websites
+You don't have to change any of the values here, and we only recommend to *play* with the first argument only! The rest can always remain the same and the *order* is **important**, so if you want to use `META` then define (even the default values again for) all others before it!
+
+Example for running our container with Google's DoH resolver for the first 10,000 websites (`START=1`, `END=10000`), with the default `BATCH` size of 200 and using *usa_texas* as `META`:
 ```
-sudo docker run -d --name doh_docker --shm-size 4g cslev/doh_docker:latest 2 1 10000
+sudo docker run -d --name doh_docker --shm-size 4g cslev/doh_docker:latest 2 1 10000 200 usa_texas
 ```

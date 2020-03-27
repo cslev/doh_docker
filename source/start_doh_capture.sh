@@ -34,45 +34,15 @@ echo -e "|${bold}${yellow}SSLDEBUGFILE:${green} ${SSLDEBUGFILE}${none}"
 echo -e "+-------------------------------------------------------------+"
 
 
+log_file="progress.log"
 
-#function show_help
-#{
-#  echo -e "${green}Example:./start_doh_capture.sh -s <START> -e <END> -b <BATCH_SIZE> -r <RESOLER> ${none}"
-#  echo -e "\t\t-s <START>: [INT] First website from Alexa's top 1M - Default: 1"
-#  echo -e "\t\t-e <END>:   [INT] Last website from Alexa's top 1M - Default: 5000"
-#  echo -e "\t\t-b <BATCH_SIZE>: [INT] Websites/batch - Default:200"
-#  echo -e "\t\t-r <RESOLVER>: [INT] DoH resolver to use - Options: 1 (Cloudflare), 2 (Google), 3 (CleanBrowsing), 4 (Quad4) - Default: 1"
-#  exit
-#}
-
-#while getopts "h?s:e:b:r:" opt
-#do
-#  case "$opt" in
-#  h|\?)
-#    show_help
-#    ;;
-#  s)
-#    START=$OPTARG
-#    ;;
-#  e)
-#    END=$OPTARG
-#    ;;
-#  b)
-#    BATCH=$OPTARG
-#    ;;
-#  r)
-#    RESOLVER=$OPTARG
-#    ;;
-#  *)
-#    show_help
-#   ;;
-#  esac
-#done
-
+# ------------ INPUT ARGS ------------
 RESOLVER=$1
 START=$2
 END=$3
 BATCH=$4
+META=$5  # used for extra information in the archive_name
+# ------------------------------------
 
 if [ ! -z "$RESOLVER" ]
 then
@@ -102,6 +72,13 @@ else
   B=""
 fi
 
+declare -A resolvers
+resolvers=(
+		[1]="cloudflare"
+		[2]="google"
+		[3]="cleanbrowsing"
+		[4]="quad9"
+		   )
 
 echo -e "+------------------------------------------------+"
 echo -e "|     ${bold} Passed Arguments to the Container ${none}        |"
@@ -116,11 +93,16 @@ python3 doh_capture.py $R $S $E $B
 PID=$(echo $!)
 echo "PID of python3 doh_capture: ${PID}" > doh_capture.pid
 
-echo -ne "${yellow}Compressing csv files${none}"
+echo -ne "${yellow}Compressing data...${none}" >> $log_file
 cd /doh_project/
-tar -czf doh_data.tar.gz csvfile*
-echo -e "\t${green}[DONE]${none}"
+# copy the symlink target to have it in the compressed data as well
+cp -Lr progress.log doh_log.log
+# $RESOLVER is an INT so will be good for accessing the resolver name from the array
+archive_name="doh_data_${resolvers[${RESOLVER}]}_${META}.tar.gz"
+tar -czf $archive_name csvfile* doh_log.log
+echo -e "\t${green}[DONE]${none}" >> $log_file
 
-echo -ne "${yellow}Removing csv files${none}"
+echo -ne "${yellow}Removing csv files${none}" >> $log_file
 rm -rf csvfile*
-echo -e "\t${green}[DONE]${none}\n\n"
+rm -rf doh_log.log
+echo -e "\t${green}[DONE]${none}\n\n" >> $log_file
