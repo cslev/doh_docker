@@ -87,18 +87,20 @@ echo -e "RESOLVER = ${green}$R${none}"
 echo -e "START = ${green}$S${none}"
 echo -e "END = ${green}$E${none}"
 echo -e "BATCH = ${green}$B${none}"
+echo -e "META = ${green}$META${none}"
 echo -e "+================================================+"
 
+
 python3 doh_capture.py $R $S $E $B
-PID=$(echo $!)
-echo "PID of python3 doh_capture: ${PID}" > doh_capture.pid
+
+
 
 echo -ne "${yellow}Compressing data...${none}" >> $log_file
 cd /doh_project/
 # copy the symlink target to have it in the compressed data as well
-cp -Lr progress.log doh_log.log
+cp -Lr $log_file doh_log.log
 # $RESOLVER is an INT so will be good for accessing the resolver name from the array
-archive_name="doh_data_${resolvers[${RESOLVER}]}_${META}.tar.gz"
+archive_name="doh_data_${resolvers[${RESOLVER}]}_${META}_${START}-${END}.tar.gz"
 tar -czf $archive_name csvfile* doh_log.log
 echo -e "\t${green}[DONE]${none}" >> $log_file
 
