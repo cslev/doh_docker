@@ -38,6 +38,10 @@ parser.add_argument('-s', action="store", default=1, type=int, dest="start" , he
 parser.add_argument('-e', action="store", default=5000, type=int, dest="end" , help="Specify rank of the ending website")
 parser.add_argument('-b', action="store", default=200, type=int, dest="batch" , help="Batch Size (range must be a multiple of batch size!)")
 parser.add_argument('-r', action="store", default=1, type=int, dest="doh_resolver" , help="DoH resolver :\n1=Cloudflare; \n2=Google;\n3=CleanBrowsing;\n4=Quad9;")
+parser.add_argument('-i', '--interface', nargs=1,
+                    help="Specify the interface to use for capturing",
+                    required=False,
+                    default=['eth0'])
 
 results = parser.parse_args()
 
@@ -87,6 +91,7 @@ start = results.start
 stop = results.end
 batch_size = results.batch
 time_out = batch_size * 15
+interface = results.interface[0]
 
 # Fine-tune batch size if it is bigger than stop-start
 max_possible_batch_size = stop-start+1
@@ -161,7 +166,6 @@ def open_website(url,count):
         driver.close()
         sleep(2)
         logs.write("Exception has been thrown \n"+str(ex2)+"\n")
-
     logs.flush()
     sleep(1)
 
@@ -192,7 +196,7 @@ while(e<=stop) :
     filename = 'pcap/capture-'+str(s)+'-'+str(e)
 
     ## here after -i you need to add the ethernet port. which i guess is eth0
-    shell_command = "timeout 4400 tcpdump port 443 -i eth0 -w " + filename
+    shell_command = "timeout 4400 tcpdump port 443 -i " + interface + " -w " + filename
 
     t1 = multiprocessing.Process(target=main_driver, args=(s,e,))
     t2 = multiprocessing.Process(target=capture_packets, args=(shell_command,))
@@ -210,6 +214,8 @@ while(e<=stop) :
     logs.flush()
     sleep(2)
     print(time.ctime())
+    logs.write(time.ctime())
+    logs.flush()
     s = s+batch_size
     e = e+batch_size
 
