@@ -200,7 +200,10 @@ def capture_packets(shell_command):
 
 
 
-while(e<=stop) :
+while(s<=stop) :
+    if(e>stop) :
+        e=stop
+    
     filename = 'pcap/capture-'+str(s)+'-'+str(e)
 
     ## here after -i you need to add the ethernet port. which i guess is eth0
