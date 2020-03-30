@@ -96,9 +96,11 @@ The run command does not differ to the usual ones, however, our bundled script c
 
 `META` - Any desired metadata for the measurements (as one *string* without whitespaces or within quotes) that will be used in the final archive's name for easier identification. For instance, using `usa_texas` as a META, the final archive will be `doh_data_<USED_RESOLVER>_usa_texas.tar.gz`
 
+`INTF` - Although, in most of the cases containers have one interface connected to the internet (`eth0`), if for some reason your is different, you can specify that as the last argument. Default is set to `eth0`.
+
 You don't have to change any of the values here, and we only recommend to *play* with the first argument only! The rest can always remain the same and the *order* is **important**, so if you want to use `META` then define (even the default values again for) all others before it!
 
-Example for running our container with Google's DoH resolver for the first 10,000 websites (`START=1`, `END=10000`), with the default `BATCH` size of 200 and using *usa_texas* as `META`:
+Example for running our container with Google's DoH resolver for the first 10,000 websites (`START=1`, `END=10000`) connected via an interface called `enp3s0f0`, with the default `BATCH` size of 200 and using *usa_texas* as `META`:
 ```
-sudo docker run -d --name doh_docker --shm-size 4g cslev/doh_docker:latest 2 1 10000 200 usa_texas
+sudo docker run -d --name doh_docker --shm-size 4g cslev/doh_docker:latest 2 1 10000 200 usa_texas enp3s0f0
 ```
