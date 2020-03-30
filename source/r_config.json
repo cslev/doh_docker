@@ -1,0 +1,18 @@
+{
+    "cloudflare": {
+        "uri": "https://cloudflare-dns.com/dns-query",
+        "bootstrap": "104.16.248.249"
+    },
+    "google": {
+        "uri": "https://dns.google/dns-query",
+        "bootstrap": "8.8.8.8"
+    },
+    "cleanbrowsing": {
+        "uri": "https://doh.cleanbrowsing.org/doh/family-filter/",
+        "bootstrap": "185.228.168.10"
+    },
+    "quad9": {
+        "uri": "https://dns.quad9.net/dns-query",
+        "bootstrap": "9.9.9.9"
+    }
+}

@@ -14,6 +14,7 @@ import multiprocessing
 import time
 import datetime
 import argparse
+import json
 
 
 def getDateFormat(timestamp):
@@ -68,16 +69,16 @@ else:
     logs.write("creating symlink progress.log to "+str(log_file)+" was NOT successfull\n")
 
 
-
+resolver = ""
 
 if(results.doh_resolver==1) :
-    uri="https://cloudflare-dns.com/dns-query"
+    resolver = "cloudflare"
 elif(results.doh_resolver==2) :
-    uri="https://dns.google/dns-query"
+    resolver = "google"
 elif(results.doh_resolver==3) :
-    uri="https://doh.cleanbrowsing.org/doh/family-filter/"
+    resolver = "cleanbrowsing"
 elif(results.doh_resolver==4) :
-    uri="https://dns.quad9.net/dns-query"
+    resolver = "quad9"
 else :
     print("Invalid choice for DoH resolver!\nExiting...")
     logs.write("Invalid choice for DoH resolver!\nExiting...")
@@ -85,6 +86,13 @@ else :
     logs.close()
     exit(0)
 
+def get_resolver_details(resolver) :
+    with open('r_config.json') as f:
+        resolver_config = json.load(f)
+    return resolver_config[resolver]["uri"], resolver_config[resolver]["bootstrap"]
+
+
+uri , bootstrap = get_resolver_details(resolver)
 
 
 start = results.start
@@ -134,7 +142,7 @@ binary = FirefoxBinary('./firefox/firefox')
 profile = webdriver.FirefoxProfile()
 profile.set_preference("network.trr.mode", 2)
 profile.set_preference("network.trr.uri", uri)
-#profile.set_preference("network.trr.bootstrapAddress", '1.1.1.1.')
+profile.set_preference("network.trr.bootstrapAddress", bootstrap)
 
 logs.flush()
 
