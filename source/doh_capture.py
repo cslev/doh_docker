@@ -163,18 +163,20 @@ def open_website(url,count):
     try :
         driver.get(url)
         sleep(2)
-        driver.close()
     except TimeoutException as ex1 :
-        print("Exception has been thrown "+ str(ex1))
-        driver.close()
+        print("TimeoutException Exception has been thrown "+ str(ex1))
         sleep(2)
-        logs.write("Exception has been thrown \n"+str(ex1)+"\n")
+        logs.write("TimeoutException Exception has been thrown \n"+str(ex1)+"\n")
     except WebDriverException as ex2 :
-        print("Exception has been thrown "+ str(ex2))
-        driver.close()
+        print("WebDriverException Exception has been thrown "+ str(ex2))
         sleep(2)
-        logs.write("Exception has been thrown \n"+str(ex2)+"\n")
+        logs.write("WebDriverException Exception has been thrown \n"+str(ex2)+"\n")
+    except Exception as ex3:
+        print("Unknown exception has been thrown "+ str(ex3))
+        sleep(2)
+        logs.write("Unknown exception has been thrown \n"+str(ex3)+"\n")
     logs.flush()
+    driver.close()
     sleep(1)
 
 def main_driver(s,e) :
@@ -203,7 +205,7 @@ def capture_packets(shell_command):
 while(s<=stop) :
     if(e>stop) :
         e=stop
-    
+
     filename = 'pcap/capture-'+str(s)+'-'+str(e)
 
     ## here after -i you need to add the ethernet port. which i guess is eth0
