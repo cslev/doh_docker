@@ -100,17 +100,17 @@ echo -e "INTF = ${green}$INTF${none}"
 echo -e "+================================================+"
 
 
-python3 doh_capture.py $R $S $E $B $I
+#get date
+d=$(date +"%Y%m%d_%H%M%S")
 
-
+echo 0 > done
+python3 doh_capture.py $R $S $E $B $I > raw_${d}.log
 
 echo -ne "${yellow}Compressing data...${none}" >> $log_file
 cd /doh_project/
 # copy the symlink target to have it in the compressed data as well
 cp -Lr $log_file doh_log.log
 # $RESOLVER is an INT so will be good for accessing the resolver name from the array
-#get date
-d=$(date +"%Y%m%d_%H%M%S")
 archive_name="doh_data_${resolvers[${RESOLVER}]}_${META}_${START}-${END}_${d}.tar.gz"
 tar -czf $archive_name csvfile* doh_log.log
 echo -e "\t${green}[DONE]${none}" >> $log_file
@@ -119,3 +119,4 @@ echo -ne "${yellow}Removing csv files${none}" >> $log_file
 rm -rf csvfile*
 rm -rf doh_log.log
 echo -e "\t${green}[DONE]${none}\n\n" >> $log_file
+echo 1 > done
