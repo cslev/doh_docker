@@ -86,7 +86,7 @@ As you can see, some websites are not loaded due to a timeout!
 ## Further arguments (for first time runners, skip this!)
 The run command does not differ to the usual ones, however, our bundled script can be parameterized. Therefore, running our container can be done in multiple ways according to your needs.
 
-`RESOLVER` - The DoH resolver intended to be used! By default Cloudflare is set (value of `1`), but you can use Google (`2`), CleanBrowsing (`3`) and Quad9 (`4`). More built-in resolver are not supported *yet*.
+`RESOLVER` - The DoH resolver intended to be used! By default Cloudflare is set (value of `1`), but you can use Google (`2`), CleanBrowsing (`3`), Quad9 (`4`), and more. For all built-in resolvers, check [this out](https://raw.githubusercontent.com/cslev/doh_docker/master/source/r_config.json)
 
 `START` - The rank of the **first** website to start the browsing from (according to Alexa's `top-1m.csv` file in the source). Default is set to `1`.
 
