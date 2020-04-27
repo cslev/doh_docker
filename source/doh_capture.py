@@ -38,7 +38,7 @@ parser = argparse.ArgumentParser(description="DoH packet capture and .csv conver
 parser.add_argument('-s', action="store", default=1, type=int, dest="start" , help="Specify rank of the starting website")
 parser.add_argument('-e', action="store", default=5000, type=int, dest="end" , help="Specify rank of the ending website")
 parser.add_argument('-b', action="store", default=200, type=int, dest="batch" , help="Batch Size (range must be a multiple of batch size!)")
-parser.add_argument('-r', action="store", default=1, type=int, dest="doh_resolver" , help="DoH resolver :\n1=Cloudflare; \n2=Google;\n3=CleanBrowsing;\n4=Quad9;")
+parser.add_argument('-r', action="store", default=1, type=int, dest="doh_resolver" , help="DoH resolver :\n1=Cloudflare; \n2=Google;\n3=CleanBrowsing;\n4=Quad9;\n5=PowerDNS;\n6=Doh.li;\n7=jcdns.fun;")
 parser.add_argument('-i', '--interface', nargs=1,
                     help="Specify the interface to use for capturing",
                     required=False,
@@ -85,7 +85,6 @@ elif(results.doh_resolver==6) :
     resolver = "doh.li"
 elif(results.doh_resolver==7) :
     resolver = "jcdns"
-
 else :
     print("Invalid choice for DoH resolver!\nExiting...")
     logs.write("Invalid choice for DoH resolver!\nExiting...")

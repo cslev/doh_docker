@@ -104,7 +104,7 @@ echo -e "+================================================+"
 d=$(date +"%Y%m%d_%H%M%S")
 
 echo 0 > done
-python3 doh_capture.py $R $S $E $B $I > raw_${d}.log
+python3 doh_capture.py $R $S $E $B $I
 
 echo -ne "${yellow}Compressing data...${none}" >> $log_file
 cd /doh_project/
