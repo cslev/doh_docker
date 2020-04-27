@@ -1,18 +1,30 @@
 {
-    "cloudflare": {
-        "uri": "https://cloudflare-dns.com/dns-query",
-        "bootstrap": "104.16.248.249"
-    },
-    "google": {
-        "uri": "https://dns.google/dns-query",
-        "bootstrap": "8.8.8.8"
-    },
-    "cleanbrowsing": {
-        "uri": "https://doh.cleanbrowsing.org/doh/family-filter/",
-        "bootstrap": "185.228.168.10"
-    },
-    "quad9": {
-        "uri": "https://dns.quad9.net/dns-query",
-        "bootstrap": "9.9.9.9"
-    }
+  "cloudflare": {
+      "uri": "https://cloudflare-dns.com/dns-query",
+      "bootstrap": "104.16.248.249"
+  },
+  "google": {
+      "uri": "https://dns.google/dns-query",
+      "bootstrap": "8.8.8.8"
+  },
+  "cleanbrowsing": {
+      "uri": "https://doh.cleanbrowsing.org/doh/family-filter/",
+      "bootstrap": "185.228.168.10"
+  },
+  "quad9": {
+      "uri": "https://dns.quad9.net/dns-query",
+      "bootstrap": "9.9.9.9"
+  },
+  "powerdns": {
+      "uri": "https://doh.powerdns.org",
+      "bootstrap": "136.144.215.158"
+  },
+  "doh.li": {
+      "uri": "https://doh.li/dns-query",
+      "bootstrap": "46.101.66.244"
+  },
+  "jcdns": {
+      "uri": "https://jcdns.fun/dns-query",
+      "bootstrap": "178.62.214.105"
+  }
 }

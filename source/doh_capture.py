@@ -79,6 +79,13 @@ elif(results.doh_resolver==3) :
     resolver = "cleanbrowsing"
 elif(results.doh_resolver==4) :
     resolver = "quad9"
+elif(results.doh_resolver==5) :
+    resolver = "powerdns"
+elif(results.doh_resolver==6) :
+    resolver = "doh.li"
+elif(results.doh_resolver==7) :
+    resolver = "jcdns"
+
 else :
     print("Invalid choice for DoH resolver!\nExiting...")
     logs.write("Invalid choice for DoH resolver!\nExiting...")
