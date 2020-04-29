@@ -149,7 +149,7 @@ binary = FirefoxBinary('./firefox/firefox')
 #profile = webdriver.FirefoxProfile('/home/user/.mozilla/firefox/0b5055qu.Doh_profile')
 ## setting the firefox profile to use DoH
 profile = webdriver.FirefoxProfile()
-profile.set_preference("network.trr.mode", 2)
+profile.set_preference("network.trr.mode", 3)
 profile.set_preference("network.trr.uri", uri)
 profile.set_preference("network.trr.bootstrapAddress", bootstrap)
 
@@ -163,12 +163,16 @@ def open_website(url,count):
     tmp_ts = time.time()
     tmp_timestamp = getDateFormat(str(tmp_ts))
 
-    print(str(count)+" "+url+" (visited: "+str(tmp_timestamp)+")\n")
+    print(str(count)+" "+url+" (visited: "+str(tmp_timestamp)+")")
     logs.write(str(count)+" "+url+" (visited: "+str(tmp_timestamp)+")\n")
 
     ## in the executabel path you need to specify the location of geckodriver location.
-    driver = webdriver.Firefox(options=options, firefox_profile=profile)
-    driver.set_page_load_timeout(webpage_timeout)
+    try:
+        driver = webdriver.Firefox(options=options, firefox_profile=profile)
+        driver.set_page_load_timeout(webpage_timeout)
+    except WebDriverException as ex:
+        print("Error during loading the driver (website skipped): " + str(ex))
+        logs.write("Error during loading the driver (website skipped): " + str(ex) + "\n")
     try :
         driver.get(url)
         sleep(2)
@@ -185,8 +189,13 @@ def open_website(url,count):
         sleep(2)
         logs.write("Unknown exception has been thrown \n"+str(ex3)+"\n")
     logs.flush()
-    driver.close()
-    sleep(1)
+    try:
+        driver.close()
+        sleep(1)
+    except WebDriverException as ex:
+        print("Error during closing the driver (continue): " + str(ex))
+        logs.write("Error during closing the driver (continue): " + str(ex) + "\n")
+
 
 def main_driver(s,e) :
     count = s
