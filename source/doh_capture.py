@@ -43,7 +43,8 @@ parser.add_argument('-i', '--interface', nargs=1,
                     help="Specify the interface to use for capturing",
                     required=False,
                     default=['eth0'])
-
+parser.add_argument('-t', '--timeout', action="store", default=16, type=int, dest="timeout",
+                    help="Specify the timeout for a webpage to load (Default: 16)")
 results = parser.parse_args()
 
 # setup logging features
@@ -106,6 +107,8 @@ stop = results.end
 batch_size = results.batch
 time_out = batch_size * 15
 interface = results.interface[0]
+webpage_timeout = int(results.timeout)
+
 
 # Fine-tune batch size if it is bigger than stop-start
 max_possible_batch_size = stop-start+1
@@ -165,7 +168,7 @@ def open_website(url,count):
 
     ## in the executabel path you need to specify the location of geckodriver location.
     driver = webdriver.Firefox(options=options, firefox_profile=profile)
-    driver.set_page_load_timeout(16)
+    driver.set_page_load_timeout(webpage_timeout)
     try :
         driver.get(url)
         sleep(2)

@@ -43,6 +43,7 @@ END=$3
 BATCH=$4
 META=$5  # used for extra information in the archive_name
 INTF=$6     # interface to use (default: eth0)
+WEBPAGE_TIMEOUT=$7 #set here the timeout for a website to load in seconds
 # ------------------------------------
 
 if [ ! -z "$RESOLVER" ]
@@ -80,12 +81,22 @@ else
   I=""
 fi
 
+if [ ! -z "$WEBPAGE_TIMEOUT" ]
+then
+  T="-t ${WEBPAGE_TIMEOUT}"
+else
+  T=""
+fi
+
 declare -A resolvers
 resolvers=(
 		[1]="cloudflare"
 		[2]="google"
 		[3]="cleanbrowsing"
 		[4]="quad9"
+    [5]="powerdns"
+    [6]="doh.li"
+    [7]="jcdns"
 		   )
 
 echo -e "+------------------------------------------------+"
@@ -97,6 +108,7 @@ echo -e "END = ${green}$E${none}"
 echo -e "BATCH = ${green}$B${none}"
 echo -e "META = ${green}$META${none}"
 echo -e "INTF = ${green}$INTF${none}"
+echo -e "WEBPAGE_TIMOUT = ${green}$WEBPAGE_TIMEOUT${none}"
 echo -e "+================================================+"
 
 
@@ -104,7 +116,7 @@ echo -e "+================================================+"
 d=$(date +"%Y%m%d_%H%M%S")
 
 echo 0 > done
-python3 doh_capture.py $R $S $E $B $I
+python3 doh_capture.py $R $S $E $B $I $T
 
 echo -ne "${yellow}Compressing data...${none}" >> $log_file
 cd /doh_project/
