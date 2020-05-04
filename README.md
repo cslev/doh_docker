@@ -104,3 +104,27 @@ Example for running our container with Google's DoH resolver for the first 10,00
 ```
 sudo docker run -d --name doh_docker --shm-size 4g cslev/doh_docker:latest 2 1 10000 200 usa_texas enp3s0f0
 ```
+
+
+# Troubleshooting
+It might happen that the script inside the container crashes due to several reasons (e.g., running out of memory, selenium error, which is not handled properly, etc.).
+One of the most obvious things that can point this out is the size of the archive file! It is normally around 70-100 MB. So, if your compressed archive is below 50MB, there is a high chance that something was not working properly.
+
+This can result in that some batches might not have finished. For instance, having a serious issue at the 45th website would mean that the first batch of 200 websites will be stopped at the 45th website, and jumps to the next batch (i.e., continues from website no. 201).
+
+## Look for batches
+By looking into the log files, one can see when the processing has been started and what was the last website in that batch. If it is not 200,400, ..., 5000 (in case of websites between 1-5000 and batch size of 200, i.e., in the default setting), then there was an error.
+
+To quickly check this out, let's count the successful batches that ends with `00`.
+```
+sudo docker exec <YOUR_CONTAINER_NAME> cat /doh_project/progress.log |grep batch -B 10 |grep ^[0-9]|awk '{print $1}'|grep 00$|wc -l
+```
+If the result is *25*, you are good!
+There is another problem!
+
+## TimeoutException
+To quickly check this out, let's count the successful batches that ends with `00`.
+```
+sudo docker exec <YOUR_CONTAINER_NAME> cat /doh_project/progress.log |grep -i timeoutexception |wc -l
+```
+This means that the preset seconds for timeout was not enough! Usually, it is not your problem, it can be the problem of the DoH resolver used. If you set timeout to a considerably long interval (e.g., 50 sec), then you can rest assured that timeouts are not because of you, but because of the DoH resolver!
