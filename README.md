@@ -123,7 +123,7 @@ If the result is *25*, you are good!
 There is another problem!
 
 ## TimeoutException
-To quickly check this out, let's count the successful batches that ends with `00`.
+To quickly check this out, let's count the unsuccessful connection attempts:
 ```
 sudo docker exec <YOUR_CONTAINER_NAME> cat /doh_project/progress.log |grep -i timeoutexception |wc -l
 ```
