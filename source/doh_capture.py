@@ -38,7 +38,33 @@ parser = argparse.ArgumentParser(description="DoH packet capture and .csv conver
 parser.add_argument('-s', action="store", default=1, type=int, dest="start" , help="Specify rank of the starting website")
 parser.add_argument('-e', action="store", default=5000, type=int, dest="end" , help="Specify rank of the ending website")
 parser.add_argument('-b', action="store", default=200, type=int, dest="batch" , help="Batch Size (range must be a multiple of batch size!)")
-parser.add_argument('-r', action="store", default=1, type=int, dest="doh_resolver" , help="DoH resolver :\n1=Cloudflare; \n2=Google;\n3=CleanBrowsing;\n4=Quad9;\n5=PowerDNS;\n6=Doh.li;\n7=jcdns.fun;")
+parser.add_argument('-r', action="store", default=1, type=int, dest="doh_resolver" ,
+                    help="DoH resolver :\n" +
+                    "1=Cloudflare\n" +
+                    "2=Google\n" +
+                    "3=CleanBrowsing\n" +
+                    "4=Quad9\n" +
+                    "5=PowerDNS\n" +
+                    "6=doh.li\n" +
+                    "7=jcdns\n" +
+                    "8=AdGuard\n" +
+                    "9=OpenDNS\n" +
+                    "10=Comcast\n" +
+                    "11=cz.nic\n" +
+                    "12=dnslify\n" +
+                    "13=blahdns\n" +
+                    "14=ffmuc.net\n" +
+                    "15=ContainerPI\n" +
+                    "16=Tiarap\n" +
+                    "17=DNS.SB\n" +
+                    "18=Association 42l\n" +
+                    "19=Andrews and Arnold\n" +
+                    "20=TWNIC\n" +
+                    "21=Digital Gesellschaft\n" +
+                    "22=LibreDNS\n" +
+                    "23=PI-DNS\n" +
+                    "24=dns.flatuslifir.is\n" +
+                    "25=he.net")
 parser.add_argument('-i', '--interface', nargs=1,
                     help="Specify the interface to use for capturing",
                     required=False,
@@ -70,36 +96,41 @@ else:
     logs.write("creating symlink progress.log to "+str(log_file)+" was NOT successfull\n")
 
 
-resolver = ""
+# resolver = ""
+#
+# if(results.doh_resolver==1) :
+#     resolver = "cloudflare"
+# elif(results.doh_resolver==2) :
+#     resolver = "google"
+# elif(results.doh_resolver==3) :
+#     resolver = "cleanbrowsing"
+# elif(results.doh_resolver==4) :
+#     resolver = "quad9"
+# elif(results.doh_resolver==5) :
+#     resolver = "powerdns"
+# elif(results.doh_resolver==6) :
+#     resolver = "doh.li"
+# elif(results.doh_resolver==7) :
+#     resolver = "jcdns"
+# else :
+#     print("Invalid choice for DoH resolver!\nExiting...")
+#     logs.write("Invalid choice for DoH resolver!\nExiting...")
+#     logs.flush()
+#     logs.close()
+#     exit(0)
 
-if(results.doh_resolver==1) :
-    resolver = "cloudflare"
-elif(results.doh_resolver==2) :
-    resolver = "google"
-elif(results.doh_resolver==3) :
-    resolver = "cleanbrowsing"
-elif(results.doh_resolver==4) :
-    resolver = "quad9"
-elif(results.doh_resolver==5) :
-    resolver = "powerdns"
-elif(results.doh_resolver==6) :
-    resolver = "doh.li"
-elif(results.doh_resolver==7) :
-    resolver = "jcdns"
-else :
-    print("Invalid choice for DoH resolver!\nExiting...")
-    logs.write("Invalid choice for DoH resolver!\nExiting...")
-    logs.flush()
-    logs.close()
-    exit(0)
 
 def get_resolver_details(resolver) :
     with open('r_config.json') as f:
         resolver_config = json.load(f)
-    return resolver_config[resolver]["uri"], resolver_config[resolver]["bootstrap"]
+        # print(resolver_config)
+    try:
+        return resolver_config[resolver]["uri"], resolver_config[resolver]["bootstrap"]
+    except:
+        print("Uknown resolver ID {}".format(resolver))
+        print("Exiting...")
+        exit(-1)
 
-
-uri , bootstrap = get_resolver_details(resolver)
 
 
 start = results.start
@@ -108,6 +139,11 @@ batch_size = results.batch
 time_out = batch_size * 15
 interface = results.interface[0]
 webpage_timeout = int(results.timeout)
+resolver=str(results.doh_resolver)
+
+
+
+uri , bootstrap = get_resolver_details(resolver)
 
 
 # Fine-tune batch size if it is bigger than stop-start
