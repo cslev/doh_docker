@@ -89,6 +89,12 @@ else
   T=""
 fi
 
+if [ ! -z "$ARCHIVE_PATH" ]
+then
+  ARCHIVE_PATH="/doh_project/archives"
+fi
+
+
 
 resolver=cat r_config.json |jq  '{name: ."${RESOLVER}".name}'|grep name|cut -d ':' -f 2|sed "s/\"//g"|sed "s/ //g"
 
