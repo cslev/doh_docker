@@ -125,7 +125,7 @@ def get_resolver_details(resolver) :
         resolver_config = json.load(f)
         # print(resolver_config)
     try:
-        return resolver_config[resolver]["uri"], resolver_config[resolver]["bootstrap"]
+        return resolver_config[resolver]["name"], resolver_config[resolver]["uri"], resolver_config[resolver]["bootstrap"]
     except:
         print("Uknown resolver ID {}".format(resolver))
         print("Exiting...")
@@ -143,7 +143,7 @@ resolver=str(results.doh_resolver)
 
 
 
-uri , bootstrap = get_resolver_details(resolver)
+resolver_name, uri , bootstrap = get_resolver_details(resolver)
 
 
 # Fine-tune batch size if it is bigger than stop-start
@@ -160,8 +160,12 @@ print("End = "+str(stop))
 logs.write("End = "+str(stop)+"\n")
 print("(Adjusted) Batch_Size = "+str(batch_size))
 logs.write("(Adjusted) Batch_Size = "+str(batch_size)+"\n")
-print("DoH_Resolver = "+uri)
-logs.write("DoH_Resolver = "+str(uri)+"\n")
+print("DoH:")
+print("\tResolver:"+str(resolver_name))
+print("\tURI:"+str(uri))
+logs.write("DoH:\n")
+logs.write("\tResolver:"+str(resolver_name)+"\n")
+logs.write("\tURI:"+str(uri)+"\n")
 
 
 data = pd.read_csv('top-1m.csv' , names = ['rank','website'])
