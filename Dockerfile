@@ -18,7 +18,7 @@ ENV DEPS tshark \
          libdbus-1-3 \
          libexpat1 \
          libfontconfig1 \
-	 libgcc1 \
+         libgcc1 \
          libgconf-2-4 \
          libgdk-pixbuf2.0-0 \
          libglib2.0-0 \
@@ -46,14 +46,15 @@ ENV DEPS tshark \
          libnss3 \
          lsb-release \
          xdg-utils \
-	 libxt6 \
-	 procps
+         libxt6 \
+         procps \
+         jq
 
 ENV PYTHON_DEPS  python3 \
 		 python3-six \
 		 python3-pandas \
 	         python3-simplejson \
-		 libpython3-dev 
+		 libpython3-dev
 #		 python3-selenium
 # we downgrade selenium to 3.14.1 as bullseye debian has the alpha 4.0, which does not work properly now.
 
@@ -83,11 +84,8 @@ RUN apt-get update && \
     ln -s /doh_project/firefox/firefox /usr/lib/firefox/firefox && \
     mv others/bashrc_template /root/.bashrc && \
     source /root/.bashrc && \
-    mkdir -p pcap 
+    mkdir -p pcap
 
 # We start the script automatically
 ENTRYPOINT ["/doh_project/start_doh_capture.sh"]
 #CMD ["bash", "start_doh_capture.sh"]
-
-
-
