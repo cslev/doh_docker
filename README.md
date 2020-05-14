@@ -98,11 +98,15 @@ The run command does not differ to the usual ones, however, our bundled script c
 
 `INTF` - Although, in most of the cases containers have one interface connected to the internet (`eth0`), if for some reason your is different, you can specify that as the last argument. Default is set to `eth0`.
 
+`WEBPAGE_TIMEOUT` - Most of the cases, the default 16 seconds should be enough, however, for certain resolvers and environments, one might either increase or decrease it. This variable supposed to set this.
+
+`ARCHIVE_PATH` - By default, the script will store the archive in its root directory `/doh_project/`. However, after the measurement is done, the container stops, and in order to copy the archive from the container, we need to start it again, and then stop it unless fully removed. By adding a `volume` to the container and setting the `ARCHIVE_PATH` as well, which points to the same volume, we can avoid the previous issue.
+
 You don't have to change any of the values here, and we only recommend to *play* with the first argument only! The rest can always remain the same and the *order* is **important**, so if you want to use `META` then define (even the default values again for) all others before it!
 
-Example for running our container with Google's DoH resolver for the first 10,000 websites (`START=1`, `END=10000`) connected via an interface called `enp3s0f0`, with the default `BATCH` size of 200 and using *usa_texas* as `META`:
+Example for running our container with `Google`'s DoH resolver for the first `10,000` websites (`START=1`, `END=10000`), with a timeout if `25` seconds, connected via an interface called `enp3s0f0`, with the default `BATCH` size of 200, using *usa_texas* as `META`, and setting the final `ARCHIVE_PATH` to `/doh_docker/archives`:
 ```
-sudo docker run -d --name doh_docker --shm-size 4g cslev/doh_docker:latest 2 1 10000 200 usa_texas enp3s0f0
+sudo docker run -d --name doh_docker -v <PATH_ON_HOST>:/doh_docker/archives:rw --shm-size 4g cslev/doh_docker:latest 2 1 10000 200 usa_texas enp3s0f0 25
 ```
 
 
@@ -115,12 +119,14 @@ This can result in that some batches might not have finished. For instance, havi
 ## Look for batches
 By looking into the log files, one can see when the processing has been started and what was the last website in that batch. If it is not 200,400, ..., 5000 (in case of websites between 1-5000 and batch size of 200, i.e., in the default setting), then there was an error.
 
-To quickly check this out, let's count the successful batches that ends with `00`.
+To quickly check this out during processing, let's count the successful batches that ends with `00`.
 ```
 sudo docker exec <YOUR_CONTAINER_NAME> cat /doh_project/progress.log |grep batch -B 10 |grep ^[0-9]|awk '{print $1}'|grep 00$|wc -l
 ```
 If the result is *25*, you are good!
 There is another problem!
+
+Note, once the measurement is done, container is stopped. If restarted afterwards, the `progess.log` SYMLINK will point to the new, almost empty file. In this case, use the explicit path to the log file, or copy-paste the archive from the container to your host, decompress it, and issue the above command on the `doh_log.log` file.
 
 ## TimeoutException
 To quickly check this out, let's count the unsuccessful connection attempts:
