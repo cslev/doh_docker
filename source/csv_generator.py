@@ -41,7 +41,7 @@ for f in files :
     logs.flush()
 
     ## here in tls.keylog_file: speciy location and name of sslkeylogfile
-    csv_command = 'tshark -r ' + file_name +' -Y "http2" -o tls.keylog_file:'+SSLKEY+' -T fields -e frame.number -e _ws.col.Time -e ip.src -e ip.dst -e _ws.col.Protocol -e frame.len -e _ws.col.Info -E header=y -E separator="," -E quote=d -E occurrence=f > '+ output_file_name
+    csv_command = 'tshark -r ' + file_name +' -Y "http2 or (dns and tls)" -o tls.keylog_file:'+SSLKEY+' -T fields -e frame.number -e _ws.col.Time -e ip.src -e ip.dst -e _ws.col.Protocol -e frame.len -e _ws.col.Info -E header=y -E separator="," -E quote=d -E occurrence=f > '+ output_file_name
     remove_file = "rm "+file_name
     os.system(csv_command)
     print(str(count) + " of " + str(total) + " completed!")
