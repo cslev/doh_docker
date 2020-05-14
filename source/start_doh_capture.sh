@@ -44,6 +44,7 @@ BATCH=$4
 META=$5  # used for extra information in the archive_name
 INTF=$6     # interface to use (default: eth0)
 WEBPAGE_TIMEOUT=$7 #set here the timeout for a website to load in seconds
+ARCHIVE_PATH=$8 #set here the 'mounted' path in container where the archive will be saved
 # ------------------------------------
 
 if [ ! -z "$RESOLVER" ]
@@ -88,16 +89,6 @@ else
   T=""
 fi
 
-declare -A resolvers
-resolvers=(
-		[1]="cloudflare"
-		[2]="google"
-		[3]="cleanbrowsing"
-		[4]="quad9"
-    [5]="powerdns"
-    [6]="doh.li"
-    [7]="jcdns"
-		   )
 
 resolver=cat r_config.json |jq  '{name: ."${RESOLVER}".name}'|grep name|cut -d ':' -f 2|sed "s/\"//g"|sed "s/ //g"
 
@@ -110,7 +101,8 @@ echo -e "END = ${green}$E${none}"
 echo -e "BATCH = ${green}$B${none}"
 echo -e "META = ${green}$META${none}"
 echo -e "INTF = ${green}$INTF${none}"
-echo -e "WEBPAGE_TIMOUT = ${green}$WEBPAGE_TIMEOUT${none}"
+echo -e "WEBPAGE_TIMEOUT = ${green}$WEBPAGE_TIMEOUT${none}"
+echo -e "ARCHIVE PATH = ${green}$ARCHIVE_PATH${none}"
 echo -e "+================================================+"
 
 
@@ -132,5 +124,6 @@ echo -e "\t${green}[DONE]${none}" >> $log_file
 echo -ne "${yellow}Removing csv files${none}" >> $log_file
 rm -rf csvfile*
 rm -rf doh_log.log
+cp $archive_name $ARCHIVE_PATH/
 echo -e "\t${green}[DONE]${none}\n\n" >> $log_file
 echo 1 > done
