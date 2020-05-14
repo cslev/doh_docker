@@ -84,7 +84,9 @@ RUN apt-get update && \
     ln -s /doh_project/firefox/firefox /usr/lib/firefox/firefox && \
     mv others/bashrc_template /root/.bashrc && \
     source /root/.bashrc && \
-    mkdir -p pcap
+    mkdir -p pcap && \
+    mkdir -p archives
+
 
 # We start the script automatically
 ENTRYPOINT ["/doh_project/start_doh_capture.sh"]
