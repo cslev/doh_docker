@@ -26,12 +26,14 @@ sudo docker pull cslev/doh_docker
 # Running the container
 To run the container, we have to specify some extra parameters for a swift run.
 ```
-sudo docker run -d --name doh_docker --shm-size 4g cslev/doh_docker:latest
+sudo docker run -d --name doh_docker -v <PATH_TO_YOUR_RESULTS_DIR>:/doh_project/archives:rw --shm-size 4g cslev/doh_docker:latest
 ```
 
 `--name` just assigns the same name to the container to make it easier (in the future) to refer to it.
 
 `--shm-size 4g` is some extra memory assignment needed for selenium and firefox, otherwise the whole process becomes extremely slow (if starts at all).
+
+`-v <PATH_TO_YOUR_RESULTS_DIR>:/doh_project/archives:rw` will mount your `<PATH_TO_YOUR_RESULTS_DIR>` to the container, and it will store the final archive there.
 
 *A complete run with 5,000 websites takes around 24 hours, so be patient :)*
 
@@ -100,7 +102,7 @@ The run command does not differ to the usual ones, however, our bundled script c
 
 `WEBPAGE_TIMEOUT` - Most of the cases, the default 16 seconds should be enough, however, for certain resolvers and environments, one might either increase or decrease it. This variable supposed to set this.
 
-`ARCHIVE_PATH` - By default, the script will store the archive in its root directory `/doh_project/`. However, after the measurement is done, the container stops, and in order to copy the archive from the container, we need to start it again, and then stop it unless fully removed. By adding a `volume` to the container and setting the `ARCHIVE_PATH` as well, which points to the same volume, we can avoid the previous issue.
+`ARCHIVE_PATH` - By default, the script will store the archive in `/doh_project/archives/`. However, after the measurement is done, the container stops, and in order to copy the archive from the container, we need to start it again, and then stop it unless fully removed. By adding a `volume` to the container and setting the `ARCHIVE_PATH` as well, which points to the same volume, we can avoid the previous issue.
 
 You don't have to change any of the values here, and we only recommend to *play* with the first argument only! The rest can always remain the same and the *order* is **important**, so if you want to use `META` then define (even the default values again for) all others before it!
 
