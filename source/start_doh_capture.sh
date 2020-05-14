@@ -99,10 +99,12 @@ resolvers=(
     [7]="jcdns"
 		   )
 
+resolver=cat r_config.json |jq  '{name: ."${RESOLVER}".name}'|grep name|cut -d ':' -f 2|sed "s/\"//g"|sed "s/ //g"
+
 echo -e "+------------------------------------------------+"
 echo -e "|     ${bold} Passed Arguments to the Container ${none}        |"
 echo -e "+------------------------------------------------+"
-echo -e "RESOLVER = ${green}$R${none}"
+echo -e "RESOLVER = ${green}${resolver}${none}"
 echo -e "START = ${green}$S${none}"
 echo -e "END = ${green}$E${none}"
 echo -e "BATCH = ${green}$B${none}"
@@ -123,7 +125,7 @@ cd /doh_project/
 # copy the symlink target to have it in the compressed data as well
 cp -Lr $log_file doh_log.log
 # $RESOLVER is an INT so will be good for accessing the resolver name from the array
-archive_name="doh_data_${resolvers[${RESOLVER}]}_${META}_${START}-${END}_${d}.tar.gz"
+archive_name="doh_data_${resolvers}_${META}_${START}-${END}_${d}.tar.gz"
 tar -czf $archive_name csvfile* doh_log.log
 echo -e "\t${green}[DONE]${none}" >> $log_file
 
