@@ -59,6 +59,7 @@ then
   S="-s ${START}"
 else
   S=""
+  START=1
 fi
 
 if [ ! -z "$END" ]
@@ -66,6 +67,7 @@ then
   E="-e ${END}"
 else
   E=""
+  END=5000
 fi
 
 if [ ! -z "$BATCH" ]
@@ -73,6 +75,7 @@ then
   B="-b ${BATCH}"
 else
   B=""
+  BATCH=200
 fi
 
 if [ ! -z "$INTF" ]
@@ -80,6 +83,7 @@ then
   I="-i ${INTF}"
 else
   I=""
+  INTF="eth0"
 fi
 
 if [ ! -z "$WEBPAGE_TIMEOUT" ]
@@ -87,6 +91,7 @@ then
   T="-t ${WEBPAGE_TIMEOUT}"
 else
   T=""
+  WEBPAGE_TIMEOUT=16
 fi
 
 if [ ! -z "$ARCHIVE_PATH" ]
@@ -111,6 +116,7 @@ echo -e "WEBPAGE_TIMEOUT = ${green}$WEBPAGE_TIMEOUT${none}"
 echo -e "ARCHIVE PATH = ${green}$ARCHIVE_PATH${none}"
 echo -e "+================================================+"
 
+ethtool -k $INTF rx off tx off gso off gro off tso off
 
 #get date
 d=$(date +"%Y%m%d_%H%M%S")

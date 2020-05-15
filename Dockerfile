@@ -48,13 +48,14 @@ ENV DEPS tshark \
          xdg-utils \
          libxt6 \
          procps \
-         jq
+         jq \
+         ethtool
 
-ENV PYTHON_DEPS  python3 \
-		 python3-six \
-		 python3-pandas \
-	         python3-simplejson \
-		 libpython3-dev
+ENV PYTHON_DEPS python3 \
+                python3-six \
+                python3-pandas \
+                python3-simplejson \
+                libpython3-dev
 #		 python3-selenium
 # we downgrade selenium to 3.14.1 as bullseye debian has the alpha 4.0, which does not work properly now.
 
