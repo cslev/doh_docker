@@ -101,7 +101,7 @@ fi
 
 
 
-resolver=cat r_config.json |jq  '{name: ."${RESOLVER}".name}'|grep name|cut -d ':' -f 2|sed "s/\"//g"|sed "s/ //g"
+resolver=$(cat r_config.json |jq  '{name: ."${RESOLVER}".name}'|grep name|cut -d ':' -f 2|sed "s/\"//g"|sed "s/ //g")
 
 echo -e "+------------------------------------------------+"
 echo -e "|     ${bold} Passed Arguments to the Container ${none}        |"
@@ -116,7 +116,7 @@ echo -e "WEBPAGE_TIMEOUT = ${green}$WEBPAGE_TIMEOUT${none}"
 echo -e "ARCHIVE PATH = ${green}$ARCHIVE_PATH${none}"
 echo -e "+================================================+"
 
-ethtool -k $INTF rx off tx off gso off gro off tso off
+ethtool -K $INTF rx off tx off gso off gro off tso off
 
 #get date
 d=$(date +"%Y%m%d_%H%M%S")
