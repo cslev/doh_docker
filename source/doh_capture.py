@@ -14,6 +14,7 @@ import multiprocessing
 import time
 import datetime
 import argparse
+from argparse import RawTextHelpFormatter
 import json
 
 
@@ -33,45 +34,54 @@ timestamp = getDateFormat(str(ts))
 
 
 # parser for the command line arguements
-parser = argparse.ArgumentParser(description="DoH packet capture and .csv conversion script!")
+parser = argparse.ArgumentParser(description="DoH packet capture and .csv conversion script!",formatter_class=RawTextHelpFormatter)
 
 parser.add_argument('-s', action="store", default=1, type=int, dest="start" , help="Specify rank of the starting website")
 parser.add_argument('-e', action="store", default=5000, type=int, dest="end" , help="Specify rank of the ending website")
 parser.add_argument('-b', action="store", default=200, type=int, dest="batch" , help="Batch Size (range must be a multiple of batch size!)")
 parser.add_argument('-r', action="store", default=1, type=int, dest="doh_resolver" ,
-                    help="DoH resolver :\n" +
-                    "1=Cloudflare\n" +
-                    "2=Google\n" +
-                    "3=CleanBrowsing\n" +
-                    "4=Quad9\n" +
-                    "5=PowerDNS\n" +
-                    "6=doh.li\n" +
-                    "7=jcdns\n" +
-                    "8=AdGuard\n" +
-                    "9=OpenDNS\n" +
-                    "10=Comcast\n" +
-                    "11=cz.nic\n" +
-                    "12=dnslify\n" +
-                    "13=blahdns\n" +
-                    "14=ffmuc.net\n" +
-                    "15=ContainerPI\n" +
-                    "16=Tiarap\n" +
-                    "17=DNS.SB\n" +
-                    "18=Association 42l\n" +
-                    "19=Andrews and Arnold\n" +
-                    "20=TWNIC\n" +
-                    "21=Digital Gesellschaft\n" +
-                    "22=LibreDNS\n" +
-                    "23=PI-DNS\n" +
-                    "24=dns.flatuslifir.is\n" +
-                    "25=he.net")
+                    help="DoH resolver:\n" +\
+                    "\t 1 = Cloudflare\n" +\
+                    "\t 2 = Google\n" +\
+                    "\t 3 = CleanBrowsing\n" +\
+                    "\t 4 = Quad9\n" +\
+                    "\t 5 = PowerDNS\n" +\
+                    "\t 6 = doh.li\n" +\
+                    "\t 7 = jcdns\n" +\
+                    "\t 8 = AdGuard\n" +\
+                    "\t 9 = OpenDNS\n" +\
+                    "\t10 = Comcast\n" +\
+                    "\t11 = cz.nic\n" +\
+                    "\t12 = dnslify\n" +\
+                    "\t13 = blahdns\n" +\
+                    "\t14 = ffmuc.net\n" +\
+                    "\t15 = ContainerPI\n" +\
+                    "\t16 =Tiarap\n" +\
+                    "\t17 = DNS.SB\n" +\
+                    "\t18 = Association 42l\n" +\
+                    "\t19 = Andrews and Arnold\n" +\
+                    "\t20 = TWNIC\n" +\
+                    "\t21 = Digital Gesellschaft\n" +\
+                    "\t22 = LibreDNS\n" +\
+                    "\t23 = PI-DNS\n" +\
+                    "\t24 = dns.flatuslifir.is\n" +\
+                    "\t25 = he.net")
 parser.add_argument('-i', '--interface', nargs=1,
                     help="Specify the interface to use for capturing",
                     required=False,
                     default=['eth0'])
 parser.add_argument('-t', '--timeout', action="store", default=16, type=int, dest="timeout",
                     help="Specify the timeout for a webpage to load (Default: 16)")
+parser.add_argument('-a', '--assembly-segments', action="store_true", dest="tso_on",
+                    help="Specify if reassembly IS desired in the csv files (Default: False)")
+parser.set_defaults(tso_on=False)
+parser.add_argument('-k', '--keep-pcaps', action="store_true", dest="keep_pcaps",
+                    help="Specify if pcap files SHOULD BE KEPT (Default: False)")
+parser.set_defaults(keep_pcaps=False)
+
+
 results = parser.parse_args()
+
 
 # setup logging features
 log_file = "log_"+str(timestamp)
@@ -96,30 +106,6 @@ else:
     logs.write("creating symlink progress.log to "+str(log_file)+" was NOT successfull\n")
 
 
-# resolver = ""
-#
-# if(results.doh_resolver==1) :
-#     resolver = "cloudflare"
-# elif(results.doh_resolver==2) :
-#     resolver = "google"
-# elif(results.doh_resolver==3) :
-#     resolver = "cleanbrowsing"
-# elif(results.doh_resolver==4) :
-#     resolver = "quad9"
-# elif(results.doh_resolver==5) :
-#     resolver = "powerdns"
-# elif(results.doh_resolver==6) :
-#     resolver = "doh.li"
-# elif(results.doh_resolver==7) :
-#     resolver = "jcdns"
-# else :
-#     print("Invalid choice for DoH resolver!\nExiting...")
-#     logs.write("Invalid choice for DoH resolver!\nExiting...")
-#     logs.flush()
-#     logs.close()
-#     exit(0)
-
-
 def get_resolver_details(resolver) :
     with open('r_config.json') as f:
         resolver_config = json.load(f)
@@ -141,7 +127,16 @@ interface = results.interface[0]
 webpage_timeout = int(results.timeout)
 resolver=str(results.doh_resolver)
 
-
+#arguments to be passed to csv_generator.py
+if(results.tso_on):
+    TSO_OFF = ' -a '
+else:
+    TSO_OFF = ' '
+if(results.keep_pcaps):
+    KEEP_PCAPS=' -k '
+else:
+    KEEP_PCAPS=' '
+#-------------------------------------------
 
 resolver_name, uri , bootstrap = get_resolver_details(resolver)
 
@@ -293,7 +288,7 @@ while(s<=stop) :
     print("Running pcap file analyser to create csv files...")
     logs.write("Running pcap file analyser to create csv files...\n")
 
-    csv_command = "python3 csv_generator.py -l "+log_file
+    csv_command = "python3 csv_generator.py -l "+log_file + TSO_OFF + KEEP_PCAPS
     os.system(csv_command)
     sleep(1)
 

@@ -16,9 +16,19 @@ parser = argparse.ArgumentParser(description="csv_generator script")
 parser.add_argument('-l', '--logfile', nargs=1,
                     help="Specify the log_file that has been used by doh_capture.py",
                     required=True)
+parser.add_argument('-a', '--assembly-segments', action="store_true", dest="tso_on",
+                    help="Specify if reassembly IS desired in the csv files (Default: False)")
+parser.set_defaults(tso_on=False)
+parser.add_argument('-k', '--keep-pcaps', action="store_true", dest="keep_pcaps",
+                    help="Specify if pcap files SHOULD BE KEPT (Default: False)")
+parser.set_defaults(keep_pcaps=False)
+
+
+
 args = parser.parse_args()
 log_file = args.logfile[0]
-
+TSO_ON=args.tso_on
+KEEP_PCAPS=args.keep_pcaps
 
 # opening the same log file for further logging
 logs = open(log_file, 'a')
@@ -41,13 +51,18 @@ for f in files :
     logs.flush()
 
     ## here in tls.keylog_file: speciy location and name of sslkeylogfile
-    csv_command = 'tshark -r ' + file_name +' -Y "http2 or (dns and tls)" -o tls.keylog_file:'+SSLKEY+' -T fields -e frame.number -e _ws.col.Time -e ip.src -e ip.dst -e _ws.col.Protocol -e frame.len -e _ws.col.Info -E header=y -E separator="," -E quote=d -E occurrence=f > '+ output_file_name
+    extra_filter=' -o tcp.desegment_tcp_streams:false '
+    if(TSO_ON):
+        extra_filter=' '
+    csv_command = 'tshark -r ' + file_name +' -Y "http2 or (dns and tls)" -o tls.keylog_file:'+ SSLKEY + extra_filter +' -T fields -e frame.number -e _ws.col.Time -e ip.src -e ip.dst -e _ws.col.Protocol -e frame.len -e _ws.col.Info -E header=y -E separator="," -E quote=d -E occurrence=f > '+ output_file_name
     remove_file = "rm "+file_name
     os.system(csv_command)
     print(str(count) + " of " + str(total) + " completed!")
     logs.write(str(count) + " of " + str(total) + " completed!\n\n")
     logs.flush()
-    os.system(remove_file)
+    if(KEEP_PCAPS):
+        os.system(remove_file)
+
     count+=1
 print("csv_generator has finished!")
 logs.write("csv_generator has finished!\n\n")
