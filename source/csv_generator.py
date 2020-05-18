@@ -44,8 +44,13 @@ print("Converting .pcap files to .csv")
 logs.write("Converting .pcap files to .csv\n")
 logs.flush()
 for f in files :
-    file_name = "./pcap/" + f ;
-    output_file_name = "csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] +".csv"
+    file_name = "./pcap/" + f;
+    try:
+        output_file_name = "csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] +".csv"
+    except:
+        print("Unrecognized file naming pattern for filename {}\nSkipping".format(output_file_name))
+        logs.write(str("Unrecognized file naming pattern for filename {}\nSkipping\n".format(output_file_name)))
+        continue
     print(output_file_name)
     logs.write(str(output_file_name)+"\n")
     logs.flush()
@@ -55,12 +60,15 @@ for f in files :
     if(TSO_ON):
         extra_filter=' '
     csv_command = 'tshark -r ' + file_name +' -Y "http2 or (dns and tls)" -o tls.keylog_file:'+ SSLKEY + extra_filter +' -T fields -e frame.number -e _ws.col.Time -e ip.src -e ip.dst -e _ws.col.Protocol -e frame.len -e _ws.col.Info -E header=y -E separator="," -E quote=d -E occurrence=f > '+ output_file_name
+    print("tshark cmd: "+ csv_command)
+    logs.write("tshark cmd: "+ csv_command+"\n")
     remove_file = "rm "+file_name
     os.system(csv_command)
     print(str(count) + " of " + str(total) + " completed!")
     logs.write(str(count) + " of " + str(total) + " completed!\n\n")
     logs.flush()
-    if(KEEP_PCAPS):
+
+    if(not KEEP_PCAPS):
         os.system(remove_file)
 
     count+=1
