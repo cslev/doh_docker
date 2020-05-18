@@ -38,7 +38,10 @@ sudo docker run -d --name doh_docker -v <PATH_TO_YOUR_RESULTS_DIR>:/doh_project/
 *A complete run with 5,000 websites takes around 24 hours, so be patient :)*
 
 # Getting the data
-The container will exit once the data gathering is complete and all relevant data will be saved in a compressed archive, called `doh_data.tar.gz`! In order to get the data we need to restart the container (as it has exited) and copy the compressed archive to the host.
+The container will exit once the data gathering is complete and all relevant data will be saved in a compressed archive, called `doh_data.tar.gz`! 
+If you have used the command above with the `-v` option, you will have the data on your host machine. 
+
+Otherwise, to get the data we need to restart the container (as it has exited) and copy the compressed archive to the host.
 
 First, restart (recall the name we have set via `--name` above):
 ```
@@ -46,7 +49,7 @@ sudo docker start doh_docker
 ```
 Copy compressed file to the host:
 ```
-sudo docker cp doh_docker:/doh_project/doh_data_<USED_RESOLVER>_.tar.gz ./
+sudo docker cp doh_docker:/doh_project/archives/doh_data_<USED_RESOLVER>_.tar.gz ./
 ```
 
 **And, we would need this file! If you consider to contribute to our project, please share your data with us <cs.lev@gmx.com>**
