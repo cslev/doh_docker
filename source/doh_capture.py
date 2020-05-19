@@ -262,7 +262,7 @@ while(s<=stop) :
     filename = 'pcap/capture-'+str(s)+'-'+str(e)
 
     ## here after -i you need to add the ethernet port. which i guess is eth0
-    shell_command = "timeout 4400 tcpdump port 443 -i " + interface + " -w " + filename
+    shell_command = "tcpdump port 443 -i " + interface + " -w " + filename
 
     t1 = multiprocessing.Process(target=main_driver, args=(s,e,))
     t2 = multiprocessing.Process(target=capture_packets, args=(shell_command,))
@@ -274,6 +274,9 @@ while(s<=stop) :
     t1.join()
     sleep(5)
     t2.terminate()
+    print("Killing tcpdump via pkill...")
+    logs.write("Killing tcpdump via pkill...\n")
+    os.system("pkill tcpdump")
 
     print("Done")
     logs.write("Done"+"\n")
