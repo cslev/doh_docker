@@ -262,7 +262,7 @@ while(s<=stop) :
     filename = 'pcap/capture-'+str(s)+'-'+str(e)
 
     ## here after -i you need to add the ethernet port. which i guess is eth0
-    shell_command = "tcpdump port 443 -i " + interface + " -w " + filename
+    shell_command = "/usr/bin/tcpdump port 443 -i " + interface + " -w " + filename
 
     t1 = multiprocessing.Process(target=main_driver, args=(s,e,))
     t2 = multiprocessing.Process(target=capture_packets, args=(shell_command,))
