@@ -72,9 +72,9 @@ parser.add_argument('-i', '--interface', nargs=1,
                     default=['eth0'])
 parser.add_argument('-t', '--timeout', action="store", default=16, type=int, dest="timeout",
                     help="Specify the timeout for a webpage to load (Default: 16)")
-parser.add_argument('-a', '--assembly-segments', action="store_true", dest="tso_on",
-                    help="Specify if reassembly IS desired in the csv files (Default: False)")
-parser.set_defaults(tso_on=False)
+# parser.add_argument('-a', '--assembly-segments', action="store_true", dest="tso_on",
+#                     help="Specify if reassembly IS desired in the csv files (Default: False)")
+# parser.set_defaults(tso_on=False)
 parser.add_argument('-k', '--keep-pcaps', action="store_true", dest="keep_pcaps",
                     help="Specify if pcap files SHOULD BE KEPT (Default: False)")
 parser.set_defaults(keep_pcaps=False)
@@ -128,10 +128,10 @@ webpage_timeout = int(results.timeout)
 resolver=str(results.doh_resolver)
 
 #arguments to be passed to csv_generator.py
-if(results.tso_on):
-    TSO_OFF = ' -a '
-else:
-    TSO_OFF = ' '
+# if(results.tso_on):
+#     TSO_OFF = ' -a '
+# else:
+#     TSO_OFF = ' '
 if(results.keep_pcaps):
     KEEP_PCAPS=' -k '
 else:
@@ -291,7 +291,8 @@ while(s<=stop) :
     print("Running pcap file analyser to create csv files...")
     logs.write("Running pcap file analyser to create csv files...\n")
 
-    csv_command = "python3 csv_generator.py -l "+log_file + TSO_OFF + KEEP_PCAPS
+    # csv_command = "python3 csv_generator.py -l "+log_file + TSO_OFF + KEEP_PCAPS
+    csv_command = "python3 csv_generator.py -l "+log_file + KEEP_PCAPS
     os.system(csv_command)
     sleep(1)
 
