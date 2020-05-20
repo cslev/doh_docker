@@ -86,4 +86,7 @@ RUN apt-get update && \
     mv others/bashrc_template /root/.bashrc && \
     source /root/.bashrc && \
     mkdir -p pcap && \
-    mkdir -p archives
+    mkdir -p archives && \
+    mv /usr/sbin/tcpdump /usr/bin/tcpdump
+#This latter is necessary if container is supposed to run in priviledged mode,
+#otherwise tcpdump complains about not being able to set ownerships to the output file

@@ -2,16 +2,16 @@ FROM debian:bullseye
 LABEL maintainer="cslev <cslev@gmx.com>, HimanshuSinghGH <heman.sam@gmail.com>"
 
 #packages needed for compilation
-ENV DEPS tshark \
-	 tcpdump \
-	 nano \
-         tar \
-	 bzip2 \
-         tar \
-	 bzip2 \
-	 wget \
-	 gconf-service \
-	 libasound2 \
+ENV DEPS  tshark \
+          tcpdump \
+          nano \
+          tar \
+          bzip2 \
+          tar \
+          bzip2 \
+          wget \
+          gconf-service \
+          libasound2 \
          libatk1.0-0 \
          libc6 libcairo2 \
          libcups2 \
@@ -86,8 +86,10 @@ RUN apt-get update && \
     mv others/bashrc_template /root/.bashrc && \
     source /root/.bashrc && \
     mkdir -p pcap && \
-    mkdir -p archives
-
+    mkdir -p archives && \
+    mv /usr/sbin/tcpdump /usr/bin/tcpdump
+#This latter is necessary if container is supposed to run in priviledged mode,
+#otherwise tcpdump complains about not being able to set ownerships to the output file
 
 # We start the script automatically
 ENTRYPOINT ["/doh_project/start_doh_capture.sh"]
