@@ -26,7 +26,7 @@ sudo docker pull cslev/doh_docker
 # Running the container
 To run the container, we have to specify some extra parameters for a swift run.
 ```
-sudo docker run -d --name doh_docker -v <PATH_TO_YOUR_RESULTS_DIR>:/doh_project/archives:rw --shm-size 4g cslev/doh_docker:latest
+sudo docker run -d --name my_doh -e NAME=my_doh -v <PATH_TO_YOUR_RESULTS_DIR>:/doh_project/archives:rw --shm-size 4g cslev/doh_docker:latest
 ```
 
 `--name` just assigns the same name to the container to make it easier (in the future) to refer to it.
@@ -35,43 +35,46 @@ sudo docker run -d --name doh_docker -v <PATH_TO_YOUR_RESULTS_DIR>:/doh_project/
 
 `-v <PATH_TO_YOUR_RESULTS_DIR>:/doh_project/archives:rw` will mount your `<PATH_TO_YOUR_RESULTS_DIR>` to the container, and it will store the final archive there.
 
+`-e NAME=` sets environmental variable to `my_doh`. This variable is used in `.bashrc` to set `$NAME` in the prompt.
+When running multiple containers, it can help a lot to identify (once attached to them) which one is doing what experiment.
+
 *A complete run with 5,000 websites takes around 24 hours, so be patient :)*
 
 # Getting the data
-The container will exit once the data gathering is complete and all relevant data will be saved in a compressed archive, called `doh_data.tar.gz`! 
-If you have used the command above with the `-v` option, you will have the data on your host machine. 
+The container will exit once the data gathering is complete and all relevant data will be saved in a compressed archive, called `doh_data.tar.gz`!
+If you HAVE used the command above with the `-v` option, you will have the data on your host machine.
 
 Otherwise, to get the data we need to restart the container (as it has exited) and copy the compressed archive to the host.
 
 First, restart (recall the name we have set via `--name` above):
 ```
-sudo docker start doh_docker
+sudo docker start my_doh
 ```
 Copy compressed file to the host:
 ```
-sudo docker cp doh_docker:/doh_project/archives/doh_data_<USED_RESOLVER>_.tar.gz ./
+sudo docker cp my_doh:/doh_project/archives/doh_data_<USED_RESOLVER>_.tar.gz ./
 ```
 
 **And, we would need this file! If you consider to contribute to our project, please share your data with us <cs.lev@gmx.com>**
 
 Don't forget to stop and/or remove your container if not needed anymore (i.e., if you have `doh_data.tar.gz`):
 ```
-sudo docker stop doh_docker
-sudo docker rm doh_docker
+sudo docker stop my_doh
+sudo docker rm my_doh
 ```
 
 ## Monitoring/Logging
 Easiest way to see whether the process is finished is to check the status of the container itself. If it is exited, then it's done.
 ```
-sudo docker ps -a -f name=doh_docker
+sudo docker ps -a -f name=my_doh
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
-de77210d2748        cslev/doh_docker    "/doh_project/start_…"   3 minutes ago       Up 3 minutes                            doh_docker
+de77210d2748        cslev/doh_docker    "/doh_project/start_…"   3 minutes ago       Up 3 minutes                            my_doh
 ```
 The example above shows that the container is still running.
 
 If a little bit more granular status update is required, we can monitor at which (number of) website our container is visiting at the moment.
 ```
-docker exec -it doh_docker tail -f progess.log
+docker exec -it my_doh tail -f progess.log
 
 11 https://www.taobao.com
 12 https://www.twitter.com
@@ -111,7 +114,7 @@ You don't have to change any of the values here, and we only recommend to *play*
 
 Example for running our container with `Google`'s DoH resolver for the first `10,000` websites (`START=1`, `END=10000`), with a timeout if `25` seconds, connected via an interface called `enp3s0f0`, with the default `BATCH` size of 200, using *usa_texas* as `META`, and setting the final `ARCHIVE_PATH` to `/doh_docker/archives`:
 ```
-sudo docker run -d --name doh_docker -v <PATH_ON_HOST>:/doh_docker/archives:rw --shm-size 4g cslev/doh_docker:latest 2 1 10000 200 usa_texas enp3s0f0 25
+sudo docker run -d --name my_doh -e NAME=my_doh -v <PATH_ON_HOST>:/doh_docker/archives:rw --shm-size 4g cslev/doh_docker:latest 2 1 10000 200 usa_texas enp3s0f0 25
 ```
 
 
@@ -126,7 +129,7 @@ By looking into the log files, one can see when the processing has been started 
 
 To quickly check this out during processing, let's count the successful batches that ends with `00`.
 ```
-sudo docker exec <YOUR_CONTAINER_NAME> cat /doh_project/progress.log |grep batch -B 10 |grep ^[0-9]|awk '{print $1}'|grep 00$|wc -l
+sudo docker exec my_doh cat /doh_project/progress.log |grep batch -B 10 |grep ^[0-9]|awk '{print $1}'|grep 00$|wc -l
 ```
 If the result is *25*, you are good!
 There is another problem!
@@ -136,6 +139,6 @@ Note, once the measurement is done, container is stopped. If restarted afterward
 ## TimeoutException
 To quickly check this out, let's count the unsuccessful connection attempts:
 ```
-sudo docker exec <YOUR_CONTAINER_NAME> cat /doh_project/progress.log |grep -i timeoutexception |wc -l
+sudo docker exec my_doh cat /doh_project/progress.log |grep -i timeoutexception |wc -l
 ```
 This means that the preset seconds for timeout was not enough! Usually, it is not your problem, it can be the problem of the DoH resolver used. If you set timeout to a considerably long interval (e.g., 50 sec), then you can rest assured that timeouts are not because of you, but because of the DoH resolver!
