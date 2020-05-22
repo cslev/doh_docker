@@ -23,9 +23,19 @@ rnd_color=$(( $RANDOM % $num_of_colors +1 ))
 hcolor=$(echo -e ${colors[${rnd_color}]})
 
 
+#env variable can be set via docker run -e NAME=[NAME]!
+if [ -z $NAME ]
+then
+  #if env. var not set, use default
+  N="Docker"
+else
+  #otherwise, use the set one
+  N=$NAME
+fi
+
 case $TERM in
         xterm*|rxvt|Eterm|eterm|cygwin)
-PS1='\[\033[1m\]\[\033[38;5;208m\][NUS-\[\033[3m\]\[\033[38;5;196m\]Singtel]\[\033[0;1m\]\[\033[38;5;78m\]${hcolor}[DoH_Docker]\[\033[38;5;78m\]${debian_chroot:+($debian_chroot)} \[\033[01;31m\]\u \[\033[38;5;78m\]\w\$\[\033[00m\] '
+PS1='\[\033[1m\]\[\033[38;5;208m\][NUS-\[\033[3m\]\[\033[38;5;196m\]Singtel]\[\033[0;1m\]\[\033[38;5;78m\]${hcolor}[DoH_${N}]\[\033[38;5;78m\]${debian_chroot:+($debian_chroot)} \[\033[01;31m\]\u \[\033[38;5;78m\]\w\$\[\033[00m\] '
 
         ;;
 esac
