@@ -103,20 +103,30 @@ fi
 
 resolver=$(cat r_config.json |jq  '{name: ."${RESOLVER}".name}'|grep name|cut -d ':' -f 2|sed "s/\"//g"|sed "s/ //g")
 
-echo -e "+------------------------------------------------+"
-echo -e "|     ${bold} Passed Arguments to the Container ${none}        |"
-echo -e "+------------------------------------------------+"
-echo -e "RESOLVER = ${green}${resolver}${none}"
-echo -e "START = ${green}$S${none}"
-echo -e "END = ${green}$E${none}"
-echo -e "BATCH = ${green}$B${none}"
-echo -e "META = ${green}$META${none}"
-echo -e "INTF = ${green}$INTF${none}"
-echo -e "WEBPAGE_TIMEOUT = ${green}$WEBPAGE_TIMEOUT${none}"
-echo -e "ARCHIVE PATH = ${green}$ARCHIVE_PATH${none}"
-echo -e "+================================================+"
+echo -e "+------------------------------------------------+" >> $log_file
+echo -e "|     ${bold} Passed Arguments to the Container ${none}        |" >> $log_file
+echo -e "+------------------------------------------------+" >> $log_file
+echo -e "RESOLVER = ${green}${resolver}${none}" >> $log_file
+echo -e "START = ${green}$S${none}" >> $log_file
+echo -e "END = ${green}$E${none}" >> $log_file
+echo -e "BATCH = ${green}$B${none}" >> $log_file
+echo -e "META = ${green}$META${none}" >> $log_file
+echo -e "INTF = ${green}$INTF${none}" >> $log_file
+echo -e "WEBPAGE_TIMEOUT = ${green}$WEBPAGE_TIMEOUT${none}" >> $log_file
+echo -e "ARCHIVE PATH = ${green}$ARCHIVE_PATH${none}" >> $log_file
+echo -e "+================================================+" >> $log_file
 
-ethtool -K $INTF rx off tx off gso off gro off tso off
+echo -ne "${yellow}Disabling offloading features...${none}" >> $log_file
+ethtool -K $INTF rx off tx off gso off gro off tso off 2>> $log_file
+retval=$(echo $?)
+if [ $retval -eq 0 ]
+then
+  echo -e "\t${green}[DONE]${none}" >> $log_file
+else
+  echo -e "\t${yellow}[FAILED]${none}" >> $log_file
+  echo -e "\t${yellow}Container not in privileged mode? (SKIPPING)${none}" >> $log_file
+
+fi
 
 #get date
 d=$(date +"%Y%m%d_%H%M%S")
@@ -129,13 +139,14 @@ cd /doh_project/
 # copy the symlink target to have it in the compressed data as well
 cp -Lr $log_file doh_log.log
 # $RESOLVER is an INT so will be good for accessing the resolver name from the array
-archive_name="doh_data_${resolvers}_${META}_${START}-${END}_${d}.tar.gz"
+archive_name="doh_data_${resolver}_${META}_${START}-${END}_${d}.tar.gz"
 tar -czf $archive_name csvfile* doh_log.log
 echo -e "\t${green}[DONE]${none}" >> $log_file
 
 echo -ne "${yellow}Removing csv files${none}" >> $log_file
 rm -rf csvfile*
 rm -rf doh_log.log
-cp $archive_name $ARCHIVE_PATH/
+echo -ne "${yellow}Copying ${archive_name} to $ARCHIVE_PATH/ ${none}" >> $log_file
+cp /doh_project/$archive_name $ARCHIVE_PATH/ >> $log_file
 echo -e "\t${green}[DONE]${none}\n\n" >> $log_file
 echo 1 > done
