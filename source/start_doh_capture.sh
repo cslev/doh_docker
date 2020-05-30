@@ -26,12 +26,12 @@ lightcyan='\033[96m'
 
 #cp others/bashrc_template /root/.bashrc
 source /root/.bashrc
-echo -e "+-------------------------------------------------------------+"
-echo -e "|${bold}   Found ENV variables${none}    "
-echo -e "|${bold}${yellow}PATH:${green} ${PATH}${none}"
-echo -e "|${bold}${yellow}SSLKEYLOGFILE:${green} ${SSLKEYLOGFILE}${none}"
-echo -e "|${bold}${yellow}SSLDEBUGFILE:${green} ${SSLDEBUGFILE}${none}"
-echo -e "+-------------------------------------------------------------+"
+echo -e "+-------------------------------------------------------------+">> $log_file
+echo -e "|${bold}   Found ENV variables${none}    ">> $log_file
+echo -e "|${bold}${yellow}PATH:${green} ${PATH}${none}">> $log_file
+echo -e "|${bold}${yellow}SSLKEYLOGFILE:${green} ${SSLKEYLOGFILE}${none}">> $log_file
+echo -e "|${bold}${yellow}SSLDEBUGFILE:${green} ${SSLDEBUGFILE}${none}">> $log_file
+echo -e "+-------------------------------------------------------------+">> $log_file
 
 
 log_file="progress.log"
