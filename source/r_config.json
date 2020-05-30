@@ -36,7 +36,7 @@
       "bootstrap": "46.101.66.244"
   },
   "7": {
-      "id": 8,
+      "id": 7,
       "name": "adguard",
       "uri": "https://dns.adguard.com/dns-query",
       "bootstrap": "176.103.130.130"
