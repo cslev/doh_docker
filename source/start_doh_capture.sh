@@ -26,6 +26,10 @@ lightcyan='\033[96m'
 
 #cp others/bashrc_template /root/.bashrc
 source /root/.bashrc
+
+
+log_file="progress.log"
+
 echo -e "+-------------------------------------------------------------+">> $log_file
 echo -e "|${bold}   Found ENV variables${none}    ">> $log_file
 echo -e "|${bold}${yellow}PATH:${green} ${PATH}${none}">> $log_file
@@ -34,7 +38,6 @@ echo -e "|${bold}${yellow}SSLDEBUGFILE:${green} ${SSLDEBUGFILE}${none}">> $log_f
 echo -e "+-------------------------------------------------------------+">> $log_file
 
 
-log_file="progress.log"
 
 # ------------ INPUT ARGS ------------
 RESOLVER=$1
@@ -94,14 +97,15 @@ else
   WEBPAGE_TIMEOUT=16
 fi
 
-if [ ! -z "$ARCHIVE_PATH" ]
+if [ -z "$ARCHIVE_PATH" ] #if ARCHIVE_PATH is NOT set!
 then
   ARCHIVE_PATH="/doh_project/archives"
 fi
 
 
 
-resolver=$(cat r_config.json |jq  '{name: ."${RESOLVER}".name}'|grep name|cut -d ':' -f 2|sed "s/\"//g"|sed "s/ //g")
+#resolver=$(cat r_config.json |jq  '{name: ."${RESOLVER}".name}'|grep name|cut -d ':' -f 2|sed "s/\"//g"|sed "s/ //g")
+resolver=$(cat r_config.json |jq|grep "\"id\": ${RESOLVER}," -A 3|grep name|cut -d ':' -f 2|sed "s/\"//g"|sed "s/ //g"|sed "s/,//g")
 
 echo -e "+------------------------------------------------+" >> $log_file
 echo -e "|     ${bold} Passed Arguments to the Container ${none}        |" >> $log_file
@@ -125,7 +129,6 @@ then
 else
   echo -e "\t${yellow}[FAILED]${none}" >> $log_file
   echo -e "\t${yellow}Container not in privileged mode? (SKIPPING)${none}" >> $log_file
-
 fi
 
 #get date
@@ -146,6 +149,8 @@ echo -e "\t${green}[DONE]${none}" >> $log_file
 echo -ne "${yellow}Removing csv files${none}" >> $log_file
 rm -rf csvfile*
 rm -rf doh_log.log
+echo -e "\t${green}[DONE]${none}" >> $log_file
+
 echo -ne "${yellow}Copying ${archive_name} to $ARCHIVE_PATH/ ${none}" >> $log_file
 cp /doh_project/$archive_name $ARCHIVE_PATH/ >> $log_file
 echo -e "\t${green}[DONE]${none}\n\n" >> $log_file
