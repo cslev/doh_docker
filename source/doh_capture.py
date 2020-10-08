@@ -200,6 +200,8 @@ def open_website(url,count):
     # logs = open('Progress.txt', 'a')
     tmp_ts = time.time()
     tmp_timestamp = getDateFormat(str(tmp_ts))
+    global error
+    global timeout
 
     print(str(count)+" "+url+" (visited: "+str(tmp_timestamp)+")")
     logs.write(str(count)+" "+url+" (visited: "+str(tmp_timestamp)+")\n")
@@ -219,11 +221,15 @@ def open_website(url,count):
         sleep(2)
         logs.write("TimeoutException Exception has been thrown \n"+str(ex1)+"\n")
         timeout = timeout + 1 #increase timeout counter
+        print("Timeouts so far: " + str(timeout))
+        logs.write("Timeouts so far: "+str(timeout)+"\n")
     except WebDriverException as ex2 :
         print("WebDriverException Exception has been thrown "+ str(ex2))
         sleep(2)
         logs.write("WebDriverException Exception has been thrown \n"+str(ex2)+"\n")
         error = error + 1 #increase error counter 
+        print("Errors so far: " + str(error))
+        logs.write("Errors so far: "+str(error)+"\n")
     except Exception as ex3:
         print("Unknown exception has been thrown "+ str(ex3))
         sleep(2)
