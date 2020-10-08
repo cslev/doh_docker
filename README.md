@@ -101,7 +101,7 @@ The run command does not differ to the usual ones, however, our bundled script c
 
 `END` - The rank of the **last** website to finish the browsing at (according to Alexa's `top-1m.csv` file in the source). Default is set to `5,000`.
 
-`BATCH` - The desired batch size in one iteration. Default is set to `500`, which means that for every 500 website-visits, we will have a separate PCAP file for managability reasons (still not too big and can be analyzed in reasonable time). Although, at the end, they will be CSV files. We do not recommend to change this value unless you know what you are doing.
+`BATCH` - The desired batch size in one iteration. Default is set to `200`, which means that for every 200 website-visits, we will have a separate PCAP file for managability reasons (still not too big and can be analyzed in reasonable time). Although, at the end, they will be CSV files. We do not recommend to change this value unless you know what you are doing.
 
 `META` - Any desired metadata for the measurements (as one *string* without whitespaces or within quotes) that will be used in the final archive's name, again,  for easier identification. For instance, using `usa_texas` as a META, the final archive will be `doh_data_<USED_RESOLVER>_usa_texas.tar.gz`
 
