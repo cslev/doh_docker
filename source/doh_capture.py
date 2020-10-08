@@ -126,6 +126,10 @@ interface = results.interface[0]
 webpage_timeout = int(results.timeout)
 resolver=str(results.doh_resolver)
 
+#counters for future references to log how many domains failed and did not resolver properly
+error=0
+timeout=0
+
 #arguments to be passed to csv_generator.py
 # if(results.tso_on):
 #     TSO_OFF = ' -a '
@@ -214,10 +218,12 @@ def open_website(url,count):
         print("TimeoutException Exception has been thrown "+ str(ex1))
         sleep(2)
         logs.write("TimeoutException Exception has been thrown \n"+str(ex1)+"\n")
+        timeout = timeout + 1 #increase timeout counter
     except WebDriverException as ex2 :
         print("WebDriverException Exception has been thrown "+ str(ex2))
         sleep(2)
         logs.write("WebDriverException Exception has been thrown \n"+str(ex2)+"\n")
+        error = error + 1 #increase error counter 
     except Exception as ex3:
         print("Unknown exception has been thrown "+ str(ex3))
         sleep(2)
@@ -294,5 +300,26 @@ while(s<=stop) :
     csv_command = "python3 csv_generator.py -l "+log_file + KEEP_PCAPS
     os.system(csv_command)
     sleep(1)
+
+print("Re-printing script Parameters: ")
+logs.write("Re-printing script Parameters: \n")
+print("Start = "+str(start))
+logs.write("Start = "+str(start)+"\n")
+print("End = "+str(stop))
+logs.write("End = "+str(stop)+"\n")
+print("(Adjusted) Batch_Size = "+str(batch_size))
+logs.write("(Adjusted) Batch_Size = "+str(batch_size)+"\n")
+print("DoH:")
+print("\tResolver:"+str(resolver_name))
+print("\tURI:"+str(uri))
+logs.write("DoH:\n")
+logs.write("\tResolver:"+str(resolver_name)+"\n")
+logs.write("\tURI:"+str(uri)+"\n")
+
+print("\nNumber of webpages failed to load/resolve the domain for: "+str(error))
+logs.write("\nNumber of webpages failed to load: "+str(error)+"\n")
+print("\nNumber of webpages timed out: "+str(timeout))
+logs.write("\nNumber of webpages timed out: "+str(timeout)+"\n")
+
 
 logs.close()
