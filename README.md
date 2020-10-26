@@ -115,7 +115,7 @@ You don't have to change any of the values above, and we only recommend to *play
 
 Example for running our container with `Google`'s DoH resolver for the first `10,000` websites (`START=1`, `END=10000`), with a timeout if `25` seconds, connected via an interface called `enp3s0f0`, with the default `BATCH` size of 200, using *usa_texas* as `META`, and setting the final `ARCHIVE_PATH` to `/doh_docker/archives`:
 ```
-sudo docker run -d --name my_doh -e NAME=my_doh -v <PATH_ON_HOST>:/doh_docker/archives:rw --shm-size 4g cslev/doh_docker:latest 2 1 10000 200 usa_texas enp3s0f0 25
+sudo docker run -d --name my_doh -e NAME=my_doh -v <PATH_ON_HOST>:/doh_project/archives:rw --shm-size 4g cslev/doh_docker:latest 2 1 10000 200 usa_texas enp3s0f0 25
 ```
 
 
