@@ -2,276 +2,322 @@
   "1" : {
       "id": 1,
       "name": "cloudflare",
+      "simple_name": "cloudflare",
       "uri": "https://cloudflare-dns.com/dns-query",
       "bootstrap": "104.16.248.249"
   },
   "2": {
       "id": 2,
       "name": "google",
+      "simple_name": "google",
       "uri": "https://dns.google/dns-query",
       "bootstrap": "8.8.8.8"
   },
   "3": {
       "id": 3,
       "name": "CleanBrowsing",
+      "simple_name": "cb",
       "uri": "https://doh.cleanbrowsing.org/doh/family-filter/",
       "bootstrap": "185.228.168.10"
   },
   "4": {
       "id": 4,
       "name": "quad9",
+      "simple_name": "q9",
       "uri": "https://dns.quad9.net/dns-query",
       "bootstrap": "9.9.9.9"
   },
   "5": {
       "id": 5,
       "name": "powerdns",
+      "simple_name": "powerdns",
       "uri": "https://doh.powerdns.org",
       "bootstrap": "136.144.215.158"
   },
   "6": {
       "id": 6,
       "name": "doh.li",
+      "simple_name": "dohli",
       "uri": "https://doh.li/dns-query",
       "bootstrap": "46.101.66.244"
   },
   "7": {
       "id": 7,
       "name": "adguard",
+      "simple_name": "adguard",
       "uri": "https://dns.adguard.com/dns-query",
       "bootstrap": "176.103.130.130"
   },
   "8": {
       "id": 8,
       "name": "opendns",
+      "simple_name": "opendns",
       "uri": "https://doh.opendns.com/dns-query",
       "bootstrap": "146.112.41.2"
   },
   "9": {
       "id": 9,
       "name": "comcast",
+      "simple_name": "comcast",
       "uri": "https://doh.xfinity.com/dns-query",
       "bootstrap": "96.113.151.150"
   },
   "10": {
       "id": 10,
       "name": "cz.nic",
+      "simple_name": "cznic",
       "uri": "https://odvr.nic.cz/doh",
       "bootstrap": "185.43.135.1"
   },
   "11": {
       "id": 11,
       "name": "dnslify",
+      "simple_name": "dnslify",
       "uri": "https://doh.dnslify.com/dns-query",
       "bootstrap": "185.235.81.1"
   },
   "12": {
       "id": 12,
       "name": "blahdns.com",
+      "simple_name": "blahdns",
       "uri": "https://doh-jp.blahdns.com/dns-query",
       "bootstrap": "45.32.55.94"
   },
   "13": {
       "id": 13,
       "name": "ffmuc.net",
+      "simple_name": "ffmuc",
       "uri": "https://doh.ffmuc.net/dns-query",
       "bootstrap": "195.30.94.28"
   },
   "14": {
       "id": 14,
       "name": "containerpi",
+      "simple_name": "containerpi",
       "uri": "https://dns.containerpi.com/dns-query",
       "bootstrap": "45.77.180.10"
   },
   "15": {
       "id": 15,
       "name": "tiarap",
+      "simple_name": "tiarap",
       "uri": "https://doh.tiar.app/dns-query",
       "bootstrap": "174.138.29.175"
   },
   "16": {
       "id": 16,
       "name": "dns.sb",
+      "simple_name": "dnssb",
       "uri": "https://doh.dns.sb/dns-query",
       "bootstrap": "104.27.158.178"
   },
   "17": {
       "id": 17,
       "name": "association_42l",
+      "simple_name": "a42l",
       "uri": "https://doh.42l.fr/dns-query",
       "bootstrap": "185.216.27.142"
   },
   "18": {
       "id": 18,
       "name": "andrews_and_arnold",
+      "simple_name": "aa",
       "uri": "https://dns.aa.net.uk/dns-query",
       "bootstrap": "217.169.20.23"
   },
   "19": {
       "id": 19,
       "name": "twnic",
+      "simple_name": "twnic",
       "uri": "https://dns.twnic.tw/dns-query",
       "bootstrap": "210.17.9.228"
   },
   "20": {
       "id": 20,
       "name": "digital_gesellschaft",
+      "simple_name": "digital",
       "uri": "https://dns.digitale-gesellschaft.ch/dns-query",
       "bootstrap": "185.95.218.42"
   },
   "21": {
       "id": 21,
       "name": "libredns",
+      "simple_name": "libredns",
       "uri": "https://doh.libredns.gr/dns-query",
       "bootstrap": "116.202.176.26"
   },
   "22": {
       "id": 22,
       "name": "pi-dns",
+      "simple_name": "pidns",
       "uri": "https://doh.centraleu.pi-dns.com/dns-query",
       "bootstrap": "88.198.91.187"
   },
   "23": {
       "id": 23,
       "name": "dns.flatuslifir.is",
+      "simple_name": "flatus",
       "uri": "https://dns.flatuslifir.is/dns-query",
       "bootstrap": "46.239.223.80"
   },
   "24": {
       "id": 24,
       "name": "he.net",
+      "simple_name": "henet",
       "uri": "https://ordns.he.net/dns-query",
       "bootstrap": "74.82.42.42"
   },
   "25": {
       "id": 25,
       "name": "alibaba",
+      "simple_name": "alibaba",
       "uri": "https://dns.alidns.com/dns-query",
       "bootstrap": "223.6.6.6"
   },
   "26": {
       "id": 26,
       "name": "alekberg_spain",
+      "simple_name": "alekberg_es",
       "uri": "https://dnses.alekberg.net/dns-query",
       "bootstrap": "185.253.154.66"
   },
   "27": {
       "id": 27,
       "name": "alekberg_holland",
+      "simple_name": "alekberg_nl",
       "uri": "https://dnsnl.alekberg.net/dns-query",
       "bootstrap": "51.15.124.208"
   },
   "28": {
       "id": 28,
       "name": "alekberg_sweden",
+      "simple_name": "alekberg_se",
       "uri": "https://dnsse.alekberg.net/dns-query",
       "bootstrap": "45.153.187.96"
   },
   "29": {
       "id": 29,
       "name": "bravedns",
+      "simple_name": "bravedns",
       "uri": "https://free.bravedns.com/dns-query",
       "bootstrap": "104.26.7.92"
   },
   "30": {
       "id": 30,
       "name": "canadian_shield_private",
+      "simple_name": "cs_private",
       "uri": "https://private.canadianshield.cira.ca/dns-query",
       "bootstrap": "149.112.121.10"
   },
   "31": {
       "id": 31,
       "name": "canadian_shield_protected",
+      "simple_name": "cs_protected",
       "uri": "https://protected.canadianshield.cira.ca/dns-query",
       "bootstrap": "149.112.121.20"
   },
   "32": {
       "id": 32,
       "name": "canadian_shield_family",
+      "simple_name": "cs_family",
       "uri": "https://family.canadianshield.cira.ca/dns-query",
       "bootstrap": "149.112.121.30"
   },
   "33": {
       "id": 33,
       "name": "dnsforge",
+      "simple_name": "dnsforge",
       "uri": "https://dnsforge.de/dns-query",
       "bootstrap": "176.9.1.117"
   },
   "34": {
       "id": 34,
       "name": "dnshome",
+      "simple_name": "dnshome",
       "uri": "https://dns.dnshome.de/dns-query",
       "bootstrap": "185.233.106.232"
   },
   "35": {
       "id": 35,
       "name": "faelix",
+      "simple_name": "faelix",
       "uri": "https://rdns.faelix.net/",
       "bootstrap": "46.227.200.54"
   },
   "36": {
       "id": 36,
       "name": "applied_privacy",
+      "simple_name": "applied_privacy",
       "uri": "https://doh.applied-privacy.net/query",
       "bootstrap": "146.255.56.98"
   },
   "37": {
       "id": 37,
       "name": "hostux_uncensored",
+      "simple_name": "hostux_unc",
       "uri": "https://dns.hostux.net/dns-query",
       "bootstrap": "157.140.7.54"
   },
   "38": {
       "id": 38,
       "name": "hostux_adblock",
+      "simple_name": "hostux_adb",
       "uri": "https://dns.hostux.net/ads",
       "bootstrap": "185.26.126.37"
   },
   "39": {
       "id": 39,
       "name": "lelux.fi",
+      "simple_name": "lelux",
       "uri": "https://resolver-eu.lelux.fi/dns-query",
       "bootstrap": "51.158.147.50"
   },
   "40": {
       "id": 40,
-      "name": "NekomimiRouter",
+      "name": "NekomimiRouter.com",
+      "simple_name": "nekomimi",
       "uri": "https://dns.dns-over-https.com/dns-query",
       "bootstrap": "104.24.118.210"
   },
   "41": {
       "id": 41,
       "name": "Rubyfish.cn",
+      "simple_name": "rubyfish",
       "uri": "https://dns.rubyfish.cn/dns-query",
       "bootstrap": "115.159.131.230"
   },
   "42": {
       "id": 42,
       "name": "Snopyta",
+      "simple_name": "snopyta",
       "uri": "https://fi.doh.dns.snopyta.org/dns-query",
       "bootstrap": "95.216.229.153"
   },
   "43": {
       "id": 43,
       "name": "SWITCH",
+      "simple_name": "switch",
       "uri": "https://dns.switch.ch/dns-query",
       "bootstrap": "130.59.31.248"
   },
   "44": {
       "id": 44,
       "name": "chantra",
+      "simple_name": "chantra",
       "uri": "https://dns.dnsoverhttps.net/dns-query",
       "bootstrap": "104.236.178.232"
   },
   "45": {
       "id": 45,
       "name": "null31",
+      "simple_name": "null31",
       "uri": "https://ibuki.cgnat.net/dns-query",
       "bootstrap": "168.138.243.216"
   },
   "46": {
       "id": 46,
       "name": "publicarray",
+      "simple_name": "publicarray",
       "uri": "https://doh-2.seby.io/dns-query",
       "bootstrap": "139.99.222.72"
   }
