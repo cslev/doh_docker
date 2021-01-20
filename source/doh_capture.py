@@ -39,6 +39,7 @@ parser = argparse.ArgumentParser(description="DoH packet capture and .csv conver
 parser.add_argument('-s', action="store", default=1, type=int, dest="start" , help="Specify rank of the starting website")
 parser.add_argument('-e', action="store", default=5000, type=int, dest="end" , help="Specify rank of the ending website")
 parser.add_argument('-b', action="store", default=200, type=int, dest="batch" , help="Batch Size (range must be a multiple of batch size!)")
+parser.add_argument('-d', action="store", default="top-1m.csv", type=str, dest="domain_list" , help="Path to file containing the domains to visit (Default: top-1m.csv)")
 parser.add_argument('-r', action="store", default=1, type=int, dest="doh_resolver" ,
                     help="DoH resolver:\n" +\
                     "\t 1 = Cloudflare\n" +\
@@ -125,6 +126,7 @@ time_out = batch_size * 15
 interface = results.interface[0]
 webpage_timeout = int(results.timeout)
 resolver=str(results.doh_resolver)
+domain_list=results.domain_list
 
 #counters for future references to log how many domains failed and did not resolver properly
 error=0
@@ -165,8 +167,11 @@ logs.write("DoH:\n")
 logs.write("\tResolver:"+str(resolver_name)+"\n")
 logs.write("\tURI:"+str(uri)+"\n")
 
+print("List of domains to visit (file):"+str(domain_list))
+logs.write("List of domains to visit (file):"+str(domain_list)+"\n")
 
-data = pd.read_csv('top-1m.csv' , names = ['rank','website'])
+#----------- UPDATE FROM HERE
+data = pd.read_csv(domain_list , names = ['rank','website'])
 
 print("Process started: " + str(time.ctime()))
 logs.write("Process started: " + str(time.ctime())+"\n\n\n")

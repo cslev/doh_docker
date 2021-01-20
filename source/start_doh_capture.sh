@@ -44,10 +44,11 @@ RESOLVER=$1
 START=$2
 END=$3
 BATCH=$4
-META=$5  # used for extra information in the archive_name
-INTF=$6     # interface to use (default: eth0)
-WEBPAGE_TIMEOUT=$7 #set here the timeout for a website to load in seconds
-ARCHIVE_PATH=$8 #set here the 'mounted' path in container where the archive will be saved
+DOMAIN_LIST=$5
+META=$6  # used for extra information in the archive_name
+INTF=$7     # interface to use (default: eth0)
+WEBPAGE_TIMEOUT=$8 #set here the timeout for a website to load in seconds
+ARCHIVE_PATH=$9 #set here the 'mounted' path in container where the archive will be saved
 # ------------------------------------
 
 if [ ! -z "$RESOLVER" ]
@@ -79,6 +80,14 @@ then
 else
   B=""
   BATCH=200
+fi
+
+if [ ! -z "$DOMAIN_LIST" ]
+then
+  D="-d ${DOMAIN_LIST}"
+else
+  D=""
+  DOMAIN_LIST="top-1m.csv"
 fi
 
 if [ ! -z "$INTF" ]
@@ -114,6 +123,7 @@ echo -e "RESOLVER = ${green}${resolver}${none}" >> $log_file
 echo -e "START = ${green}$S${none}" >> $log_file
 echo -e "END = ${green}$E${none}" >> $log_file
 echo -e "BATCH = ${green}$B${none}" >> $log_file
+echo -e "DOMAIN_LIST = ${green}$D${none}" >> $log_file
 echo -e "META = ${green}$META${none}" >> $log_file
 echo -e "INTF = ${green}$INTF${none}" >> $log_file
 echo -e "WEBPAGE_TIMEOUT = ${green}$WEBPAGE_TIMEOUT${none}" >> $log_file
@@ -135,7 +145,7 @@ fi
 d=$(date +"%Y%m%d_%H%M%S")
 
 echo 0 > done
-python3 doh_capture.py $R $S $E $B $I $T
+python3 doh_capture.py $R $S $E $B $D $I $T
 
 echo -ne "${yellow}Compressing data...${none}" >> $log_file
 cd /doh_project/
