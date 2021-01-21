@@ -60,12 +60,13 @@ ENV PYTHON_DEPS python3 \
 # we downgrade selenium to 3.14.1 as bullseye debian has the alpha 4.0, which does not work properly now.
 
 
+#DEBIAN_FRONTEND=noninteractive helps to avoid dpkg-configuration question, such as Wireshark and enable it for non-root users
 COPY source /doh_project
 WORKDIR /doh_project
 SHELL ["/bin/bash", "-c"]
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends $DEPS && \
-    apt-get install -y --no-install-recommends $PYTHON_DEPS && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends $DEPS && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends $PYTHON_DEPS && \
     dpkg -i selenium/python3-urllib3_1.24.1.deb && \
     dpkg -i selenium/python3-selenium_3.14.1.deb && \
     apt-get autoremove --purge -y && \
