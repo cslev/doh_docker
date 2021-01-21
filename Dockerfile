@@ -88,7 +88,8 @@ RUN apt-get update && \
     source /root/.bashrc && \
     mkdir -p pcap && \
     mkdir -p archives && \
-    mv /usr/sbin/tcpdump /usr/bin/tcpdump
+    #mv /usr/sbin/tcpdump /usr/bin/tcpdump  
+## UPDATE 21/01/2021 - tcpdump is now installed into /usr/bin/tcpdump by default
 #This latter is necessary if container is supposed to run in priviledged mode,
 #otherwise tcpdump complains about not being able to set ownerships to the output file
 
