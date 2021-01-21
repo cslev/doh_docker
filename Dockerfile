@@ -87,7 +87,7 @@ RUN apt-get update && \
     mv others/bashrc_template /root/.bashrc && \
     source /root/.bashrc && \
     mkdir -p pcap && \
-    mkdir -p archives && \
+    mkdir -p archives 
     #mv /usr/sbin/tcpdump /usr/bin/tcpdump  
 ## UPDATE 21/01/2021 - tcpdump is now installed into /usr/bin/tcpdump by default
 #This latter is necessary if container is supposed to run in priviledged mode,
