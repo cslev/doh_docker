@@ -44,7 +44,7 @@ print("Converting .pcap files to .csv")
 logs.write("Converting .pcap files to .csv\n")
 logs.flush()
 for f in files :
-    file_name = "./pcap/" + f;
+    file_name = "./pcap/" + f
     try:
         output_file_name = "csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] +".csv"
     except:
