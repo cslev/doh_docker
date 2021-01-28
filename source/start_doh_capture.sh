@@ -39,16 +39,25 @@ echo -e "+-------------------------------------------------------------+">> $log
 
 
 
-# ------------ INPUT ARGS ------------
-RESOLVER=$1
-START=$2
-END=$3
-BATCH=$4
-DOMAIN_LIST=$5
-META=$6  # used for extra information in the archive_name
+# ------------ INPUT ARGS READ FROM ENV. VARIABLES ------------
+# RESOLVER=$1
+RESOLVER=$DOH_DOCKER_RESOLVER
+# START=$2
+START=$DOH_DOCKER_START
+# END=$3
+END=$DOH_DOCKER_END
+# BATCH=$4
+BATCH=$DOH_DOCKER_BATCH
+# DOMAIN_LIST=$5
+DOMAIN_LIST=$DOH_DOCKER_DOMAIN_LIST
+# META=$6  # used for extra information in the archive_name
+META=$DOH_DOCKER_META  # used for extra information in the archive_name
 INTF=$7     # interface to use (default: eth0)
+INTF=$DOH_DOCKER_INTF     # interface to use (default: eth0)
 WEBPAGE_TIMEOUT=$8 #set here the timeout for a website to load in seconds
+WEBPAGE_TIMEOUT=$DOH_DOCKER_WEBPAGE_TIMEOUT #set here the timeout for a website to load in seconds
 ARCHIVE_PATH=$9 #set here the 'mounted' path in container where the archive will be saved
+ARCHIVE_PATH=$DOH_DOCKER_ARCHIVE_PATH #set here the 'mounted' path in container where the archive will be saved
 # ------------------------------------
 
 if [ ! -z "$RESOLVER" ]
@@ -173,3 +182,4 @@ echo -ne "${yellow}Copying ${archive_name} to $ARCHIVE_PATH/ ${none}" >> $log_fi
 cp /doh_project/$archive_name $ARCHIVE_PATH/ >> $log_file
 echo -e "\t${green}[DONE]${none}\n\n" >> $log_file
 echo 1 > done
+

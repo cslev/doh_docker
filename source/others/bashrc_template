@@ -24,6 +24,7 @@ hcolor=$(echo -e ${colors[${rnd_color}]})
 
 
 #env variable can be set via docker run -e NAME=[NAME]!
+NAME=$DOH_DOCKER_NAME #read from env variable
 if [ -z $NAME ]
 then
   #if env. var not set, use default
