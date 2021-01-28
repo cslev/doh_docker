@@ -90,6 +90,14 @@ else
   DOMAIN_LIST="top-1m.csv"
 fi
 
+if [ ! -z "$META" ]
+then
+  M="-m ${META}"
+else
+  M=""
+  META=""
+fi
+
 if [ ! -z "$INTF" ]
 then
   I="-i ${INTF}"
