@@ -27,7 +27,7 @@ sudo docker pull cslev/doh_docker
 # Running the container
 To run the container, we have to specify some extra parameters for a swift run.
 ```
-sudo docker run -d --name my_doh -e NAME=my_doh -v <PATH_TO_YOUR_RESULTS_DIR>:/doh_project/archives:rw --shm-size 4g cslev/doh_docker:latest
+sudo docker run -d --name my_doh -e DOH_DOCKER_NAME=my_doh -v <PATH_TO_YOUR_RESULTS_DIR>:/doh_project/archives:rw --shm-size 4g cslev/doh_docker:latest
 ```
 
 `--name` just assigns a simple name to the container to make it easier (in the future) to refer to it (instead of the docker subsystem's random image names).
@@ -36,7 +36,7 @@ sudo docker run -d --name my_doh -e NAME=my_doh -v <PATH_TO_YOUR_RESULTS_DIR>:/d
 
 `-v <PATH_TO_YOUR_RESULTS_DIR>:/doh_project/archives:rw` will mount your `<PATH_TO_YOUR_RESULTS_DIR>` to the container, and it will store the final archive there. (Yes, all results will be in a compressed archive, you can later uncompress and analyze.)
 
-`-e NAME=` sets environmental variable to `my_doh`. This variable is used in `.bashrc` to set `$NAME` in the promp, i.e., when logged into/attached to the container and `$NAME=cloudflare`, you will see `root@cloudflare`.
+`-e DOH_DOCKER_NAME=` sets environmental variable to `my_doh`. This variable is used in `.bashrc` to set `$NAME` in the promp, i.e., when logged into/attached to the container and `$NAME=cloudflare`, you will see `root@cloudflare`.
 When running multiple containers, it can help a lot to identify which one is doing what experiment.
 
 *A complete run with 5,000 websites takes around 24 hours, so be patient :)*
@@ -93,6 +93,7 @@ As you can see, some websites are not loaded due to a timeout!
 
 
 ## Further arguments (for first time runners, skip this!)
+#TODO: THIS INFO IS OBSOLETE! Arguments can be set via $DOH_DOCKER_argname environment variables
 The run command does not differ to the usual ones, however, our bundled script can be parameterized. Therefore, running our container can be done in multiple ways according to your needs.
 
 `RESOLVER` - The DoH resolver intended to be used! By default Cloudflare is set (value of `1`), but you can use Google (`2`), CleanBrowsing (`3`), Quad9 (`4`), and more. For all built-in resolvers, check [this out](https://raw.githubusercontent.com/cslev/doh_docker/master/source/r_config.json). The list is in the same order as our scripts wait for it, e.g., `5` means the usage of PowerDNS.
@@ -115,7 +116,7 @@ You don't have to change any of the values above, and we only recommend to *play
 
 Example for running our container with `Google`'s DoH resolver for the first `10,000` websites (`START=1`, `END=10000`), with a timeout if `25` seconds, connected via an interface called `enp3s0f0`, with the default `BATCH` size of 200, using *usa_texas* as `META`, and setting the final `ARCHIVE_PATH` to `/doh_docker/archives`:
 ```
-sudo docker run -d --name my_doh -e NAME=my_doh -v <PATH_ON_HOST>:/doh_project/archives:rw --shm-size 4g cslev/doh_docker:latest 2 1 10000 200 usa_texas enp3s0f0 25
+sudo docker run -d --name my_doh -e DOH_DOCKER_NAME=my_doh -v <PATH_ON_HOST>:/doh_project/archives:rw --shm-size 4g cslev/doh_docker:latest 2 1 10000 200 usa_texas enp3s0f0 25
 ```
 
 
