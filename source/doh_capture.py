@@ -41,31 +41,53 @@ parser.add_argument('-e', action="store", default=5000, type=int, dest="end" , h
 parser.add_argument('-b', action="store", default=200, type=int, dest="batch" , help="Batch Size (range must be a multiple of batch size!)")
 parser.add_argument('-d', action="store", default="top-1m.csv", type=str, dest="domain_list" , help="Path to file containing the domains to visit (Default: top-1m.csv)")
 parser.add_argument('-r', action="store", default=1, type=int, dest="doh_resolver" ,
-                    help="DoH resolver:\n" +\
-                    "\t 1 = Cloudflare\n" +\
-                    "\t 2 = Google\n" +\
-                    "\t 3 = CleanBrowsing\n" +\
-                    "\t 4 = Quad9\n" +\
-                    "\t 5 = PowerDNS\n" +\
-                    "\t 6 = doh.li\n" +\
-                    "\t 7 = AdGuard\n" +\
-                    "\t 8 = OpenDNS\n" +\
-                    "\t 9 = Comcast\n" +\
-                    "\t10 = cz.nic\n" +\
-                    "\t11 = dnslify\n" +\
-                    "\t12 = blahdns\n" +\
-                    "\t13 = ffmuc.net\n" +\
-                    "\t14 = ContainerPI\n" +\
-                    "\t15 =Tiarap\n" +\
-                    "\t16 = DNS.SB\n" +\
-                    "\t17 = Association 42l\n" +\
-                    "\t18 = Andrews and Arnold\n" +\
-                    "\t19 = TWNIC\n" +\
-                    "\t20 = Digital Gesellschaft\n" +\
-                    "\t21 = LibreDNS\n" +\
-                    "\t22 = PI-DNS\n" +\
-                    "\t23 = dns.flatuslifir.is\n" +\
-                    "\t24 = he.net")
+                    help="DoH resolver (incase sensitive):\n" +\
+                    "\tCloudflare\n" +\
+                    "\tGoogle\n" +\
+                    "\tCleanBrowsing\n" +\
+                    "\tQuad9\n" +\
+                    "\tPowerDNS\n" +\
+                    "\tdohli\n" +\
+                    "\tAdGuard\n" +\
+                    "\tOpenDNS\n" +\
+                    "\tComcast\n" +\
+                    "\tCZNIC\n" +\
+                    "\tDNSlify\n" +\
+                    "\tBlahdns\n" +\
+                    "\tffmucnet\n" +\
+                    "\tContainerPI\n" +\
+                    "\tTiarap\n" +\
+                    "\tDNSSB\n" +\
+                    "\tAssociation_42l\n" +\
+                    "\tandrews_and_arnold\n" +\
+                    "\ttwnic\n" +\
+                    "\tDigital_Gesellshaftt\n" +\
+                    "\tLibreDNS\n" +\
+                    "\tpi_dns\n" +\
+                    "\tflatuslifir\n" +\
+                    "\the_net\n" +\
+                    "\talibaba\n" +\
+                    "\talekberg_es\n" +\
+                    "\talekberg_nl\n" +\
+                    "\talekberg_se\n" +\
+                    "\tbravedns\n" +\
+                    "\tcs_private\n" +\
+                    "\tcs_protected\n" +\
+                    "\tcs_family\n" +\
+                    "\tdnsforge\n" +\
+                    "\tdnshome\n" +\
+                    "\tfaelix\n" +\
+                    "\tapplied_privacy\n" +\
+                    "\thostux_unc\n" +\
+                    "\thostux_adb\n" +\
+                    "\tlelux\n" +\
+                    "\tnekomimi\n" +\
+                    "\trubyfish\n" +\
+                    "\tsnopyta\n" +\
+                    "\tswitch\n" +\
+                    "\tchantra\n" +\
+                    "\tnull31\n" +\
+                    "\tpublic_array\n")
 parser.add_argument('-i', '--interface', nargs=1,
                     help="Specify the interface to use for capturing",
                     required=False,
@@ -111,7 +133,7 @@ def get_resolver_details(resolver) :
         resolver_config = json.load(f)
         # print(resolver_config)
     try:
-        return resolver_config[resolver]["name"], resolver_config[resolver]["uri"], resolver_config[resolver]["bootstrap"]
+        return resolver_config[resolver]["simple_name"], resolver_config[resolver]["uri"], resolver_config[resolver]["bootstrap"]
     except:
         print("Uknown resolver ID {}".format(resolver))
         print("Exiting...")
@@ -125,7 +147,7 @@ batch_size = results.batch
 time_out = batch_size * 15
 interface = results.interface[0]
 webpage_timeout = int(results.timeout)
-resolver=str(results.doh_resolver)
+resolver=str(results.doh_resolver).lower()
 domain_list=results.domain_list
 
 #counters for future references to log how many domains failed and did not resolver properly

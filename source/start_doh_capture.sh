@@ -40,8 +40,11 @@ echo -e "+-------------------------------------------------------------+">> $log
 
 
 # ------------ INPUT ARGS READ FROM ENV. VARIABLES ------------
+# with env vars it is much simpler to use and parse and no ordering is needed!
 # RESOLVER=$1
 RESOLVER=$DOH_DOCKER_RESOLVER
+#Getting the doh resolver's ID for the python script
+RESOLVER_ID=$(jq ".${RESOLVER}.id") r_config.json
 # START=$2
 START=$DOH_DOCKER_START
 # END=$3
@@ -52,11 +55,11 @@ BATCH=$DOH_DOCKER_BATCH
 DOMAIN_LIST=$DOH_DOCKER_DOMAIN_LIST
 # META=$6  # used for extra information in the archive_name
 META=$DOH_DOCKER_META  # used for extra information in the archive_name
-INTF=$7     # interface to use (default: eth0)
+# INTF=$7     # interface to use (default: eth0)
 INTF=$DOH_DOCKER_INTF     # interface to use (default: eth0)
-WEBPAGE_TIMEOUT=$8 #set here the timeout for a website to load in seconds
+# WEBPAGE_TIMEOUT=$8 #set here the timeout for a website to load in seconds
 WEBPAGE_TIMEOUT=$DOH_DOCKER_WEBPAGE_TIMEOUT #set here the timeout for a website to load in seconds
-ARCHIVE_PATH=$9 #set here the 'mounted' path in container where the archive will be saved
+# ARCHIVE_PATH=$9 #set here the 'mounted' path in container where the archive will be saved
 ARCHIVE_PATH=$DOH_DOCKER_ARCHIVE_PATH #set here the 'mounted' path in container where the archive will be saved
 # ------------------------------------
 
@@ -131,7 +134,7 @@ fi
 
 
 #resolver=$(cat r_config.json |jq  '{name: ."${RESOLVER}".name}'|grep name|cut -d ':' -f 2|sed "s/\"//g"|sed "s/ //g")
-resolver=$(cat r_config.json |jq|grep "\"id\": ${RESOLVER}," -A 3|grep name|cut -d ':' -f 2|sed "s/\"//g"|sed "s/ //g"|sed "s/,//g")
+#resolver=$(cat r_config.json |jq|grep "\"id\": ${RESOLVER}," -A 3|grep name|cut -d ':' -f 2|sed "s/\"//g"|sed "s/ //g"|sed "s/,//g")
 
 echo -e "+------------------------------------------------+" >> $log_file
 echo -e "|     ${bold} Passed Arguments to the Container ${none}        |" >> $log_file
@@ -169,7 +172,7 @@ cd /doh_project/
 # copy the symlink target to have it in the compressed data as well
 cp -Lr $log_file doh_log.log
 # $RESOLVER is an INT so will be good for accessing the resolver name from the array
-archive_name="doh_data_${resolver}_${META}_${START}-${END}_${d}.tar.gz"
+archive_name="doh_data_${RESOLVER}_${META}_${START}-${END}_${d}.tar.gz"
 tar -czf $archive_name csvfile* doh_log.log
 echo -e "\t${green}[DONE]${none}" >> $log_file
 
