@@ -5,22 +5,88 @@ services:
   doh1:
     image: 'cslev/doh_docker:latest'
     restart: always
-    container_name: MY_CONTAINER  #rename according to you scenario for easier identification
+    container_name: cloudflare  #rename according to you scenario for easier identification
 
     volumes:
-      - './container_data/MY_CONTAINER:/doh_project/archives:rw'
+      - './container_data/cloudflare:/doh_project/archives:rw'
     
     shm_size: '4g'
 
     environment:
-      DOH_DOCKER_NAME: 'MY_CONTAINER'  #should be same as container_name
+      DOH_DOCKER_NAME: 'cloudflare'  #should be same as container_name
       DOH_DOCKER_RESOLVER: 'cloudflare' # resolver to use
       DOH_DOCKER_START: '1' #first domain to visit in the domain list
       DOH_DOCKER_END: '5000' #last domain to visit in the domain list
       DOH_DOCKER_BATCH: '200' #how many domains to visit within a batch (don't change unless you know what you are doing)
       DOH_DOCKER_INTF: 'eth0' #change this if your container would not have eth0 as a default interface
       DOH_DOCKER_DOMAIN_LIST: 'top-1m.csv' #the relative path inside the container pointing to the list of domains to visit (in Alexa list style: id, domain <-one each line)
-      DOH_DOCKER_META: 'cloudlabs_usa' #any meta info to affix your final output files for easier identification
+      DOH_DOCKER_META: 'sg' #any meta info to affix your final output files for easier identification
       DOH_DOCKER_WEBPAGE_TIMEOUT: '20' #how many seconds we wait for a website to load before throwing timeout error and skip
       DOH_DOCKER_ARCHIVE_PATH: '/doh_project/archives' #where to store the compressed output. Should be the same as defined by the 'volume'
 
+
+  doh2:
+    image: 'cslev/doh_docker:latest'
+    restart: always
+    container_name: google  #rename according to you scenario for easier identification
+
+    volumes:
+      - './container_data/google:/doh_project/archives:rw'
+    
+    shm_size: '4g'
+
+    environment:
+      DOH_DOCKER_NAME: 'google'  #should be same as container_name
+      DOH_DOCKER_RESOLVER: 'google' # resolver to use
+      DOH_DOCKER_START: '1' #first domain to visit in the domain list
+      DOH_DOCKER_END: '5000' #last domain to visit in the domain list
+      DOH_DOCKER_BATCH: '200' #how many domains to visit within a batch (don't change unless you know what you are doing)
+      DOH_DOCKER_INTF: 'eth0' #change this if your container would not have eth0 as a default interface
+      DOH_DOCKER_DOMAIN_LIST: 'top-1m.csv' #the relative path inside the container pointing to the list of domains to visit (in Alexa list style: id, domain <-one each line)
+      DOH_DOCKER_META: 'sg' #any meta info to affix your final output files for easier identification
+      DOH_DOCKER_WEBPAGE_TIMEOUT: '20' #how many seconds we wait for a website to load before throwing timeout error and skip
+      DOH_DOCKER_ARCHIVE_PATH: '/doh_project/archives' #where to store the compressed output. 
+
+  doh3:
+    image: 'cslev/doh_docker:latest'
+    restart: always
+    container_name: cleanbrowsing  #rename according to you scenario for easier identification
+
+    volumes:
+      - './container_data/cleanbrowsing:/doh_project/archives:rw'
+    
+    shm_size: '4g'
+
+    environment:
+      DOH_DOCKER_NAME: 'cleanbrowsing'  #should be same as container_name
+      DOH_DOCKER_RESOLVER: 'cleanbrowsing' # resolver to use
+      DOH_DOCKER_START: '1' #first domain to visit in the domain list
+      DOH_DOCKER_END: '5000' #last domain to visit in the domain list
+      DOH_DOCKER_BATCH: '200' #how many domains to visit within a batch (don't change unless you know what you are doing)
+      DOH_DOCKER_INTF: 'eth0' #change this if your container would not have eth0 as a default interface
+      DOH_DOCKER_DOMAIN_LIST: 'top-1m.csv' #the relative path inside the container pointing to the list of domains to visit (in Alexa list style: id, domain <-one each line)
+      DOH_DOCKER_META: 'sg' #any meta info to affix your final output files for easier identification
+      DOH_DOCKER_WEBPAGE_TIMEOUT: '20' #how many seconds we wait for a website to load before throwing timeout error and skip
+      DOH_DOCKER_ARCHIVE_PATH: '/doh_project/archives' #where to store the compressed output. 
+
+  doh4:
+    image: 'cslev/doh_docker:latest'
+    restart: always
+    container_name: quad9  #rename according to you scenario for easier identification
+
+    volumes:
+      - './container_data/quad9:/doh_project/archives:rw'
+    
+    shm_size: '4g'
+
+    environment:
+      DOH_DOCKER_NAME: 'quad9'  #should be same as container_name
+      DOH_DOCKER_RESOLVER: 'quad9' # resolver to use
+      DOH_DOCKER_START: '1' #first domain to visit in the domain list
+      DOH_DOCKER_END: '5000' #last domain to visit in the domain list
+      DOH_DOCKER_BATCH: '200' #how many domains to visit within a batch (don't change unless you know what you are doing)
+      DOH_DOCKER_INTF: 'eth0' #change this if your container would not have eth0 as a default interface
+      DOH_DOCKER_DOMAIN_LIST: 'top-1m.csv' #the relative path inside the container pointing to the list of domains to visit (in Alexa list style: id, domain <-one each line)
+      DOH_DOCKER_META: 'sg' #any meta info to affix your final output files for easier identification
+      DOH_DOCKER_WEBPAGE_TIMEOUT: '20' #how many seconds we wait for a website to load before throwing timeout error and skip
+      DOH_DOCKER_ARCHIVE_PATH: '/doh_project/archives' #where to store the compressed output. 
