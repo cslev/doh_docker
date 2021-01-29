@@ -40,7 +40,7 @@ parser.add_argument('-s', action="store", default=1, type=int, dest="start" , he
 parser.add_argument('-e', action="store", default=5000, type=int, dest="end" , help="Specify rank of the ending website")
 parser.add_argument('-b', action="store", default=200, type=int, dest="batch" , help="Batch Size (range must be a multiple of batch size!)")
 parser.add_argument('-d', action="store", default="top-1m.csv", type=str, dest="domain_list" , help="Path to file containing the domains to visit (Default: top-1m.csv)")
-parser.add_argument('-r', action="store", default=1, type=int, dest="doh_resolver" ,
+parser.add_argument('-r', action="store", default="cloudflare", type=str, dest="doh_resolver" ,
                     help="DoH resolver (incase sensitive):\n" +\
                     "\tCloudflare\n" +\
                     "\tGoogle\n" +\
