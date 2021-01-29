@@ -44,7 +44,7 @@ echo -e "+-------------------------------------------------------------+">> $log
 # RESOLVER=$1
 RESOLVER=$DOH_DOCKER_RESOLVER
 #Getting the doh resolver's ID for the python script
-RESOLVER_ID=$(jq ".${RESOLVER}.id") r_config.json
+RESOLVER_ID=$(jq ".${RESOLVER}.id" r_config.json)
 # START=$2
 START=$DOH_DOCKER_START
 # END=$3
