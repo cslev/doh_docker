@@ -4,7 +4,6 @@ version: '3.3'
 services:
   doh1:
     image: 'cslev/doh_docker:latest'
-    restart: always
     container_name: cloudflare  #rename according to you scenario for easier identification
 
     volumes:
@@ -27,7 +26,6 @@ services:
 
   doh2:
     image: 'cslev/doh_docker:latest'
-    restart: always
     container_name: google  #rename according to you scenario for easier identification
 
     volumes:
@@ -49,7 +47,6 @@ services:
 
   doh3:
     image: 'cslev/doh_docker:latest'
-    restart: always
     container_name: cleanbrowsing  #rename according to you scenario for easier identification
 
     volumes:
@@ -71,7 +68,6 @@ services:
 
   doh4:
     image: 'cslev/doh_docker:latest'
-    restart: always
     container_name: quad9  #rename according to you scenario for easier identification
 
     volumes:

@@ -4,7 +4,6 @@ version: '3.3'
 services:
   doh1:
     image: 'cslev/doh_docker:latest'
-    restart: always
     container_name: MY_CONTAINER  #rename according to you scenario for easier identification
 
     volumes:
