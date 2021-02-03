@@ -5,10 +5,10 @@ services:
   doh1:
     image: 'cslev/doh_docker:latest'
     container_name: cloudflare  #rename according to you scenario for easier identification
-
+    privileged: true #required for ethtool and disabling offloading
     volumes:
       - './container_data/cloudflare:/doh_project/archives:rw'
-      - './container_data/cloudflare/work_dir:/doh_project/work_dir'
+      - './container_data/cloudflare/work_dir:/doh_project/work_dir:rw'
     
     shm_size: '4g'
 
@@ -28,10 +28,11 @@ services:
   doh2:
     image: 'cslev/doh_docker:latest'
     container_name: google  #rename according to you scenario for easier identification
+    privileged: true #required for ethtool and disabling offloading
 
     volumes:
       - './container_data/google:/doh_project/archives:rw'
-      - './container_data/google/work_dir:/doh_project/work_dir'
+      - './container_data/google/work_dir:/doh_project/work_dir:rw'
 
     shm_size: '4g'
 
@@ -50,10 +51,11 @@ services:
   doh3:
     image: 'cslev/doh_docker:latest'
     container_name: cleanbrowsing  #rename according to you scenario for easier identification
+    privileged: true #required for ethtool and disabling offloading
 
     volumes:
       - './container_data/cleanbrowsing:/doh_project/archives:rw'
-      - './container_data/cleanbrowsing/work_dir:/doh_project/work_dir'
+      - './container_data/cleanbrowsing/work_dir:/doh_project/work_dir:rw'
 
     shm_size: '4g'
 
@@ -72,10 +74,11 @@ services:
   doh4:
     image: 'cslev/doh_docker:latest'
     container_name: quad9  #rename according to you scenario for easier identification
+    privileged: true #required for ethtool and disabling offloading
 
     volumes:
       - './container_data/quad9:/doh_project/archives:rw'
-      - './container_data/quad9/work_dir:/doh_project/work_dir'
+      - './container_data/quad9/work_dir:/doh_project/work_dir:rw'
     
     shm_size: '4g'
 
