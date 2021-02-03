@@ -8,7 +8,7 @@ services:
 
     volumes:
       - './container_data/cloudflare:/doh_project/archives:rw'
-      - './container_data/cloudflare/work_dir:/doh_project/work_dir:r'
+      - './container_data/cloudflare/work_dir:/doh_project/work_dir'
     
     shm_size: '4g'
 
@@ -31,7 +31,7 @@ services:
 
     volumes:
       - './container_data/google:/doh_project/archives:rw'
-      - './container_data/google/work_dir:/doh_project/work_dir:r'
+      - './container_data/google/work_dir:/doh_project/work_dir'
 
     shm_size: '4g'
 
@@ -53,7 +53,7 @@ services:
 
     volumes:
       - './container_data/cleanbrowsing:/doh_project/archives:rw'
-      - './container_data/cleanbrowsing/work_dir:/doh_project/work_dir:r'
+      - './container_data/cleanbrowsing/work_dir:/doh_project/work_dir'
 
     shm_size: '4g'
 
@@ -75,7 +75,7 @@ services:
 
     volumes:
       - './container_data/quad9:/doh_project/archives:rw'
-      - './container_data/quad9/work_dir:/doh_project/work_dir:r'
+      - './container_data/quad9/work_dir:/doh_project/work_dir'
     
     shm_size: '4g'
 
