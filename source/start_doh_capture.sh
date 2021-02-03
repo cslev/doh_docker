@@ -30,6 +30,7 @@ source /root/.bashrc
 
 WORK_DIR="/doh_project/work_dir/"
 mkdir -p $WORK_DIR
+mkdir -p "${WORK_DIR}/pcap"
 
 log_file="${WORK_DIR}progress.log"
 rm -rf log_file #remove any residual
