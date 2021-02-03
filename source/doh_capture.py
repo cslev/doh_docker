@@ -32,6 +32,7 @@ def getDateFormat(timestamp):
 ts = time.time()
 timestamp = getDateFormat(str(ts))
 
+WORKDIR_PREFIX="work_dir/"
 
 # parser for the command line arguements
 parser = argparse.ArgumentParser(description="DoH packet capture and .csv conversion script!",formatter_class=RawTextHelpFormatter)
@@ -106,13 +107,13 @@ results = parser.parse_args()
 
 
 # setup logging features
-log_file = "log_"+str(timestamp)
+log_file = str(WORKDIR_PREFIX)+"log_"+str(timestamp)
 print("Creating log file "+log_file)
 logs = open(log_file, 'a')
 logs.write("Logging for doh_capture.py started on "+timestamp+"\n\n")
 
 # remove previous symlink if there was any
-if os.system("rm -rf progress.log") == 0:
+if os.system("rm -rf"+str(WORKDIR_PREFIX)+"progress.log") == 0:
     print("symlink to previous log file has been deleted")
     logs.write("symlink to previous log file has been deleted\n")
 else:
@@ -120,7 +121,7 @@ else:
     logs.write("symlink to previous log file could NOT be deleted\n")
 
 # create symlink to the new log file
-if os.system("ln -s "+str(log_file)+" progress.log") == 0:
+if os.system("ln -s "+str(log_file)+" "+str(WORKDIR_PREFIX)+"progress.log") == 0:
     print("creating symlink progress.log to "+str(log_file)+" is successfull")
     logs.write("creating symlink progress.log to "+str(log_file)+" is successfull\n")
 else:
@@ -297,7 +298,7 @@ while(s<=stop) :
     if(e>stop) :
         e=stop
 
-    filename = 'pcap/capture-'+str(s)+'-'+str(e)
+    filename = str(WORKDIR_PREFIX)+"pcap/capture-"+str(s)+"-"+str(e)
 
     ## here after -i you need to add the ethernet port. which i guess is eth0
     shell_command = "/usr/bin/tcpdump port 443 -i " + interface + " -w " + filename
@@ -330,7 +331,7 @@ while(s<=stop) :
     logs.write("Running pcap file analyser to create csv files...\n")
 
     # csv_command = "python3 csv_generator.py -l "+log_file + TSO_OFF + KEEP_PCAPS
-    csv_command = "python3 csv_generator.py -l "+log_file + KEEP_PCAPS
+    csv_command = "python3 csv_generator.py -l "+WORKDIR_PREFIX+log_file + KEEP_PCAPS
     os.system(csv_command)
     sleep(1)
 

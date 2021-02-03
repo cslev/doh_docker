@@ -28,7 +28,10 @@ lightcyan='\033[96m'
 source /root/.bashrc
 
 
-log_file="progress.log"
+WORK_DIR="/doh_project/work_dir/"
+mkdir $WORK_DIR
+
+log_file="${WORK_DIR}progress.log"
 
 echo -e "+-------------------------------------------------------------+">> $log_file
 echo -e "|${bold}   Found ENV variables${none}    ">> $log_file
@@ -164,21 +167,23 @@ fi
 #get date
 d=$(date +"%Y%m%d_%H%M%S")
 
+
+
 echo 0 > done
 python3 doh_capture.py $R $S $E $B $D $I $T
 
 echo -ne "${yellow}Compressing data...${none}" >> $log_file
 cd /doh_project/
 # copy the symlink target to have it in the compressed data as well
-cp -Lr $log_file doh_log.log
+cp -Lr $log_file $WORK_DIR/doh_log.log
 # $RESOLVER is an INT so will be good for accessing the resolver name from the array
 archive_name="doh_data_${RESOLVER}_${META}_${START}-${END}_${d}.tar.gz"
-tar -czf $archive_name csvfile* doh_log.log
+tar -czf $archive_name $WORK_DIR/csvfile* $WORK_DIR/doh_log.log
 echo -e "\t${green}[DONE]${none}" >> $log_file
 
 echo -ne "${yellow}Removing csv files${none}" >> $log_file
-rm -rf csvfile*
-rm -rf doh_log.log
+rm -rf $WORK_DIR/csvfile*
+rm -rf $WORK_DIR/doh_log.log
 echo -e "\t${green}[DONE]${none}" >> $log_file
 
 echo -ne "${yellow}Copying ${archive_name} to $ARCHIVE_PATH/ ${none}" >> $log_file
