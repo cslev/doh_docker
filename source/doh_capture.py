@@ -32,7 +32,7 @@ def getDateFormat(timestamp):
 ts = time.time()
 timestamp = getDateFormat(str(ts))
 
-WORKDIR_PREFIX="work_dir/"
+WORKDIR_PREFIX="/doh_project/work_dir/"
 
 # parser for the command line arguements
 parser = argparse.ArgumentParser(description="DoH packet capture and .csv conversion script!",formatter_class=RawTextHelpFormatter)
