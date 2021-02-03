@@ -113,7 +113,7 @@ logs = open(log_file, 'a')
 logs.write("Logging for doh_capture.py started on "+timestamp+"\n\n")
 
 # remove previous symlink if there was any
-if os.system("rm -rf"+str(WORKDIR_PREFIX)+"progress.log") == 0:
+if os.system("rm -rf "+str(WORKDIR_PREFIX)+"progress.log") == 0:
     print("symlink to previous log file has been deleted")
     logs.write("symlink to previous log file has been deleted\n")
 else:
