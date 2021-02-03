@@ -121,8 +121,7 @@ else:
     logs.write("symlink to previous log file could NOT be deleted\n")
 
 # create symlink to the new log file
-#@TODO: There might still be a problem with this symlink after the work_dir has been created and paths can be messed up
-if os.system("ln -s "+str(log_file)+" "+str(WORKDIR_PREFIX)+"progress.log") == 0:
+if os.system("ln -s log_"+str(timestamp)+" "+str(WORKDIR_PREFIX)+"progress.log") == 0:
     print("creating symlink progress.log to "+str(log_file)+" is successfull")
     logs.write("creating symlink progress.log to "+str(log_file)+" is successfull\n")
 else:
