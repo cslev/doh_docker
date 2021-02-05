@@ -15,9 +15,21 @@ WORKDIR_PREFIX="work_dir/"
 # ## tshark -r capture-1-200 -Y "http2" -o tls.keylog_file:sslkey1.log -T fields -e frame.number -e _ws.col.Time -e ip.src -e ip.dst -e _ws.col.Protocol -e frame.len -e _ws.col.Info -E header=y -E separator="," -E quote=d -E occurrence=f > test1.csv
 
 parser = argparse.ArgumentParser(description="csv_generator script")
-parser.add_argument('-l', '--logfile', nargs=1,
+parser.add_argument('-l', 
+                    '--logfile', 
+                    dest="logfile",
+                    nargs=1,
                     help="Specify the log_file that has been used by doh_capture.py",
                     required=True)
+parser.add_argument('-i',
+                    '--input',
+                    dest="input",
+                    nargs=1,
+                    help="Specify path to pcap file(s). \n" + 
+                    "Use /path/to/csvfiles/capture.csv to process capture.csv\n" +
+                    "Use /path/to/csvfiles/ to process all .csv files in "+
+                    "in the directory.")
+
 # parser.add_argument('-a', '--assembly-segments', action="store_true", dest="tso_on",
 #                     help="Specify if reassembly IS desired in the csv files (Default: False)")
 # parser.set_defaults(tso_on=False)
@@ -28,16 +40,29 @@ parser.set_defaults(keep_pcaps=False)
 
 
 args = parser.parse_args()
-log_file = args.logfile[0]
+log_file = args.logfile
+PATH=args.input
 # TSO_ON=args.tso_on
 KEEP_PCAPS=args.keep_pcaps
 
 # opening the same log file for further logging
 logs = open(log_file, 'a')
 
-## here in the parameter of os.walk, specify the location of the folder containing the pcaps
-for _,_,files in os.walk(str(WORKDIR_PREFIX)+"/pcap/") :
+
+#we only store the filenames without the exact path in the files list
+if(os.path.isdir(PATH)):
+  directory_prefix=PATH
+  for _,_,files in os.walk(str("{}/".format(PATH))) :
     print(files)
+else:
+  f = os.path.basename(PATH)
+  files = [f]
+  directory_prefix = PATH.split(f)[0]
+
+)
+## here in the parameter of os.walk, specify the location of the folder containing the pcaps
+# for _,_,files in os.walk(str(WORKDIR_PREFIX)+"/pcap/") :
+#     print(files)
 
 
 total = len(files)
@@ -46,7 +71,7 @@ print("Converting .pcap files to .csv")
 logs.write("Converting .pcap files to .csv\n")
 logs.flush()
 for f in files :
-  file_name = str(WORKDIR_PREFIX)+"pcap/" + f
+  file_name = directory_prefix + f
   try:
     output_file_name = str(WORKDIR_PREFIX)+"csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] +".csv"
   except:
@@ -66,7 +91,7 @@ for f in files :
   logs.write("tshark cmd: "+ csv_command+"\n")
   logs.flush()
 
-  remove_file = "rm -rf "+file_name
+  remove_file = "rm -rf "+ directory_prefix + file_name
   try:
     os.system(csv_command)
     print(str(count) + " of " + str(total) + " completed!")
