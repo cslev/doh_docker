@@ -52,13 +52,20 @@ logs = open(log_file, 'a')
 #we only store the filenames without the exact path in the files list
 if(os.path.isdir(PATH)):
   directory_prefix=PATH
-  for _,_,files in os.walk(str("{}/".format(PATH))) :
-    print(files)
+  for _,_,files in os.walk(str("{}/".format(PATH))):
+    pass
+    # print(files)
 else:
   f = os.path.basename(PATH)
   files = [f]
   directory_prefix = PATH.split(f)[0]
 
+#cleanup files list
+tmp_files = []
+for f in files:
+  if(re.search("^capture-[0-9]*-[0-9]",f)) is not None: #regexp for doh_docker specific capture files only
+    tmp_files.append(f)
+files = tmp_files
 
 ## here in the parameter of os.walk, specify the location of the folder containing the pcaps
 # for _,_,files in os.walk(str(WORKDIR_PREFIX)+"/pcap/") :
