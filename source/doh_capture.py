@@ -230,7 +230,6 @@ def open_website(url,count):
     tmp_timestamp = getDateFormat(str(tmp_ts))
     global error
     global timeout
-
     print(str(count)+" "+url+" (visited: "+str(tmp_timestamp)+")")
     logs.write(str(count)+" "+url+" (visited: "+str(tmp_timestamp)+")\n")
 
@@ -249,15 +248,15 @@ def open_website(url,count):
         sleep(2)
         logs.write("TimeoutException Exception has been thrown \n"+str(ex1)+"\n")
         timeout = timeout + 1 #increase timeout counter
-        print("Timeouts so far: " + str(timeout))
-        logs.write("Timeouts so far: "+str(timeout)+"\n")
+        print("Timeouts so far (in this batch): " + str(timeout))
+        logs.write("Timeouts so far (in this batch): "+str(timeout)+"\n")
     except WebDriverException as ex2 :
         print("WebDriverException Exception has been thrown "+ str(ex2))
         sleep(2)
         logs.write("WebDriverException Exception has been thrown \n"+str(ex2)+"\n")
         error = error + 1 #increase error counter 
-        print("Errors so far: " + str(error))
-        logs.write("Errors so far: "+str(error)+"\n")
+        print("Errors so far (in this batch): " + str(error))
+        logs.write("Errors so far (in this batch): "+str(error)+"\n")
     except Exception as ex3:
         print("Unknown exception has been thrown "+ str(ex3))
         sleep(2)
@@ -303,7 +302,7 @@ while(s<=stop) :
     ## here after -i you need to add the ethernet port. which i guess is eth0
     shell_command = "/usr/bin/tcpdump port 443 -i " + interface + " -w " + filename
 
-    t1 = multiprocessing.Process(target=main_driver, args=(s,e,))
+    t1 = multiprocessing.Process(target=main_driver, args=(s,e))
     t2 = multiprocessing.Process(target=capture_packets, args=(shell_command,))
 
     t2.start()
@@ -327,13 +326,13 @@ while(s<=stop) :
     s = s+batch_size
     e = e+batch_size
 
-    print("Running pcap file analyser to create csv files...")
-    logs.write("Running pcap file analyser to create csv files...\n")
+    # print("Running pcap file analyser to create csv files...")
+    # logs.write("Running pcap file analyser to create csv files...\n")
 
-    # csv_command = "python3 csv_generator.py -l "+log_file + TSO_OFF + KEEP_PCAPS
-    csv_command = "python3 csv_generator.py -l "+WORKDIR_PREFIX+log_file + KEEP_PCAPS
-    os.system(csv_command)
-    sleep(1)
+    # # csv_command = "python3 csv_generator.py -l "+log_file + TSO_OFF + KEEP_PCAPS
+    # csv_command = "python3 csv_generator.py -l "+WORKDIR_PREFIX+log_file + " -i " + filename + " " + KEEP_PCAPS
+    # os.system(csv_command)
+    # sleep(1)
 
 print("Re-printing script Parameters: ")
 logs.write("Re-printing script Parameters: \n")

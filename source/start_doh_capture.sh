@@ -174,6 +174,13 @@ d=$(date +"%Y%m%d_%H%M%S")
 echo 0 > done
 python3 doh_capture.py $R $S $E $B $D $I $T
 
+echo -e "Running pcap file analyser to create csv files..." >> $log_file
+
+
+# csv_command = "python3 csv_generator.py -l "+log_file + TSO_OFF + KEEP_PCAPS
+python3 csv_generator.py -l $log_file -i $WORK_DIR/pcap 
+# sleep(1)
+
 echo -ne "${yellow}Compressing data...${none}" >> $log_file
 cd /doh_project/
 # copy the symlink target to have it in the compressed data as well
