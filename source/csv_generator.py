@@ -73,7 +73,7 @@ logs.flush()
 for f in files :
   file_name = directory_prefix + f
   try:
-    output_file_name = str(WORKDIR_PREFIX)+"csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] +".csv"
+    output_file_name = directory_prefix+"csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] +".csv"
   except:
     print("Unrecognized file naming pattern for filename {}\nSkipping".format(output_file_name))
     logs.write(str("Unrecognized file naming pattern for filename {}\nSkipping\n".format(output_file_name)))
