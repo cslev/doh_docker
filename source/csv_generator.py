@@ -59,7 +59,7 @@ else:
   files = [f]
   directory_prefix = PATH.split(f)[0]
 
-)
+
 ## here in the parameter of os.walk, specify the location of the folder containing the pcaps
 # for _,_,files in os.walk(str(WORKDIR_PREFIX)+"/pcap/") :
 #     print(files)
