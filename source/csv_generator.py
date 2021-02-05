@@ -18,13 +18,11 @@ parser = argparse.ArgumentParser(description="csv_generator script")
 parser.add_argument('-l', 
                     '--logfile', 
                     dest="logfile",
-                    nargs=1,
                     help="Specify the log_file that has been used by doh_capture.py",
                     required=True)
 parser.add_argument('-i',
                     '--input',
                     dest="input",
-                    nargs=1,
                     help="Specify path to pcap file(s). \n" + 
                     "Use /path/to/csvfiles/capture.csv to process capture.csv\n" +
                     "Use /path/to/csvfiles/ to process all .csv files in "+
