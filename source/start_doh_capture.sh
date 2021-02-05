@@ -181,7 +181,7 @@ cp $SSLDEBUGFILE $WORK_DIR/
 echo -e "Running pcap file analyser to create csv files..." >> $log_file
 
 
-# csv_command = "python3 csv_generator.py -l "+log_file + TSO_OFF + KEEP_PCAPS
+#run csv_generator after all pcaps are done [THIS CAN CAUSE HUGE SPACE UTILIZATION AS PCAPS ARE ONLY REMOVED AFTERWARDS]
 python3 csv_generator.py -l $log_file -i $WORK_DIR/pcap 
 # sleep(1)
 
@@ -191,11 +191,11 @@ cd /doh_project/
 #cp -Lr $log_file $WORK_DIR/doh_log.log
 # $RESOLVER is an INT so will be good for accessing the resolver name from the array
 archive_name="doh_data_${RESOLVER}_${META}_${START}-${END}_${d}.tar.gz"
-tar -czf $archive_name $WORK_DIR/csvfile* $log_file
+tar -czf $archive_name $WORK_DIR/pcap/csvfile* $log_file
 echo -e "\t${green}[DONE]${none}" >> $log_file
 
 echo -ne "${yellow}Removing csv files${none}" >> $log_file
-rm -rf $WORK_DIR/csvfile*
+rm -rf $WORK_DIR/pcap/csvfile*
 #rm -rf $log_file
 echo -e "\t${green}[DONE]${none}" >> $log_file
 
