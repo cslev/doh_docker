@@ -174,6 +174,10 @@ d=$(date +"%Y%m%d_%H%M%S")
 echo 0 > done
 python3 doh_capture.py $R $S $E $B $D $I $T
 
+echo -e "Copy SSL keylog and debug file to $WORK_DIR/" >> $log_file
+cp $SSLKEYLOGFILE $WORK_DIR/
+cp $SSLDEBUGFILE $WORK_DIR/
+
 echo -e "Running pcap file analyser to create csv files..." >> $log_file
 
 
