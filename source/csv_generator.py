@@ -28,7 +28,8 @@ parser.add_argument('-i',
                     help="Specify path to pcap file(s). \n" + 
                     "Use /path/to/csvfiles/capture.csv to process capture.csv\n" +
                     "Use /path/to/csvfiles/ to process all .csv files in "+
-                    "in the directory.")
+                    "in the directory.",
+                    required=True)
 
 # parser.add_argument('-a', '--assembly-segments', action="store_true", dest="tso_on",
 #                     help="Specify if reassembly IS desired in the csv files (Default: False)")
