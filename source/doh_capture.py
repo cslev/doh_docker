@@ -32,7 +32,8 @@ def getDateFormat(timestamp):
 ts = time.time()
 timestamp = getDateFormat(str(ts))
 
-WORKDIR_PREFIX="/doh_project/work_dir/"
+# WORKDIR_PREFIX="/doh_project/work_dir/"
+WORKDIR_PREFIX="./"
 
 # parser for the command line arguements
 parser = argparse.ArgumentParser(description="DoH packet capture and .csv conversion script!",formatter_class=RawTextHelpFormatter)
@@ -330,7 +331,7 @@ while(s<=stop) :
     logs.write("Running pcap file analyser to create csv files...\n")
 
     # csv_command = "python3 csv_generator.py -l "+log_file + TSO_OFF + KEEP_PCAPS
-    csv_command = "python3 csv_generator.py -l "+WORKDIR_PREFIX+log_file + " -i " + filename + " " + KEEP_PCAPS
+    csv_command = "python3 csv_generator.py -l "+ log_file + " -i " + filename + " " + KEEP_PCAPS
     os.system(csv_command)
     sleep(1)
 
