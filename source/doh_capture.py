@@ -326,13 +326,13 @@ while(s<=stop) :
     s = s+batch_size
     e = e+batch_size
 
-    # print("Running pcap file analyser to create csv files...")
-    # logs.write("Running pcap file analyser to create csv files...\n")
+    print("Running pcap file analyser to create csv files...")
+    logs.write("Running pcap file analyser to create csv files...\n")
 
-    # # csv_command = "python3 csv_generator.py -l "+log_file + TSO_OFF + KEEP_PCAPS
-    # csv_command = "python3 csv_generator.py -l "+WORKDIR_PREFIX+log_file + " -i " + filename + " " + KEEP_PCAPS
-    # os.system(csv_command)
-    # sleep(1)
+    # csv_command = "python3 csv_generator.py -l "+log_file + TSO_OFF + KEEP_PCAPS
+    csv_command = "python3 csv_generator.py -l "+WORKDIR_PREFIX+log_file + " -i " + filename + " " + KEEP_PCAPS
+    os.system(csv_command)
+    sleep(1)
 
 print("Re-printing script Parameters: ")
 logs.write("Re-printing script Parameters: \n")
