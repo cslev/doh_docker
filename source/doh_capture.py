@@ -320,8 +320,8 @@ while(s<=stop) :
     logs.write("Done"+"\n")
     logs.flush()
     sleep(2)
-    print(time.ctime())
-    logs.write(time.ctime())
+    # print(time.ctime())
+    # logs.write(time.ctime()+"\n")
     logs.flush()
     s = s+batch_size
     e = e+batch_size
@@ -349,10 +349,10 @@ logs.write("DoH:\n")
 logs.write("\tResolver:"+str(resolver_name)+"\n")
 logs.write("\tURI:"+str(uri)+"\n")
 
-print("\nNumber of webpages failed to load/resolve the domain for: "+str(error))
-logs.write("\nNumber of webpages failed to load: "+str(error)+"\n")
-print("\nNumber of webpages timed out: "+str(timeout))
-logs.write("\nNumber of webpages timed out: "+str(timeout)+"\n")
+# print("\nNumber of webpages failed to load/resolve the domain for: "+str(error))
+# logs.write("\nNumber of webpages failed to load: "+str(error)+"\n")
+# print("\nNumber of webpages timed out: "+str(timeout))
+# logs.write("\nNumber of webpages timed out: "+str(timeout)+"\n")
 
 
 logs.close()
