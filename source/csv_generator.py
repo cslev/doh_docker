@@ -6,6 +6,7 @@
 import os
 import argparse
 import sys
+import re
 
 #getting the ENV files for the SSLKEYLOG
 SSLKEY   = os.getenv('SSLKEYLOGFILE')
@@ -70,52 +71,53 @@ print("Converting .pcap files to .csv")
 logs.write("Converting .pcap files to .csv\n")
 logs.flush()
 for f in files :
-  file_name = directory_prefix + f
-  try:
-    output_file_name = directory_prefix+"csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] +".csv"
-  except:
-    print("Unrecognized file naming pattern for filename {}\nSkipping".format(output_file_name))
-    logs.write(str("Unrecognized file naming pattern for filename {}\nSkipping\n".format(output_file_name)))
-    continue
-  print(output_file_name)
-  logs.write(str(output_file_name)+"\n")
-  logs.flush()
-
-  ## here in tls.keylog_file: speciy location and name of sslkeylogfile
-  # extra_filter=' -o tcp.desegment_tcp_streams:false '
-  # if(TSO_ON):
-      # extra_filter=' '
-  csv_command = 'tshark -r ' + file_name +' -Y "(http2)||(dns and tls)" -o tls.keylog_file:'+ SSLKEY +' -T fields -e frame.number -e _ws.col.Time -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e _ws.col.Protocol -e frame.len -e _ws.col.Info -E header=y -E separator="," -E quote=d -E occurrence=f > '+ output_file_name
-  print("tshark cmd: "+ csv_command)
-  logs.write("tshark cmd: "+ csv_command+"\n")
-  logs.flush()
-
-  remove_file = "rm -rf "+ directory_prefix + file_name
-  try:
-    os.system(csv_command)
-    print(str(count) + " of " + str(total) + " completed!")
-    logs.write(str(count) + " of " + str(total) + " completed!\n\n")
-    logs.flush()
-  except:
-    print("Something went wrong with tshark...")
-
-  if(not KEEP_PCAPS):
+  if(re.search("^capture-[0-9]*-[0-9]",f)) is not None: #regexp for doh_docker specific capture files only
+    file_name = directory_prefix + f
     try:
-      sys.stdout.write(str("Removing pcap file {}...\r".format(file_name)))
-      os.system(remove_file)
-      sys.stdout.write(str("Removing pcap file {}...[DONE]\n".format(file_name)))
-      sys.stdout.flush()
-      logs.write(str("Removing pcap file {}...[DONE]\n".format(file_name)))
-      logs.flush()
-
+      output_file_name = directory_prefix+"csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] +".csv"
     except:
-      sys.stdout.write(str("Removing pcap file {}...[FAILED]\n".format(file_name)))
-      print("Could not delete pcap file...")
-      logs.write(str("Removing pcap file {}...[FAILED]\n".format(file_name)))
+      print("Unrecognized file naming pattern for filename {}\nSkipping".format(output_file_name))
+      logs.write(str("Unrecognized file naming pattern for filename {}\nSkipping\n".format(output_file_name)))
+      continue
+    print(output_file_name)
+    logs.write(str(output_file_name)+"\n")
+    logs.flush()
+
+    ## here in tls.keylog_file: speciy location and name of sslkeylogfile
+    # extra_filter=' -o tcp.desegment_tcp_streams:false '
+    # if(TSO_ON):
+        # extra_filter=' '
+    csv_command = 'tshark -r ' + file_name +' -Y "(http2)||(dns and tls)" -o tls.keylog_file:'+ SSLKEY +' -T fields -e frame.number -e _ws.col.Time -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e _ws.col.Protocol -e frame.len -e _ws.col.Info -E header=y -E separator="," -E quote=d -E occurrence=f > '+ output_file_name
+    print("tshark cmd: "+ csv_command)
+    logs.write("tshark cmd: "+ csv_command+"\n")
+    logs.flush()
+
+    remove_file = "rm -rf "+ directory_prefix + file_name
+    try:
+      os.system(csv_command)
+      print(str(count) + " of " + str(total) + " completed!")
+      logs.write(str(count) + " of " + str(total) + " completed!\n\n")
       logs.flush()
+    except:
+      print("Something went wrong with tshark...")
+
+    if(not KEEP_PCAPS):
+      try:
+        sys.stdout.write(str("Removing pcap file {}...\r".format(file_name)))
+        os.system(remove_file)
+        sys.stdout.write(str("Removing pcap file {}...[DONE]\n".format(file_name)))
+        sys.stdout.flush()
+        logs.write(str("Removing pcap file {}...[DONE]\n".format(file_name)))
+        logs.flush()
+
+      except:
+        sys.stdout.write(str("Removing pcap file {}...[FAILED]\n".format(file_name)))
+        print("Could not delete pcap file...")
+        logs.write(str("Removing pcap file {}...[FAILED]\n".format(file_name)))
+        logs.flush()
 
 
-  count+=1
+    count+=1
 
 print("csv_generator has finished!")
 logs.write("csv_generator has finished!\n\n")
