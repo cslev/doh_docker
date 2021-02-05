@@ -196,7 +196,7 @@ tar -czf $archive_name csvfile* doh_log.log $SSLKEYLOGFILE
 echo -e "\t${green}[DONE]${none}" >> $log_file
 
 echo -ne "${yellow}Removing csv files${none}" >> $log_file
-rm -rf pcap/csvfile*
+rm -rf csvfile*
 #rm -rf $log_file
 echo -e "\t${green}[DONE]${none}" >> $log_file
 
