@@ -86,9 +86,9 @@ for f in files :
       print("Unrecognized file naming pattern for filename {}\nSkipping".format(output_file_name))
       logs.write(str("Unrecognized file naming pattern for filename {}\nSkipping\n".format(output_file_name)))
       continue
-    print(output_file_name)
-    logs.write(str(output_file_name)+"\n")
-    logs.flush()
+    # print(output_file_name)
+    # logs.write(str(output_file_name)+"\n")
+    # logs.flush()
 
     ## here in tls.keylog_file: speciy location and name of sslkeylogfile
     # extra_filter=' -o tcp.desegment_tcp_streams:false '
