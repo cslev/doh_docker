@@ -8,7 +8,6 @@ services:
 
     volumes:
       - './container_data/MY_CONTAINER:/doh_project/archives:rw'
-      - './container_data/MY_CONTAINER/work_dir:/doh_project/work_dir'
 
     
     shm_size: '4g'
