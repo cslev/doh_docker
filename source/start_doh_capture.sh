@@ -191,11 +191,11 @@ cd /doh_project/
 #cp -Lr $log_file $WORK_DIR/doh_log.log
 # $RESOLVER is an INT so will be good for accessing the resolver name from the array
 archive_name="doh_data_${RESOLVER}_${META}_${START}-${END}_${d}.tar.gz"
-tar -czf $archive_name $WORK_DIR/pcap/csvfile* $log_file
+tar -czf $archive_name pcap/csvfile* $log_file $SSLKEYLOGFILE
 echo -e "\t${green}[DONE]${none}" >> $log_file
 
 echo -ne "${yellow}Removing csv files${none}" >> $log_file
-rm -rf $WORK_DIR/pcap/csvfile*
+rm -rf pcap/csvfile*
 #rm -rf $log_file
 echo -e "\t${green}[DONE]${none}" >> $log_file
 
