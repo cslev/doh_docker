@@ -11,7 +11,6 @@ import re
 #getting the ENV files for the SSLKEYLOG
 SSLKEY   = os.getenv('SSLKEYLOGFILE')
 SSLDEBUG = os.getenv('SSLDEBUGFILE')
-WORKDIR_PREFIX="work_dir/"
 
 # ## tshark -r capture-1-200 -Y "http2" -o tls.keylog_file:sslkey1.log -T fields -e frame.number -e _ws.col.Time -e ip.src -e ip.dst -e _ws.col.Protocol -e frame.len -e _ws.col.Info -E header=y -E separator="," -E quote=d -E occurrence=f > test1.csv
 
@@ -70,10 +69,6 @@ for f in files:
     tmp_files.append(f)
 files = tmp_files
 
-## here in the parameter of os.walk, specify the location of the folder containing the pcaps
-# for _,_,files in os.walk(str(WORKDIR_PREFIX)+"/pcap/") :
-#     print(files)
-
 
 total = len(files)
 count = 1
@@ -84,7 +79,8 @@ for f in files :
   if(re.search("^capture-[0-9]*-[0-9]",f)) is not None: #regexp for doh_docker specific capture files only
     file_name = directory_prefix + f
     try:
-      output_file_name = directory_prefix+"csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] +".csv"
+      # output_file_name = directory_prefix+"csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] +".csv"
+      output_file_name = "csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] +".csv"
     except:
       print("Unrecognized file naming pattern for filename {}\nSkipping".format(output_file_name))
       logs.write(str("Unrecognized file naming pattern for filename {}\nSkipping\n".format(output_file_name)))
