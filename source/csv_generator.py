@@ -60,6 +60,9 @@ else:
   files = [f]
   directory_prefix = PATH.split(f)[0]
 
+#add / at the end of directory_prefix to be on the safe side
+directory_prefix=directory_prefix+"/"
+
 #cleanup files list
 tmp_files = []
 for f in files:
