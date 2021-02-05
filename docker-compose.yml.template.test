@@ -1,0 +1,28 @@
+---
+version: '3.3'
+
+services:
+  doh1:
+    image: 'cslev/doh_docker:latest'
+    container_name: MY_CONTAINER  #rename according to you scenario for easier identification
+
+    volumes:
+      - './container_data/MY_CONTAINER:/doh_project/archives:rw'
+
+    
+    shm_size: '4g'
+
+    environment:
+      DOH_DOCKER_NAME: 'MY_CONTAINER'  #should be same as container_name
+      DOH_DOCKER_RESOLVER: 'cloudflare' # resolver to use
+      DOH_DOCKER_START: '1' #first domain to visit in the domain list
+      DOH_DOCKER_END: '4' #last domain to visit in the domain list
+      DOH_DOCKER_BATCH: '2' #how many domains to visit within a batch (don't change unless you know what you are doing)
+      DOH_DOCKER_INTF: 'eth0' #change this if your container would not have eth0 as a default interface
+      DOH_DOCKER_DOMAIN_LIST: 'top-1m.csv' #the relative path inside the container pointing to the list of domains to visit (in Alexa list style: id, domain <-one each line)
+      DOH_DOCKER_META: 'test' #any meta info to affix your final output files for easier identification
+      DOH_DOCKER_WEBPAGE_TIMEOUT: '20' #how many seconds we wait for a website to load before throwing timeout error and skip
+      DOH_DOCKER_ARCHIVE_PATH: '/doh_project/archives' #where to store the compressed output. Should be the same as defined by the 'volume'
+
+
+  
