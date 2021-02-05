@@ -28,8 +28,9 @@ lightcyan='\033[96m'
 source /root/.bashrc
 
 
-WORK_DIR="/doh_project/work_dir/"
-mkdir -p $WORK_DIR
+# WORK_DIR="/doh_project/work_dir/"
+WORK_DIR="./"
+# mkdir -p $WORK_DIR
 mkdir -p "${WORK_DIR}/pcap"
 
 log_file="${WORK_DIR}progress.log"
@@ -188,10 +189,10 @@ python3 csv_generator.py -l $log_file -i $WORK_DIR/pcap
 echo -ne "${yellow}Compressing data...${none}" >> $log_file
 cd /doh_project/
 # copy the symlink target to have it in the compressed data as well
-#cp -Lr $log_file $WORK_DIR/doh_log.log
+cp -Lr $log_file doh_log.log
 # $RESOLVER is an INT so will be good for accessing the resolver name from the array
 archive_name="doh_data_${RESOLVER}_${META}_${START}-${END}_${d}.tar.gz"
-tar -czf $archive_name pcap/csvfile* $log_file $SSLKEYLOGFILE
+tar -czf $archive_name pcap/csvfile* doh_log.log $SSLKEYLOGFILE
 echo -e "\t${green}[DONE]${none}" >> $log_file
 
 echo -ne "${yellow}Removing csv files${none}" >> $log_file
@@ -203,4 +204,5 @@ echo -ne "${yellow}Copying ${archive_name} to $ARCHIVE_PATH/ ${none}" >> $log_fi
 cp /doh_project/$archive_name $ARCHIVE_PATH/ >> $log_file
 echo -e "\t${green}[DONE]${none}\n\n" >> $log_file
 echo 1 > done
+
 
