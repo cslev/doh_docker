@@ -98,7 +98,7 @@ for f in files :
     logs.write("tshark cmd: "+ csv_command+"\n")
     logs.flush()
 
-    remove_file = "sudo rm -rf "+ directory_prefix + file_name
+    remove_file = "rm -rf "+ file_name
     try:
       os.system(csv_command)
       print(str(count) + " of " + str(total) + " completed!")
