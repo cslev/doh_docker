@@ -88,7 +88,7 @@
       "name": "ffmuc.net",
       "simple_name": "ffmuc",
       "uri": "https://doh.ffmuc.net/dns-query",
-      "bootstrap": "195.30.94.28"
+      "bootstrap": "5.1.66.255"
   },
   "containerpi": {
       "id": 14,
