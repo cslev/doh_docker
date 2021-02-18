@@ -1,14 +1,35 @@
 # What is this repository all about?
-This containerized bundle uses Selenium and Firefox to use DNS-over-HTTPS (provided by Firefox) for name resolution when visiting the websites of Alexa's list of the top 1M websites. For every website visit, the browser is closed to flush the DNS cache, and the corresponding traffic trace (i.e., a pcap file), as well as the SSL keys are logged. Then, using these two, in this docker container, the pcap files are analyzed and the relevant information will be saved in CSV files (pcap files will be deleted afterwards as they consume a huge amount of space).
+This containerized bundle uses Selenium and Firefox to use DNS-over-HTTPS (provided by Firefox) for name resolution when visiting the websites of Alexa's list of the top 1M websites (an older version from 2018 is part of the repository). 
+For every website visit, the browser is closed to flush the DNS cache, and the corresponding traffic trace (i.e., a pcap file), as well as the SSL keys are logged. 
+Then, using these two, in this docker container, the pcap files are analyzed and the relevant information will be saved in CSV files (pcap files will be deleted afterwards as they consume a huge amount of space).
+Such relevant information is as follows:
+ - frame number
+ - timestamp 
+ - Source IP
+ - Destination IP
+ - Source Port
+ - Destination Port (although, it is 443 all the time)
+ - Protocol (labeled by Wireshark)
+ - frame length
+ - payload information
 
+The `.csv` files can be processed by the [machine learning application written for this purpose](https://github.com/cslev/doh_ml).
 
-# Obtaining the container
-Even though, we have released the Dockerfile and the related source code here on Github, if you are not familiar with [building your](#build) own Docker image you can [obtain it](#download) by our automatically built image at [DockerHub](https://hub.docker.com/repository/docker/cslev/doh_docker).
 
 ## Requirements
-You have to have a running docker subsystem installed. If you have no such subsytstem, first, go to [https://docs.docker.com/install/linux/docker-ce/debian/](https://docs.docker.com/install/linux/docker-ce/debian/), pick your distribution on the left hand side, and follow the instructions to install it.
+Being a docker container, you have to have a running docker subsystem installed. If you have no such subsystem, first, go to [https://docs.docker.com/install/linux/docker-ce/debian/](https://docs.docker.com/install/linux/docker-ce/debian/), pick your distribution on the left hand side, and follow the instructions to install it.
 
-## <a name="build"></a> Building on your own
+# Obtaining the container
+
+## <a name="autobuild"></a>Auto-builds at DockerHub
+You can obtain an auto-built up-to-date image from [DockerHub](https://hub.docker.com/repository/docker/cslev/doh_docker).
+Do do so, just do the following:
+```
+sudo docker pull cslev/doh_docker:latest
+```
+This will download the container and you are ready to use it (see parameters and configurations for docker-compose below).
+
+## <a name="build"></a> Build your own image
 Clone the repository first, then build the image.
 ```
 git clone https://github.com/cslev/doh_docker
@@ -17,33 +38,126 @@ sudo docker build -t cslev/doh_docker:latest -f Dockerfile  .
 ```
 In the last command `-t` specifies the tag (default `latest`) used for our image! Feel free to use another tag, but to be sync with a possible future update might be coming from DockerHub later, we do not recommend to change any part of this command.
 
-##  <a name="download"></a> Install from DockerHub
-Ain't nobody got time for that! 
-You can simply get exactly the same image from DockerHub as it is connected to this repository and automatically rebuilt once a change has been made here.
-```
-sudo docker pull cslev/doh_docker
-```
 
 # Running the container
-To run the container, we have to specify some extra parameters for a swift run.
+The container and the scripts inside can be parametrized by environment variables. You can either set these variables by definint `-e VARNAME=value` everytime, or create and environment file that you pass to the container when started.
+For simplicity, we discuss the first approach only, but let's see first the ENV variables
+
+## All Environment variables
+`DOH_DOCKER_NAME` the name of the container
+`DOH_DOCKER_RESOLVER` the resolver intended to use. `doh_docker` container supports almost all resolvers publicly available. See a complete list [here](https://raw.githubusercontent.com/cslev/doh_docker/master/source/r_config.json). This `json` file is used in the program when deciding the resolver related parameters. Default is *cloudflare*.
+`DOH_DOCKER_START` **first** domain to visit in the Alexa's domain list or whatever domain list file you use (see `DOH_DOCKER_DOMAIN_LIST`). Default is: *1*
+`DOH_DOCKER_END` **last** domain to visit in the Alexa's domain list or whatever domain list file you use (see `DOH_DOCKER_DOMAIN_LIST`). Default is: *5000*
+`DOH_DOCKER_BATCH` The desired batch size in one iteration. Default is set to *200*, which means that for every 200 website-visits, we will have a separate PCAP file for managability reasons (still not too big and can be analyzed in reasonable time). Although, at the end, they will be CSV files. We do not recommend to change this value unless you know what you are doing.
+`DOH_DOCKER_INTF` the used interface in the container. Default is *eth0* and if you don't have any special configuration, you don't have to change this at all.
+`DOH_DOCKER_DOMAIN_LIST` this is the file describing the domains to visit in the form of how the provided [top-1m.csv](https://github.com/cslev/doh_docker/blob/master/source/top-1m.csv) looks like. If you want to use your own file, the easiest way is to store it in your `<PATH_TO_YOUR_RESULTS_DIR>`, which you will mount into the container at `/doh_project/archives`. Accordingly, you can specify the path to your domain list file as `/doh_project/archives/my_list_of_domains.csv`.
+`DOH_DOCKER_META` any meta information you would like to pass. This information will be appended to the final compressed file's name; again for easier identification. So, be short and meaningful. Default is *sg*; we simply use our locations as an extra information.
+`DOH_DOCKER_WEBPAGE_TIMEOUT` this indicates the program how many seconds it should wait for a webpage to load. Since, not all domains work (or might not be resolved by a filter), we have to have a timeout. Default is *20* (do not reduce it much more than below 15 seconds. Inside the container, the browser needs this time to effectively load all the contents.)
+`DOH_DOCKER_ARCHIVE_PATH` define it to the mount point, i.e., `/doh_project/archives`. This path is set by default. Only change if you intend to use different path inside the container for archives.
+
+## Running with `docker run`
+To run the container, the command looks as follows:
 ```
-sudo docker run -d --name my_doh -e DOH_DOCKER_NAME=my_doh -v <PATH_TO_YOUR_RESULTS_DIR>:/doh_project/archives:rw --shm-size 4g cslev/doh_docker:latest
+sudo docker run -d --name my_doh -e DOH_DOCKER_NAME=my_doh [-e FURTHER_ENV_VARS] -v <PATH_TO_YOUR_RESULTS_DIR>:/doh_project/archives:rw --shm-size 4g cslev/doh_docker:latest
 ```
 
-`--name` just assigns a simple name to the container to make it easier (in the future) to refer to it (instead of the docker subsystem's random image names).
+`--name` just assigns a simple name to the container to make it easier (in the future) to refer to it when listing running containers via `docker ps` (instead of the docker subsystem's random image names).
 
 `--shm-size 4g` is some extra memory assignment needed for Selenium and Firefox, otherwise the whole process becomes extremely slow (if starts at all).
 
 `-v <PATH_TO_YOUR_RESULTS_DIR>:/doh_project/archives:rw` will mount your `<PATH_TO_YOUR_RESULTS_DIR>` to the container, and it will store the final archive there. (Yes, all results will be in a compressed archive, you can later uncompress and analyze.)
 
 `-e DOH_DOCKER_NAME=` sets environmental variable to `my_doh`. This variable is used in `.bashrc` to set `$NAME` in the promp, i.e., when logged into/attached to the container and `$NAME=cloudflare`, you will see `root@cloudflare`.
-When running multiple containers, it can help a lot to identify which one is doing what experiment.
+This is also for simplyfing things; it can help a lot to identify which one is doing what experiment as complete run with 5,000 websites can take around 24-48 hours.
 
-*A complete run with 5,000 websites takes around 24 hours, so be patient :)*
+**Define the other environment variables if needed**
+
+## Running with `docker-compose`
+We also provide a docker-compose YAML file to ease the management of the containers, and also let you to easily run multiple containers with one command.
+If you are unfamiliar with docker-compose and you don't have it installed, refer to [this](https://docs.docker.com/compose/).
+It is worth having a look...docker-compose can ease your life.
+
+### Obtain docker-compose quickly
+A quick howto for Linux. 
+#### Get the correct variant for your distro:
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+#### Add the correct permissions
+```
+sudo chmod +x /usr/local/bin/docker-compose
+```
+And you are good to go :)
+
+### docker-compose
+The repository contains a `docker-compose.yml.template` file. It looks quite simple and straightforward:
+```
+---
+version: '3.3'
+
+services:
+  doh1:
+    image: 'cslev/doh_docker:latest'
+    container_name: ${R1}  #rename according to you scenario for easier identification
+
+    volumes:
+      - './container_data/MY_CONTAINER:/doh_project/archives:rw'
+
+    
+    shm_size: '4g'
+
+    environment:
+      DOH_DOCKER_NAME: 'MY_CONTAINER'  #should be same as container_name
+      DOH_DOCKER_RESOLVER: 'cloudflare' # resolver to use
+      DOH_DOCKER_START: '1' #first domain to visit in the domain list
+      DOH_DOCKER_END: '5000' #last domain to visit in the domain list
+      DOH_DOCKER_BATCH: '200' #how many domains to visit within a batch (don't change unless you know what you are doing)
+      DOH_DOCKER_INTF: 'eth0' #change this if your container would not have eth0 as a default interface
+      DOH_DOCKER_DOMAIN_LIST: 'top-1m.csv' #the relative path inside the container pointing to the list of domains to visit (in Alexa list style: id, domain <-one each line)
+      DOH_DOCKER_META: 'sg' #any meta info to affix your final output files for easier identification
+      DOH_DOCKER_WEBPAGE_TIMEOUT: '20' #how many seconds we wait for a website to load before throwing timeout error and skip
+      DOH_DOCKER_ARCHIVE_PATH: '/doh_project/archives' #where to store the compressed output. Should be the same as defined by the 'volume'
+
+```
+As you can see everything has a comment to help you defining the environment variables easily. Besides, other container related settings are defined including `shm-size` and also the volume to mount to `/doh_project/archives`.
+The only interesting part is the variable `$R1`. 
+
+`docker-compose` can use variables in the YAML files if those variables are defined in the `.env` file located in the same directory.
+If you check the file we provided, each `RX` defines a resolver that we support.
+```
+R1=cloudflare
+R2=google
+R3=cleanbrowsing
+R4=quad9
+R5=powerdns
+R6=dohli
+R7=adguard
+R8=opendns
+R9=CZNIC
+R10=DNSlify
+...
+```
+You can either use these variables, or you can explicity say `cloudflare` in the docker-compose.yml file instead of the `${R1}`.
+However, this `RX` thingy becomes handy if you simply want to change your setup after a successful run.
+For instance, let's say your experiment with `cloudflare` is done. You just simply replace the variables to `google` in order to run the experiment by using Google's resolver via a simple `sed`:
+```
+sed -i "s/R1/R2/g" docker-compose.yml
+```
+
+#### Run (finally)
+```
+sudo docker-compose -f docker-compose.yml up -d
+```
+`-d` puts everything into a daemonized mode to supress container output.
+However, you can see after this command right away when your service is up and running.
+`-f` is only needed if your compose file has a different name than `docker-compose.yml`
+
+Note, simply multiplying the service descriptor `doh1` with different names in the docker-compose.yml, you can easily define multiple different containers, and by the `docker-compose up` command, you fire up all of them in one shot.
+
 
 # Getting the data
 The container will exit once the data gathering is complete and all relevant data will be saved in a compressed archive, called `doh_data_<USED_RESOLVER>_<MORE_META>.tar.gz`!
-If you HAVE used the command above with the `-v` option, you will have the data on your host machine.
+If you HAVE used the command above with the `-v` option, or defined the `volume` in the `docker-compose.yml` file, you will have the data on your host machine.
 
 Otherwise, to get the data we need to restart the container (as it has exited) and copy the compressed archive to the host.
 
@@ -64,7 +178,9 @@ sudo docker stop my_doh
 sudo docker rm my_doh
 ```
 
-## Monitoring/Logging
+
+
+# Monitoring/Logging
 Easiest way to see whether the process is finished is to check the status of the container itself. If it is exited, then it's done.
 ```
 sudo docker ps -a -f name=my_doh
@@ -91,33 +207,6 @@ Message: Timeout loading page after 25000ms
 ```
 As you can see, some websites are not loaded due to a timeout!
 
-
-## Further arguments (for first time runners, skip this!)
-#TODO: THIS INFO IS OBSOLETE! Arguments can be set via $DOH_DOCKER_argname environment variables
-The run command does not differ to the usual ones, however, our bundled script can be parameterized. Therefore, running our container can be done in multiple ways according to your needs.
-
-`RESOLVER` - The DoH resolver intended to be used! By default Cloudflare is set (value of `1`), but you can use Google (`2`), CleanBrowsing (`3`), Quad9 (`4`), and more. For all built-in resolvers, check [this out](https://raw.githubusercontent.com/cslev/doh_docker/master/source/r_config.json). The list is in the same order as our scripts wait for it, e.g., `5` means the usage of PowerDNS.
-
-`START` - The rank of the **first** website to start the browsing from (according to Alexa's `top-1m.csv` file in the source). Default is set to `1`.
-
-`END` - The rank of the **last** website to finish the browsing at (according to Alexa's `top-1m.csv` file in the source). Default is set to `5,000`.
-
-`BATCH` - The desired batch size in one iteration. Default is set to `200`, which means that for every 200 website-visits, we will have a separate PCAP file for managability reasons (still not too big and can be analyzed in reasonable time). Although, at the end, they will be CSV files. We do not recommend to change this value unless you know what you are doing.
-
-`META` - Any desired metadata for the measurements (as one *string* without whitespaces or within quotes) that will be used in the final archive's name, again,  for easier identification. For instance, using `usa_texas` as a META, the final archive will be `doh_data_<USED_RESOLVER>_usa_texas.tar.gz`
-
-`INTF` - Although, in most of the cases containers have one interface connected to the internet (`eth0`), if for some reason your is different, you can specify that as the last argument. Default is set to `eth0`.
-
-`WEBPAGE_TIMEOUT` - Most of the cases, the default 16 seconds should be enough, however, for certain resolvers and environments, one might either increase or decrease it. This variable is used to set this.
-
-`ARCHIVE_PATH` - By default, the script will store the archive in `/doh_project/archives/`. However, after the measurement is done, the container stops, and in order to copy the archive from the container, we need to start it again, and then stop it unless fully removed. By adding a `volume` to the container and setting the `ARCHIVE_PATH` as well, which points to the same volume, we can avoid the previous issue.
-
-You don't have to change any of the values above, and we only recommend to *play* with the first argument (`RESOLVER`) only! The rest can always remain the same and the *order* is **important**, so if you want to define `META` then you also have to define (even the default values again for) all others before it, i.e., `BATCH, END, START, RESOLVER`!
-
-Example for running our container with `Google`'s DoH resolver for the first `10,000` websites (`START=1`, `END=10000`), with a timeout if `25` seconds, connected via an interface called `enp3s0f0`, with the default `BATCH` size of 200, using *usa_texas* as `META`, and setting the final `ARCHIVE_PATH` to `/doh_docker/archives`:
-```
-sudo docker run -d --name my_doh -e DOH_DOCKER_NAME=my_doh -v <PATH_ON_HOST>:/doh_project/archives:rw --shm-size 4g cslev/doh_docker:latest 2 1 10000 200 usa_texas enp3s0f0 25
-```
 
 
 # Troubleshooting
