@@ -256,7 +256,7 @@
       "name": "hostux_uncensored",
       "simple_name": "hostux_unc",
       "uri": "https://dns.hostux.net/dns-query",
-      "bootstrap": "157.140.7.54"
+      "bootstrap": "185.26.126.37"
   },
   "hostux_adb": {
       "id": 38,
