@@ -47,12 +47,19 @@ For simplicity, we discuss the first approach only, but let's see first the ENV 
 `DOH_DOCKER_NAME` the name of the container
 `DOH_DOCKER_RESOLVER` the resolver intended to use. `doh_docker` container supports almost all resolvers publicly available. See a complete list [here](https://raw.githubusercontent.com/cslev/doh_docker/master/source/r_config.json). This `json` file is used in the program when deciding the resolver related parameters. Default is *cloudflare*.
 `DOH_DOCKER_START` **first** domain to visit in the Alexa's domain list or whatever domain list file you use (see `DOH_DOCKER_DOMAIN_LIST`). Default is: *1*
+
 `DOH_DOCKER_END` **last** domain to visit in the Alexa's domain list or whatever domain list file you use (see `DOH_DOCKER_DOMAIN_LIST`). Default is: *5000*
+
 `DOH_DOCKER_BATCH` The desired batch size in one iteration. Default is set to *200*, which means that for every 200 website-visits, we will have a separate PCAP file for managability reasons (still not too big and can be analyzed in reasonable time). Although, at the end, they will be CSV files. We do not recommend to change this value unless you know what you are doing.
+
 `DOH_DOCKER_INTF` the used interface in the container. Default is *eth0* and if you don't have any special configuration, you don't have to change this at all.
+
 `DOH_DOCKER_DOMAIN_LIST` this is the file describing the domains to visit in the form of how the provided [top-1m.csv](https://github.com/cslev/doh_docker/blob/master/source/top-1m.csv) looks like. If you want to use your own file, the easiest way is to store it in your `<PATH_TO_YOUR_RESULTS_DIR>`, which you will mount into the container at `/doh_project/archives`. Accordingly, you can specify the path to your domain list file as `/doh_project/archives/my_list_of_domains.csv`.
+
 `DOH_DOCKER_META` any meta information you would like to pass. This information will be appended to the final compressed file's name; again for easier identification. So, be short and meaningful. Default is *sg*; we simply use our locations as an extra information.
+
 `DOH_DOCKER_WEBPAGE_TIMEOUT` this indicates the program how many seconds it should wait for a webpage to load. Since, not all domains work (or might not be resolved by a filter), we have to have a timeout. Default is *20* (do not reduce it much more than below 15 seconds. Inside the container, the browser needs this time to effectively load all the contents.)
+
 `DOH_DOCKER_ARCHIVE_PATH` define it to the mount point, i.e., `/doh_project/archives`. This path is set by default. Only change if you intend to use different path inside the container for archives.
 
 ## Running with `docker run`
@@ -233,3 +240,4 @@ To quickly check this out, let's count the unsuccessful connection attempts:
 sudo docker exec my_doh cat /doh_project/progress.log |grep -i timeoutexception |wc -l
 ```
 This means that the preset seconds for timeout was not enough! Usually, it is not your problem, it can be the problem of the DoH resolver used. If you set timeout to a considerably long interval (e.g., 50 sec), then you can rest assured that timeouts are not because of you, but because of the DoH resolver!
+
