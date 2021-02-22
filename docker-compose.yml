@@ -4,16 +4,16 @@ version: '3.3'
 services:
   doh1:
     image: 'cslev/doh_docker:latest'
-    container_name: ${R5}  #rename according to you scenario for easier identification
+    container_name: ${R1}  #rename according to you scenario for easier identification
     privileged: true #required for ethtool and disabling offloading
     volumes:
-      - './container_data/${R5}:/doh_project/archives:rw'
+      - './container_data/${R1}:/doh_project/archives:rw'
     
     shm_size: '4g'
 
     environment:
-      DOH_DOCKER_NAME: ${R5}  #should be same as container_name
-      DOH_DOCKER_RESOLVER: ${R5} # resolver to use
+      DOH_DOCKER_NAME: ${R1}  #should be same as container_name
+      DOH_DOCKER_RESOLVER: ${R1} # resolver to use
       DOH_DOCKER_START: '1' #first domain to visit in the domain list
       DOH_DOCKER_END: '5000' #last domain to visit in the domain list
       DOH_DOCKER_BATCH: '200' #how many domains to visit within a batch (don't change unless you know what you are doing)
@@ -26,17 +26,17 @@ services:
 
   doh2:
     image: 'cslev/doh_docker:latest'
-    container_name: ${R6}  #rename according to you scenario for easier identification
+    container_name: ${R2}  #rename according to you scenario for easier identification
     privileged: true #required for ethtool and disabling offloading
 
     volumes:
-      - './container_data/${R6}:/doh_project/archives:rw'
+      - './container_data/${R2}:/doh_project/archives:rw'
 
     shm_size: '4g'
 
     environment:
-      DOH_DOCKER_NAME: ${R6}  #should be same as container_name
-      DOH_DOCKER_RESOLVER: ${R6} # resolver to use
+      DOH_DOCKER_NAME: ${R2}  #should be same as container_name
+      DOH_DOCKER_RESOLVER: ${R2} # resolver to use
       DOH_DOCKER_START: '1' #first domain to visit in the domain list
       DOH_DOCKER_END: '5000' #last domain to visit in the domain list
       DOH_DOCKER_BATCH: '200' #how many domains to visit within a batch (don't change unless you know what you are doing)
@@ -48,17 +48,17 @@ services:
 
   doh3:
     image: 'cslev/doh_docker:latest'
-    container_name: ${R7}  #rename according to you scenario for easier identification
+    container_name: ${R3}  #rename according to you scenario for easier identification
     privileged: true #required for ethtool and disabling offloading
 
     volumes:
-      - './container_data/${R7}:/doh_project/archives:rw'
+      - './container_data/${R3}:/doh_project/archives:rw'
 
     shm_size: '4g'
 
     environment:
-      DOH_DOCKER_NAME: ${R7}  #should be same as container_name
-      DOH_DOCKER_RESOLVER: ${R7} # resolver to use
+      DOH_DOCKER_NAME: ${R3}  #should be same as container_name
+      DOH_DOCKER_RESOLVER: ${R3} # resolver to use
       DOH_DOCKER_START: '1' #first domain to visit in the domain list
       DOH_DOCKER_END: '5000' #last domain to visit in the domain list
       DOH_DOCKER_BATCH: '200' #how many domains to visit within a batch (don't change unless you know what you are doing)
@@ -70,17 +70,17 @@ services:
 
   doh4:
     image: 'cslev/doh_docker:latest'
-    container_name: ${R8}  #rename according to you scenario for easier identification
+    container_name: ${R4}  #rename according to you scenario for easier identification
     privileged: true #required for ethtool and disabling offloading
 
     volumes:
-      - './container_data/${R8}:/doh_project/archives:rw'
+      - './container_data/${R4}:/doh_project/archives:rw'
     
     shm_size: '4g'
 
     environment:
-      DOH_DOCKER_NAME: ${R8}  #should be same as container_name
-      DOH_DOCKER_RESOLVER: ${R8} # resolver to use
+      DOH_DOCKER_NAME: ${R4}  #should be same as container_name
+      DOH_DOCKER_RESOLVER: ${R4} # resolver to use
       DOH_DOCKER_START: '1' #first domain to visit in the domain list
       DOH_DOCKER_END: '5000' #last domain to visit in the domain list
       DOH_DOCKER_BATCH: '200' #how many domains to visit within a batch (don't change unless you know what you are doing)
