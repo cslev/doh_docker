@@ -67,7 +67,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends $DEPS && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends $PYTHON_DEPS && \
-    dpkg -i selenium/python-urllib3_1.24.1-1_all.deb && \
+    dpkg -i selenium/python3-urllib3_1.24.1-1_all.deb && \
     #dpkg -i selenium/python3-urllib3_1.24.1.deb && \
     dpkg -i selenium/python3-selenium_3.14.1+dfsg1-1_all.deb && \
     # dpkg -i selenium/python3-selenium_3.14.1.deb && \
