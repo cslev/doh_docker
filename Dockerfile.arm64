@@ -78,7 +78,10 @@ RUN apt-get update && \
     #tar -xjf firefox-74.0.tar.bz2 && \
     # tar -xzf geckodriver-v0.26.0-linux64.tar.gz && \
     # tar -xzf geckodriver-v0.23.0-arm7hf.tar.gz && \
-    #dpkg -i firefox-geckodriver_75.0+build3-0ubuntu1_arm64.deb && \
+    dpkg -i firefox_75.0+build3-0ubuntu1_arm64.deb && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -f -y && \
+    dpkg -i firefox-geckodriver_75.0+build3-0ubuntu1_arm64.deb && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -f -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf selenium/ && \
