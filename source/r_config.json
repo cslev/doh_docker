@@ -121,7 +121,7 @@
   "andrews_and_arnold": {
       "id": 18,
       "name": "andrews_and_arnold",
-      "simple_name": "aa",
+      "simple_name": "a_and_a",
       "uri": "https://dns.aa.net.uk/dns-query",
       "bootstrap": "217.169.20.23"
   },
@@ -163,7 +163,7 @@
   "he_net": {
       "id": 24,
       "name": "he.net",
-      "simple_name": "henet",
+      "simple_name": "he_net",
       "uri": "https://ordns.he.net/dns-query",
       "bootstrap": "74.82.42.42"
   },

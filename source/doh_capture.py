@@ -60,10 +60,10 @@ parser.add_argument('-r', action="store", default="cloudflare", type=str, dest="
                     "\tContainerPI\n" +\
                     "\tTiarap\n" +\
                     "\tDNSSB\n" +\
-                    "\tAssociation_42l\n" +\
-                    "\tandrews_and_arnold\n" +\
+                    "\ta42l\n" +\
+                    "\ta_and_a\n" +\
                     "\ttwnic\n" +\
-                    "\tDigital_Gesellshaftt\n" +\
+                    "\tdigital\n" +\
                     "\tLibreDNS\n" +\
                     "\tpi_dns\n" +\
                     "\tflatuslifir\n" +\
