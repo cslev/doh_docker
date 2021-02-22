@@ -111,14 +111,14 @@
       "uri": "https://doh.dns.sb/dns-query",
       "bootstrap": "104.27.158.178"
   },
-  "association_42l": {
+  "a42l": {
       "id": 17,
       "name": "association_42l",
       "simple_name": "a42l",
       "uri": "https://doh.42l.fr/dns-query",
       "bootstrap": "185.216.27.142"
   },
-  "andrews_and_arnold": {
+  "a_and_a": {
       "id": 18,
       "name": "andrews_and_arnold",
       "simple_name": "a_and_a",
@@ -132,7 +132,7 @@
       "uri": "https://dns.twnic.tw/dns-query",
       "bootstrap": "210.17.9.228"
   },
-  "digital_gesellshaft": {
+  "digital": {
       "id": 20,
       "name": "digital_gesellschaft",
       "simple_name": "digital",
@@ -153,7 +153,7 @@
       "uri": "https://doh.centraleu.pi-dns.com/dns-query",
       "bootstrap": "88.198.91.187"
   },
-  "flatuslifir": {
+  "flatus": {
       "id": 23,
       "name": "dns.flatuslifir.is",
       "simple_name": "flatus",
