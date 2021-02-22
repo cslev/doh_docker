@@ -1,4 +1,4 @@
-FROM arm64v8/debian:bullseye
+FROM arm32v7/debian:bullseye
 LABEL maintainer="cslev <cslev@gmx.com>, HimanshuSinghGH <heman.sam@gmail.com>"
 
 #packages needed for compilation
