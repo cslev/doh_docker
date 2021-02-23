@@ -81,7 +81,7 @@
       "name": "blahdns.com",
       "simple_name": "blahdns",
       "uri": "https://doh-jp.blahdns.com/dns-query",
-      "bootstrap": "45.32.55.94"
+      "bootstrap": "139.162.112.47"
   },
   "ffmucnet": {
       "id": 13,
