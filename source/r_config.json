@@ -60,7 +60,7 @@
       "name": "comcast",
       "simple_name": "comcast",
       "uri": "https://doh.xfinity.com/dns-query",
-      "bootstrap": "96.113.151.150"
+      "bootstrap": "75.75.77.99"
   },
   "cznic": {
       "id": 10,
