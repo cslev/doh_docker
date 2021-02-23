@@ -187,9 +187,12 @@ logs.write("(Adjusted) Batch_Size = "+str(batch_size)+"\n")
 print("DoH:")
 print("\tResolver:"+str(resolver_name))
 print("\tURI:"+str(uri))
+print("\tBootstrap IP:"+str(bootstrap))
 logs.write("DoH:\n")
 logs.write("\tResolver:"+str(resolver_name)+"\n")
 logs.write("\tURI:"+str(uri)+"\n")
+logs.write("\tBootstrap IP:"+str(bootstrap)+"\n")
+
 
 print("List of domains to visit (file):"+str(domain_list))
 logs.write("List of domains to visit (file):"+str(domain_list)+"\n")
