@@ -234,8 +234,7 @@ def open_website(url,count):
     tmp_timestamp = getDateFormat(str(tmp_ts))
     global error
     global timeout
-    print(str(count)+" "+url+" (visited: "+str(tmp_timestamp)+")")
-    logs.write(str(count)+" "+url+" (visited: "+str(tmp_timestamp)+")\n")
+    
 
     ## in the executabel path you need to specify the location of geckodriver location.
     try:
@@ -246,6 +245,8 @@ def open_website(url,count):
         logs.write("Error during loading the driver (website skipped): " + str(ex) + "\n")
     try :
         driver.get(url)
+        print(str(count)+" "+url+" (visited: "+str(tmp_timestamp)+")")
+        logs.write(str(count)+" "+url+" (visited: "+str(tmp_timestamp)+")\n")
         sleep(2)
     except TimeoutException as ex1 :
         print("TimeoutException Exception has been thrown "+ str(ex1))
@@ -297,11 +298,12 @@ def capture_packets(shell_command):
 
 
 
+current_batch=1
 while(s<=stop) :
     if(e>stop) :
         e=stop
 
-    filename = str(WORKDIR_PREFIX)+"pcap/capture-"+str(s)+"-"+str(e)
+    filename = str(WORKDIR_PREFIX)+"pcap/capture-"+str(current_batch)+"-"+str(s)+"-"+str(e)
 
     ## here after -i you need to add the ethernet port. which i guess is eth0
     shell_command = "/usr/bin/tcpdump port 443 -i " + interface + " -w " + filename
@@ -329,6 +331,7 @@ while(s<=stop) :
     logs.flush()
     s = s+batch_size
     e = e+batch_size
+    current_batch += 1
 
     print("Running pcap file analyser to create csv files...")
     logs.write("Running pcap file analyser to create csv files...\n")

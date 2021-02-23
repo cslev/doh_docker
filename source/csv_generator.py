@@ -65,7 +65,7 @@ directory_prefix=directory_prefix+"/"
 #cleanup files list
 tmp_files = []
 for f in files:
-  if(re.search("^capture-[0-9]*-[0-9]",f)) is not None: #regexp for doh_docker specific capture files only
+  if(re.search("^capture-[0-9]*-[0-9]*-[0-9]*",f)) is not None: #regexp for doh_docker specific capture files only
     tmp_files.append(f)
 files = tmp_files
 
@@ -76,11 +76,11 @@ print("Converting .pcap files to .csv")
 logs.write("Converting .pcap files to .csv\n")
 logs.flush()
 for f in files :
-  if(re.search("^capture-[0-9]*-[0-9]",f)) is not None: #regexp for doh_docker specific capture files only
+  if(re.search("^capture-[0-9]*-[0-9]*-[0-9]*",f)) is not None: #regexp for doh_docker specific capture files only
     file_name = directory_prefix + f
     try:
       # output_file_name = directory_prefix+"csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] +".csv"
-      output_file_name = "csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] +".csv"
+      output_file_name = "csvfile-"+f.split('-')[1] + "-" + f.split('-')[2] + "-" + f.split('-')[3] + ".csv"
     except:
       print("Unrecognized file naming pattern for filename {}\nSkipping".format(output_file_name))
       logs.write(str("Unrecognized file naming pattern for filename {}\nSkipping\n".format(output_file_name)))
