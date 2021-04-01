@@ -1,3 +1,7 @@
+# Dissemination
+This repository has also been made for our [research paper](https://github.com/cslev/doh_ml/raw/main/DNS_over_HTTPS_identification.pdf) entitled **Privacy of DNS-over-HTTPS: Requiem for a Dream?** to appear at [IEEE Euro S&P](http://www.ieee-security.org/TC/EuroSP2021/).
+
+
 # What is this repository all about?
 This containerized bundle uses Selenium and Firefox to use DNS-over-HTTPS (provided by Firefox) for name resolution when visiting the websites of Alexa's list of the top 1M websites (an older version from 2018 is part of the repository). 
 For every website visit, the browser is closed to flush the DNS cache, and the corresponding traffic trace (i.e., a pcap file), as well as the SSL keys are logged. 
